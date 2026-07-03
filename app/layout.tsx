@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/sibylle/SiteFooter";
 import { MobileStickyCTA } from "@/components/sibylle/MobileStickyCTA";
 import { CookieBanner } from "@/components/sibylle/CookieBanner";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next"
 
 const serif = Cormorant_Garamond({
   subsets: ["latin"],
@@ -106,6 +107,7 @@ export default function RootLayout({
           <SiteFooter />
           <MobileStickyCTA />
           <CookieBanner />
+          <Analytics />
         </div>
       </body>
     </html>
