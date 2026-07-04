@@ -41,7 +41,7 @@ export function AboutSibylle() {
             „Muster lassen sich sehen, ohne sie zu bewerten.“
           </blockquote>
           <p className="max-w-xl text-lg leading-9 text-deepGold/80">
-            Als Gründerin der Deutschen Akademie für Systemaufstellungen begleitet Sibylle seit über 15 Jahren Menschen bei Beziehungsmustern, Herkunftsfragen und persönlicher Orientierung. Ihre Arbeit ist geprägt von tiefer Wahrnehmung und der Ruhe, die es für echte Veränderung braucht.
+            Als Gründerin der Deutschen Akademie für Systemaufstellungen begleitet Sibylle seit über 25 Jahren Menschen bei Beziehungsmustern, Herkunftsfragen und persönlicher Orientierung. Ihre Arbeit ist geprägt von tiefer Wahrnehmung und der Ruhe, die es für echte Veränderung braucht.
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
              <div className="inline-flex items-center gap-4 rounded-full border border-gold/20 bg-white/55 px-6 py-4 text-xs font-bold uppercase tracking-[.14em] text-deepGold shadow-sm">
