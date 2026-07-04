@@ -1,4 +1,4 @@
--- SUPABASE DATABASE SCHEMA FOR SIBYLLE BERGOLD CRM
+﻿-- SUPABASE DATABASE SCHEMA FOR SIBYLLE BERGOLD CRM
 -- Ausführen im Supabase SQL Editor
 
 create extension if not exists "uuid-ossp";
@@ -48,6 +48,14 @@ create table if not exists appointments (
   end_time timestamp with time zone,
   appointment_type text default 'Zoom' check (appointment_type in ('Zoom', 'Vor Ort', 'Telefon', 'Fokus')),
   status text default 'Geplant' check (status in ('Geplant', 'Bestätigt', 'Abgeschlossen', 'Abgesagt')),
+  public_visible boolean default false,
+  booking_status text default 'Frei' check (booking_status in ('Frei', 'Reserviert', 'Bestätigt', 'Abgelehnt')),
+  reserved_until timestamp with time zone,
+  booked_name text,
+  booked_email text,
+  booked_phone text,
+  booked_message text,
+  booking_created_at timestamp with time zone,
   created_at timestamp with time zone default now(),
   updated_at timestamp with time zone default now()
 );
@@ -66,6 +74,17 @@ create table if not exists documents (
 alter table customers add column if not exists address text;
 alter table invoices add column if not exists items jsonb default '[]'::jsonb;
 alter table appointments add column if not exists updated_at timestamp with time zone default now();
+alter table appointments add column if not exists public_visible boolean default false;
+alter table appointments add column if not exists booking_status text default 'Frei';
+alter table appointments add column if not exists reserved_until timestamp with time zone;
+alter table appointments add column if not exists booked_name text;
+alter table appointments add column if not exists booked_email text;
+alter table appointments add column if not exists booked_phone text;
+alter table appointments add column if not exists booked_message text;
+alter table appointments add column if not exists booking_created_at timestamp with time zone;
+
+create index if not exists appointments_public_booking_idx on appointments (public_visible, booking_status, start_time);
+create index if not exists appointments_reserved_until_idx on appointments (reserved_until);
 
 alter table customers enable row level security;
 alter table invoices enable row level security;
