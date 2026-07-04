@@ -126,10 +126,16 @@ create policy "Allow CRM document deletes" on storage.objects
 create table if not exists selbsttests (
   id uuid default uuid_generate_v4() primary key,
   vorname text not null,
-  telefonnummer text not null,
+  email text,
+  telefonnummer text,
+  ergebnis_score jsonb,
   ergebnis_typ text not null,
   created_at timestamp with time zone default now()
 );
+
+alter table selbsttests add column if not exists email text;
+alter table selbsttests add column if not exists ergebnis_score jsonb;
+alter table selbsttests alter column telefonnummer drop not null;
 
 create index if not exists selbsttests_created_at_idx on selbsttests (created_at desc);
 

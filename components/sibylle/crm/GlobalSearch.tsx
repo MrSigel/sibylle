@@ -26,7 +26,7 @@ const staticPages: SearchResult[] = [
   { id: "p-doc", title: "Dokumente", subtitle: "Tresor & Vorlagen", type: "page", href: "/crm/documents", keywords: ["dateien", "upload", "vertrag", "pdf"] },
   { id: "p-cal", title: "Kalender", subtitle: "Termin-Übersicht", type: "page", href: "/crm/calendar", keywords: ["termine", "zoom", "telefon"] },
   { id: "p-ava", title: "Freigaben", subtitle: "Öffentliche Terminfreigaben", type: "page", href: "/crm/availability", keywords: ["buchung", "landingpage", "reserviert"] },
-  { id: "p-self", title: "Selbsttest", subtitle: "Beziehungs-Kompass Leads", type: "page", href: "/crm/selbsttest", keywords: ["kompass", "lead", "whatsapp", "beziehung"] },
+  { id: "p-self", title: "Selbsttest", subtitle: "Beziehungs-Kompass und Inneres Schloss Leads", type: "page", href: "/crm/selbsttest", keywords: ["kompass", "schloss", "lead", "whatsapp", "email", "beziehung"] },
   { id: "p-stats", title: "Analyse", subtitle: "Performance & Kennzahlen", type: "page", href: "/crm/stats", keywords: ["statistik", "auswertung", "zahlen"] },
   { id: "p-settings", title: "Einstellungen", subtitle: "Rechnungs- und CRM-Daten", type: "page", href: "/crm/settings", keywords: ["ust", "iban", "logo", "adresse"] },
 ];
@@ -135,7 +135,7 @@ export function GlobalSearch() {
             .limit(250),
           supabase
             .from("selbsttests")
-            .select("id, vorname, telefonnummer, ergebnis_typ, created_at")
+            .select("id, vorname, email, telefonnummer, ergebnis_score, ergebnis_typ, created_at")
             .order("created_at", { ascending: false })
             .limit(250),
         ]);
@@ -194,11 +194,15 @@ export function GlobalSearch() {
           });
         });
 
-        selbsttestsRes.data?.filter((lead) => containsAny(lead, q)).slice(0, 8).forEach((lead) => {
+        selbsttestsRes.data?.filter((lead) => containsAny(lead, q)).slice(0, 8).forEach((lead: any) => {
+          const score = lead.ergebnis_score?.energy || lead.ergebnis_score?.authenticity
+            ? ` • ${lead.ergebnis_score?.energy ?? 0}% Energie / ${lead.ergebnis_score?.authenticity ?? 0}% Authentizität`
+            : "";
+          const contact = lead.email || lead.telefonnummer || "ohne Kontakt";
           searchResults.push({
             id: lead.id,
             title: lead.vorname,
-            subtitle: `Selbsttest • ${lead.ergebnis_typ} • ${lead.telefonnummer}`,
+            subtitle: `Selbsttest • ${lead.ergebnis_typ}${score} • ${contact}`,
             type: "selftest",
             href: "/crm/selbsttest",
           });

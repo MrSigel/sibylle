@@ -5,13 +5,27 @@ import { motion } from "framer-motion";
 import { supabase } from "@/lib/sibylle/supabase";
 import { formatDateTime } from "@/lib/sibylle/crm";
 
+type Score = { energy?: number; authenticity?: number } | null;
+
 type SelbsttestLead = {
   id: string;
   vorname: string;
-  telefonnummer: string;
+  email: string | null;
+  telefonnummer: string | null;
+  ergebnis_score: Score;
   ergebnis_typ: string;
   created_at: string;
 };
+
+function scoreLabel(score: Score) {
+  if (!score?.energy && !score?.authenticity) return "-";
+  return `${score.energy ?? 0}% Energie / ${score.authenticity ?? 0}% Authentizität`;
+}
+
+function whatsAppHref(phone: string) {
+  const normalized = phone.replace(/[^\d+]/g, "");
+  return `https://wa.me/${normalized.replace(/^\+/, "")}`;
+}
 
 export default function CrmSelbsttestPage() {
   const [leads, setLeads] = useState<SelbsttestLead[]>([]);
@@ -25,7 +39,7 @@ export default function CrmSelbsttestPage() {
     setLoading(true);
     const { data, error } = await supabase
       .from("selbsttests")
-      .select("id, vorname, telefonnummer, ergebnis_typ, created_at")
+      .select("id, vorname, email, telefonnummer, ergebnis_score, ergebnis_typ, created_at")
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -44,9 +58,9 @@ export default function CrmSelbsttestPage() {
       <div className="flex flex-col gap-4 rounded-[32px] border border-gold/15 bg-white p-8 shadow-soft sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-softGold">CRM Selbsttest</p>
-          <h1 className="mt-2 text-3xl font-bold text-warmBlack">Beziehungs-Kompass Leads</h1>
+          <h1 className="mt-2 text-3xl font-bold text-warmBlack">Selbsttest-Leads</h1>
           <p className="mt-2 max-w-2xl text-sm leading-7 text-deepGold/70">
-            Alle eingegangenen Selbsttest-Anfragen aus dem Beziehungs-Kompass, chronologisch sortiert.
+            Beziehungs-Kompass und Inneres Schloss mit Kontaktdaten, Score und Ergebnistyp.
           </p>
         </div>
         <button
@@ -66,25 +80,26 @@ export default function CrmSelbsttestPage() {
 
       <div className="overflow-hidden rounded-[32px] border border-gold/15 bg-white shadow-soft">
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full min-w-[980px] text-left">
             <thead className="bg-mist/10 text-xs font-bold uppercase tracking-widest text-deepGold/60">
               <tr>
                 <th className="px-8 py-4">Datum</th>
                 <th className="px-8 py-4">Vorname</th>
-                <th className="px-8 py-4">Telefonnummer</th>
+                <th className="px-8 py-4">Spielergebnis</th>
+                <th className="px-8 py-4">Kontakt</th>
                 <th className="px-8 py-4">Ergebnistyp</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gold/5">
               {loading ? (
                 <tr>
-                  <td colSpan={4} className="px-8 py-10 text-center text-sm italic text-deepGold/40">
+                  <td colSpan={5} className="px-8 py-10 text-center text-sm italic text-deepGold/40">
                     Daten werden geladen...
                   </td>
                 </tr>
               ) : leads.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-8 py-10 text-center text-sm italic text-deepGold/40">
+                  <td colSpan={5} className="px-8 py-10 text-center text-sm italic text-deepGold/40">
                     Noch keine Selbsttest-Leads vorhanden.
                   </td>
                 </tr>
@@ -99,7 +114,14 @@ export default function CrmSelbsttestPage() {
                   >
                     <td className="px-8 py-5 text-sm text-deepGold/70">{formatDateTime(lead.created_at)}</td>
                     <td className="px-8 py-5 font-semibold text-warmBlack">{lead.vorname}</td>
-                    <td className="px-8 py-5 text-deepGold/80">{lead.telefonnummer}</td>
+                    <td className="px-8 py-5 text-sm text-deepGold/70">{scoreLabel(lead.ergebnis_score)}</td>
+                    <td className="px-8 py-5">
+                      <div className="space-y-1 text-sm">
+                        {lead.email && <a href={`mailto:${lead.email}`} className="block font-semibold text-deepGold hover:text-gold">{lead.email}</a>}
+                        {lead.telefonnummer && <a href={whatsAppHref(lead.telefonnummer)} target="_blank" rel="noreferrer" className="block font-semibold text-deepGold hover:text-gold">WhatsApp: {lead.telefonnummer}</a>}
+                        {!lead.email && !lead.telefonnummer && <span className="text-deepGold/35">Kein Kontakt hinterlegt</span>}
+                      </div>
+                    </td>
                     <td className="px-8 py-5">
                       <span className="rounded-full bg-sand/40 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-deepGold">
                         {lead.ergebnis_typ}

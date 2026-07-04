@@ -250,6 +250,17 @@ export function BeziehungsKompassClient() {
             )}
           </div>
         </section>
+
+        <div className="mx-auto mt-8 max-w-3xl rounded-[2rem] border border-gold/15 bg-white/70 p-6 text-center shadow-soft">
+          <p className="text-xs font-bold uppercase tracking-widest text-softGold">Weiterer Selbsttest</p>
+          <h2 className="mt-3 text-2xl font-bold text-warmBlack">Inneres Schloss</h2>
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-deepGold/70">
+            Ein textbasiertes Mini-Spiel zu Energie, Authentizität und inneren Rollen.
+          </p>
+          <motion.a whileHover={{ y: -2 }} href="/schloss-spiel" className="mt-5 inline-flex rounded-full border border-gold/20 px-6 py-3 text-sm font-bold text-deepGold transition hover:bg-gold/5">
+            Inneres Schloss spielen
+          </motion.a>
+        </div>
       </div>
     </main>
   );
