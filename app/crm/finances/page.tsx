@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -6,10 +6,56 @@ import Image from "next/image";
 import { supabase } from "@/lib/sibylle/supabase";
 import { customerNameFromRelation, formatCurrency, formatDate, invoiceStatuses } from "@/lib/sibylle/crm";
 
-const defaultItem = { description: "Systemische Aufstellung", price: 0 };
+type InvoiceItem = { description: string; price: number };
+type BusinessSettings = {
+  businessName: string;
+  ownerName: string;
+  email: string;
+  phone: string;
+  address: string;
+  taxId: string;
+  bankName: string;
+  iban: string;
+  bic: string;
+  invoicePrefix: string;
+  footerText: string;
+};
 
-function nextInvoiceId(prefix = `RE-${new Date().getFullYear()}-`) {
+const defaultItem: InvoiceItem = { description: "Systemische Aufstellung", price: 0 };
+
+const defaultBusinessSettings: BusinessSettings = {
+  businessName: "Sibylle Bergold",
+  ownerName: "Sibylle Bergold",
+  email: "info@sibylle-bergold.de",
+  phone: "+49 178 5511230",
+  address: "Bitte Anschrift in den CRM-Einstellungen hinterlegen",
+  taxId: "Bitte USt-IdNr. oder Steuernummer hinterlegen",
+  bankName: "Bitte Bank in den CRM-Einstellungen hinterlegen",
+  iban: "Bitte IBAN hinterlegen",
+  bic: "Bitte BIC hinterlegen",
+  invoicePrefix: `RE-${new Date().getFullYear()}-`,
+  footerText: "Vielen Dank für Ihr Vertrauen in meine systemische Begleitung. Die Begleitung ist Coaching und Selbsterfahrung und enthält keine Heilversprechen.",
+};
+
+function nextInvoiceId(prefix = defaultBusinessSettings.invoicePrefix) {
   return `${prefix}${Math.floor(100 + Math.random() * 900)}`;
+}
+
+function escapeHtml(value: unknown) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function lineBreaks(value: unknown) {
+  return escapeHtml(value).replace(/\n/g, "<br>");
+}
+
+function normalizeSettings(settings: Partial<BusinessSettings> | null): BusinessSettings {
+  return { ...defaultBusinessSettings, ...(settings || {}) };
 }
 
 export default function FinancesPage() {
@@ -17,7 +63,7 @@ export default function FinancesPage() {
   const [customers, setCustomers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [businessSettings, setBusinessSettings] = useState<any>(null);
+  const [businessSettings, setBusinessSettings] = useState<BusinessSettings>(defaultBusinessSettings);
   const [newInvoice, setNewInvoice] = useState({
     customer_id: "",
     amount: 0,
@@ -32,9 +78,9 @@ export default function FinancesPage() {
     fetchData();
     const saved = localStorage.getItem("crm_business_settings");
     if (saved) {
-      const parsed = JSON.parse(saved);
+      const parsed = normalizeSettings(JSON.parse(saved));
       setBusinessSettings(parsed);
-      setNewInvoice((prev) => ({ ...prev, id: nextInvoiceId(parsed.invoicePrefix || undefined) }));
+      setNewInvoice((prev) => ({ ...prev, id: nextInvoiceId(parsed.invoicePrefix) }));
     }
   }, []);
 
@@ -53,7 +99,7 @@ export default function FinancesPage() {
     setLoading(false);
   }
 
-  function updateItems(items: { description: string; price: number }[]) {
+  function updateItems(items: InvoiceItem[]) {
     const total = items.reduce((sum, item) => sum + Number(item.price || 0), 0);
     setNewInvoice({ ...newInvoice, items, amount: total });
   }
@@ -91,7 +137,7 @@ export default function FinancesPage() {
       due_date: new Date(Date.now() + 14 * 86400000).toISOString().slice(0, 10),
       notes: "",
       items: [defaultItem],
-      id: nextInvoiceId(businessSettings?.invoicePrefix),
+      id: nextInvoiceId(businessSettings.invoicePrefix),
     });
     fetchData();
   }
@@ -109,24 +155,109 @@ export default function FinancesPage() {
     fetchData();
   }
 
+  function getInvoiceModel(invoice: any = newInvoice) {
+    const customer = invoice.customers || customers.find((c) => c.id === invoice.customer_id) || {};
+    const items: InvoiceItem[] = invoice.items?.length ? invoice.items : newInvoice.items;
+    const amount = Number(invoice.amount || items.reduce((sum, item) => sum + Number(item.price || 0), 0));
+    return { invoice, customer, items, amount, settings: businessSettings };
+  }
+
+  function buildInvoiceHtml(invoice: any = newInvoice) {
+    const { invoice: inv, customer, items, amount, settings } = getInvoiceModel(invoice);
+    const logoUrl = `${window.location.origin}/assets/sibylle/brand/logo-header.png`;
+    const invoiceDate = inv.created_at ? formatDate(inv.created_at) : new Date().toLocaleDateString("de-DE");
+    const dueDate = formatDate(inv.due_date || newInvoice.due_date);
+
+    return `<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>Rechnung ${escapeHtml(inv.id)}</title>
+  <style>
+    @page { size: A4; margin: 18mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #1f211a; font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 1.5; }
+    .invoice { min-height: 260mm; display: flex; flex-direction: column; }
+    .top { display: flex; justify-content: space-between; gap: 32px; align-items: flex-start; margin-bottom: 42px; }
+    .logo { width: 190px; height: auto; object-fit: contain; }
+    .sender { text-align: right; color: #846733; white-space: pre-line; }
+    .small { font-size: 10px; color: #846733; }
+    .address-line { margin-bottom: 18px; color: #846733; text-decoration: underline; font-size: 10px; }
+    .recipient { min-height: 72px; margin-bottom: 34px; font-size: 13px; }
+    h1 { margin: 0 0 8px; font-size: 28px; letter-spacing: -0.02em; }
+    .meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 22px 0 36px; border-top: 1px solid #e6d5b8; border-bottom: 1px solid #e6d5b8; padding: 14px 0; }
+    .meta-label { display: block; font-size: 9px; text-transform: uppercase; letter-spacing: .12em; color: #846733; margin-bottom: 4px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 28px; }
+    th { text-align: left; border-bottom: 1px solid #846733; color: #846733; font-size: 10px; text-transform: uppercase; letter-spacing: .12em; padding: 9px 0; }
+    td { border-bottom: 1px solid #e6d5b8; padding: 13px 0; vertical-align: top; }
+    .right { text-align: right; }
+    .summary { margin-left: auto; width: 280px; }
+    .summary-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e6d5b8; }
+    .summary-row.total { font-weight: 700; font-size: 16px; border-bottom: 2px solid #1f211a; }
+    .note { margin-top: 22px; color: #846733; white-space: pre-line; }
+    .footer { margin-top: auto; padding-top: 18px; border-top: 1px solid #e6d5b8; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; color: #846733; font-size: 10px; }
+    .footer strong { display: block; color: #1f211a; margin-bottom: 4px; }
+    @media print { .no-print { display: none; } body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+  </style>
+</head>
+<body>
+  <div class="invoice">
+    <div class="top">
+      <img class="logo" src="${logoUrl}" alt="${escapeHtml(settings.businessName)}" />
+      <div class="sender">
+        <strong>${escapeHtml(settings.businessName)}</strong><br />
+        ${lineBreaks(settings.address)}<br />
+        ${escapeHtml(settings.email)}<br />
+        ${escapeHtml(settings.phone)}
+      </div>
+    </div>
+
+    <div class="address-line">${escapeHtml(settings.businessName)} · ${escapeHtml(settings.address).replace(/\n/g, ", ")}</div>
+    <div class="recipient">
+      <strong>${escapeHtml(customer.name || "Empfänger")}</strong><br />
+      ${lineBreaks(customer.address || "Empfängeradresse im Kundenprofil hinterlegen")}
+    </div>
+
+    <h1>Rechnung</h1>
+    <p class="small">Bitte verwenden Sie die Rechnungsnummer als Verwendungszweck.</p>
+
+    <div class="meta">
+      <div><span class="meta-label">Rechnungsnummer</span>${escapeHtml(inv.id)}</div>
+      <div><span class="meta-label">Rechnungsdatum</span>${invoiceDate}</div>
+      <div><span class="meta-label">Fällig am</span>${dueDate}</div>
+    </div>
+
+    <table>
+      <thead><tr><th>Leistungsbeschreibung</th><th class="right">Betrag</th></tr></thead>
+      <tbody>
+        ${items.map((item) => `<tr><td>${escapeHtml(item.description)}</td><td class="right">${formatCurrency(item.price)}</td></tr>`).join("")}
+      </tbody>
+    </table>
+
+    <div class="summary">
+      <div class="summary-row"><span>Zwischensumme</span><span>${formatCurrency(amount)}</span></div>
+      <div class="summary-row"><span>Umsatzsteuer</span><span>0,00 €</span></div>
+      <div class="summary-row total"><span>Rechnungsbetrag</span><span>${formatCurrency(amount)}</span></div>
+    </div>
+
+    <p class="note">${lineBreaks(settings.footerText)}</p>
+
+    <div class="footer">
+      <div><strong>Absender</strong>${escapeHtml(settings.ownerName)}<br />${lineBreaks(settings.address)}</div>
+      <div><strong>Steuerdaten</strong>USt-IdNr./Steuernummer:<br />${escapeHtml(settings.taxId)}</div>
+      <div><strong>Bankverbindung</strong>${escapeHtml(settings.bankName)}<br />IBAN: ${escapeHtml(settings.iban)}<br />BIC: ${escapeHtml(settings.bic)}</div>
+    </div>
+  </div>
+</body>
+</html>`;
+  }
+
   function printInvoice(invoice: any = newInvoice) {
-    const customer = invoice.customers || customers.find((c) => c.id === invoice.customer_id);
-    const items = invoice.items?.length ? invoice.items : newInvoice.items;
-    const html = `
-      <html><head><title>${invoice.id}</title><style>
-      body{font-family:Arial,sans-serif;color:#1f211a;margin:48px} h1{font-size:24px} table{width:100%;border-collapse:collapse;margin-top:32px} th,td{border-bottom:1px solid #e6d5b8;padding:12px;text-align:left} .right{text-align:right}.muted{color:#846733}.total{font-weight:bold;font-size:18px}
-      </style></head><body>
-      <h1>Rechnung ${invoice.id}</h1><p class="muted">Datum: ${new Date().toLocaleDateString("de-DE")} | Fällig: ${formatDate(invoice.due_date)}</p>
-      <p><strong>${customer?.name || "Empfänger"}</strong><br>${(customer?.address || "").replace(/\n/g, "<br>")}</p>
-      <table><thead><tr><th>Leistung</th><th class="right">Betrag</th></tr></thead><tbody>
-      ${items.map((item: any) => `<tr><td>${item.description}</td><td class="right">${formatCurrency(item.price)}</td></tr>`).join("")}
-      </tbody><tfoot><tr><td class="total">Gesamtbetrag</td><td class="right total">${formatCurrency(invoice.amount)}</td></tr></tfoot></table>
-      <p>${businessSettings?.footerText || "Vielen Dank für das Vertrauen."}</p>
-      </body></html>`;
     const win = window.open("", "_blank");
     if (!win) return;
-    win.document.write(html);
+    win.document.write(buildInvoiceHtml(invoice));
     win.document.close();
+    win.focus();
     win.print();
   }
 
@@ -219,26 +350,45 @@ export default function FinancesPage() {
                 </div>
               </div>
 
-              <div className="flex flex-1 flex-col items-center overflow-y-auto bg-sand/10 p-8 lg:p-12">
-                <div className="flex aspect-[1/1.414] w-full max-w-[210mm] flex-col bg-white p-16 text-[12px] text-warmBlack shadow-lg">
-                  <div className="mb-16 flex items-start justify-between">
-                    <div className="relative h-12 w-40"><Image src="/assets/sibylle/brand/logo-header.png" alt="Logo" fill className="object-contain object-left" /></div>
-                    <div className="text-right text-[10px] text-deepGold/60"><p className="font-bold">{businessSettings?.businessName || "Sibylle Bergold"}</p><p>{businessSettings?.address || "München, Deutschland"}</p><p>{businessSettings?.email || "info@sibylle-bergold.de"}</p></div>
-                  </div>
-                  <div className="mb-12"><p className="mb-4 text-[10px] text-gold/60 underline">{businessSettings?.businessName || "Sibylle Bergold"} · {businessSettings?.address || ""}</p><div className="text-[14px] font-medium"><p>{selectedCustomer?.name || "[Empfänger Name]"}</p><p className="whitespace-pre-line">{selectedCustomer?.address || "[Empfänger Adresse]"}</p></div></div>
-                  <div className="mb-10"><h1 className="mb-2 text-xl font-bold">Rechnung {newInvoice.id}</h1><p className="text-deepGold/60">Datum: {new Date().toLocaleDateString("de-DE")} · Fällig: {formatDate(newInvoice.due_date)}</p></div>
-                  <table className="mb-10 w-full">
-                    <thead className="border-b border-gold/20"><tr className="text-left text-[10px] font-bold uppercase tracking-wider text-deepGold/60"><th className="py-2">Leistungsbeschreibung</th><th className="py-2 text-right">Betrag</th></tr></thead>
-                    <tbody className="divide-y divide-gold/5">{newInvoice.items.map((item, i) => <tr key={i}><td className="py-4">{item.description || "-"}</td><td className="py-4 text-right">{formatCurrency(item.price)}</td></tr>)}</tbody>
-                    <tfoot className="border-t-2 border-warmBlack/10"><tr className="text-[14px] font-bold"><td className="py-4">Gesamtbetrag</td><td className="py-4 text-right">{formatCurrency(newInvoice.amount)}</td></tr></tfoot>
-                  </table>
-                  <p className="mb-auto whitespace-pre-line leading-relaxed">{businessSettings?.footerText || "Vielen Dank für das Vertrauen.\nBitte begleichen Sie den Betrag innerhalb von 14 Tagen."}</p>
-                </div>
-              </div>
+              <InvoicePreview
+                settings={businessSettings}
+                invoice={newInvoice}
+                customer={selectedCustomer}
+                onPrint={() => printInvoice(newInvoice)}
+              />
             </motion.div>
           </div>
         )}
       </AnimatePresence>
+    </div>
+  );
+}
+
+function InvoicePreview({ settings, invoice, customer, onPrint }: { settings: BusinessSettings; invoice: any; customer: any; onPrint: () => void }) {
+  return (
+    <div className="flex flex-1 flex-col items-center overflow-y-auto bg-sand/10 p-8 lg:p-12">
+      <div className="mb-4 flex w-full max-w-[210mm] justify-end">
+        <button type="button" onClick={onPrint} className="rounded-full bg-deepGold px-5 py-2 text-sm font-bold text-white shadow-soft hover:bg-gold">PDF / Drucken</button>
+      </div>
+      <div className="flex aspect-[1/1.414] w-full max-w-[210mm] flex-col bg-white p-14 text-[11px] text-warmBlack shadow-lg">
+        <div className="mb-12 flex items-start justify-between gap-8">
+          <div className="relative h-14 w-48"><Image src="/assets/sibylle/brand/logo-header.png" alt={settings.businessName} fill className="object-contain object-left" /></div>
+          <div className="text-right text-[10px] leading-5 text-deepGold/70"><p className="font-bold text-warmBlack">{settings.businessName}</p><p className="whitespace-pre-line">{settings.address}</p><p>{settings.email}</p><p>{settings.phone}</p></div>
+        </div>
+        <div className="mb-10">
+          <p className="mb-4 text-[10px] text-gold/60 underline">{settings.businessName} · {settings.address.replace(/\n/g, ", ")}</p>
+          <div className="text-[13px] font-medium"><p>{customer?.name || "[Empfänger Name]"}</p><p className="whitespace-pre-line">{customer?.address || "[Empfänger Adresse]"}</p></div>
+        </div>
+        <h1 className="mb-2 text-2xl font-bold">Rechnung</h1>
+        <div className="mb-8 grid grid-cols-3 gap-4 border-y border-gold/20 py-3 text-[10px]"><div><span className="block uppercase tracking-widest text-deepGold/60">Rechnung</span>{invoice.id}</div><div><span className="block uppercase tracking-widest text-deepGold/60">Datum</span>{new Date().toLocaleDateString("de-DE")}</div><div><span className="block uppercase tracking-widest text-deepGold/60">Fällig</span>{formatDate(invoice.due_date)}</div></div>
+        <table className="mb-8 w-full">
+          <thead className="border-b border-gold/20"><tr className="text-left text-[10px] font-bold uppercase tracking-wider text-deepGold/60"><th className="py-2">Leistungsbeschreibung</th><th className="py-2 text-right">Betrag</th></tr></thead>
+          <tbody className="divide-y divide-gold/5">{invoice.items.map((item: InvoiceItem, i: number) => <tr key={i}><td className="py-4">{item.description || "-"}</td><td className="py-4 text-right">{formatCurrency(item.price)}</td></tr>)}</tbody>
+        </table>
+        <div className="ml-auto w-64 space-y-2 border-t border-gold/20 pt-3"><div className="flex justify-between"><span>Zwischensumme</span><span>{formatCurrency(invoice.amount)}</span></div><div className="flex justify-between"><span>Umsatzsteuer</span><span>0,00 €</span></div><div className="flex justify-between border-t border-warmBlack/20 pt-2 text-sm font-bold"><span>Rechnungsbetrag</span><span>{formatCurrency(invoice.amount)}</span></div></div>
+        <p className="mt-8 whitespace-pre-line leading-relaxed text-deepGold/70">{settings.footerText}</p>
+        <div className="mt-auto grid grid-cols-3 gap-4 border-t border-gold/10 pt-6 text-[9px] text-deepGold/60"><div><p className="mb-1 font-bold text-warmBlack">Absender</p><p>{settings.ownerName}</p><p className="whitespace-pre-line">{settings.address}</p></div><div><p className="mb-1 font-bold text-warmBlack">Steuerdaten</p><p>USt-IdNr./Steuernummer:</p><p>{settings.taxId}</p></div><div className="text-right"><p className="mb-1 font-bold text-warmBlack">Bankverbindung</p><p>{settings.bankName}</p><p>IBAN: {settings.iban}</p><p>BIC: {settings.bic}</p></div></div>
+      </div>
     </div>
   );
 }

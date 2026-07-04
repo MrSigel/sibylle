@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -8,14 +8,14 @@ export default function SettingsPage() {
     businessName: "Sibylle Bergold",
     ownerName: "Sibylle Bergold",
     email: "info@sibylle-bergold.de",
-    phone: "+49 123 456789",
-    address: "München, Deutschland",
-    taxId: "DE123456789",
-    bankName: "Musterbank",
-    iban: "DE12 3456 7890 1234 5678 90",
-    bic: "ABCDEFGHXXX",
-    invoicePrefix: "RE-2024-",
-    footerText: "Vielen Dank für Ihr Vertrauen in meine systemische Begleitung."
+    phone: "+49 178 5511230",
+    address: "Bitte vollständige Geschäftsanschrift hinterlegen",
+    taxId: "Bitte USt-IdNr. oder Steuernummer hinterlegen",
+    bankName: "Bitte Bank hinterlegen",
+    iban: "Bitte IBAN hinterlegen",
+    bic: "Bitte BIC hinterlegen",
+    invoicePrefix: `RE-${new Date().getFullYear()}-`,
+    footerText: "Vielen Dank für Ihr Vertrauen in meine systemische Begleitung. Die Begleitung ist Coaching und Selbsterfahrung und enthält keine Heilversprechen."
   });
 
   const [isSaving, setIsSaving] = useState(false);
@@ -202,3 +202,5 @@ export default function SettingsPage() {
     </div>
   );
 }
+
+
