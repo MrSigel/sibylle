@@ -2,7 +2,19 @@
 
 import { motion } from "framer-motion";
 
-const columns = [
+interface Task {
+  id: number;
+  title: string;
+  client: string;
+  type: string;
+}
+
+interface Column {
+  title: string;
+  tasks: Task[];
+}
+
+const columns: Column[] = [
   {
     title: "Anfrage",
     tasks: []
