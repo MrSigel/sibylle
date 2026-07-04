@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { GlobalSearch } from "@/components/sibylle/crm/GlobalSearch";
 
 const navItems = [
   { label: "Dashboard", href: "/crm", icon: (props: any) => (
@@ -116,23 +117,7 @@ export default function CrmLayout({ children }: { children: React.ReactNode }) {
               </svg>
             </button>
             
-            <div className="relative hidden sm:block">
-              <span className="absolute inset-y-0 left-4 flex items-center text-gold/50">
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </span>
-              <input
-                type="text"
-                placeholder="Suchen... (Cmd+K)"
-                className="w-80 rounded-full border border-gold/10 bg-mist/10 py-2.5 pl-11 pr-4 text-sm text-warmBlack focus:border-gold/30 focus:bg-white focus:outline-none"
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    alert(`Suche gestartet: ${e.currentTarget.value}`);
-                  }
-                }}
-              />
-            </div>
+            <GlobalSearch />
           </div>
 
           <div className="flex items-center gap-4">
