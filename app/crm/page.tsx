@@ -115,13 +115,7 @@ export default function CrmDashboard() {
               </div>
             </button>
 
-            <div className="rounded-[24px] bg-deepGold p-6 text-white shadow-soft">
-              <div className="mb-4 text-xs font-bold uppercase tracking-widest opacity-80">System-Status</div>
-              <div className="mb-2 text-lg font-bold">Alles im grünen Bereich</div>
-              <p className="text-xs leading-relaxed opacity-70">
-                Ihre Datenbank ist aktuell und alle 12 geplanten Automatisierungen wurden heute erfolgreich ausgeführt.
-              </p>
-            </div>
+
           </div>
         </div>
       </div>
