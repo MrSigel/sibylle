@@ -8,6 +8,12 @@ import { AboutSibylle } from "@/components/sibylle/AboutSibylle";
 import { MethodStory } from "@/components/sibylle/MethodStory";
 import { FAQAccordion } from "@/components/sibylle/FAQAccordion";
 import { ClosingCTA } from "@/components/sibylle/ClosingCTA";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Sibylle Bergold | Systemische Aufstellungen & Coaching München",
+  description: "Erfahre tiefe Klarheit durch Systemaufstellungen & Coaching. Sibylle Bergold hilft dir, Beziehungsmuster und familiäre Dynamiken zu lösen. Online & München.",
+};
 
 export default function HomePage() {
   return (

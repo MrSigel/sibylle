@@ -3,6 +3,13 @@
 import { motion } from 'framer-motion';
 import { pricingPackages, academyInfo, ctaLinks, getWhatsAppLink, whatsappConfig } from '@/lib/sibylle/siteData';
 import { CTAButton } from '@/components/sibylle/CTAButton';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Preise & Pakete für Systemaufstellungen | Sibylle Bergold",
+  description: "Finde das passende Paket für deine systemische Begleitung. Von Einzelsessions bis hin zur mehrmonatigen Intensivbegleitung.",
+  keywords: ["Preise Systemaufstellung", "Coaching Pakete", "Kosten Familienaufstellung", "Intensivbegleitung Coaching"],
+};
 
 const ease = [0.22, 1, 0.36, 1] as const;
 

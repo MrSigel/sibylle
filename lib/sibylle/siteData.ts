@@ -237,6 +237,14 @@ export const footerLinks = [
   { href: "/widerruf", label: "Widerruf" },
 ];
 
+export const focusLinks = [
+  { href: "/ahnenmuster", label: "Ahnenmuster verstehen" },
+  { href: "/berufliche-aufstellung", label: "Business & Erfolg" },
+  { href: "/inneres-kind", label: "Inneres Kind & System" },
+  { href: "/familienmuster", label: "Familienmuster lösen" },
+  { href: "/partnerschaft", label: "Partnerschaft & Liebe" },
+];
+
 export const testimonials = [
   {
     name: "Tanja S.",

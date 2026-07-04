@@ -20,13 +20,14 @@ const sans = Manrope({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.klickfunden.de"),
+  metadataBase: new URL("https://sibylle-bergold.de"),
   title: {
-    default: "Sibylle Bergold | Systemische Klarheit",
+    default: "Sibylle Bergold | Systemische Klarheit & Aufstellungen",
     template: "%s | Sibylle Bergold",
   },
   description:
-    "Klarheit, Wahrnehmung, innere Verbindung und systemische Tiefe – persönlich begleitet von Sibylle Bergold.",
+    "Systemische Aufstellungen, Ahnenmuster & Beziehungscoaching mit Sibylle Bergold. Erfahre tiefe Klarheit, Wahrnehmung und innere Verbindung in München & Online.",
+  keywords: ["Systemische Aufstellung", "Familienaufstellung", "Sibylle Bergold", "Ahnenmuster", "Beziehungscoaching", "Partnerschaft Hilfe", "Systemische Tiefe", "Organisationsaufstellung", "Coaching", "Selbsterfahrung", "Inneres Kind", "Transgenerationale Weitergabe"],
   applicationName: "Sibylle Bergold",
   manifest: "/assets/sibylle/favicon/site.webmanifest",
   icons: {
@@ -98,8 +99,50 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://sibylle-bergold.de/#organization",
+        "name": "Sibylle Bergold | Systemische Klarheit & Aufstellungen",
+        "url": "https://sibylle-bergold.de",
+        "logo": "https://sibylle-bergold.de/assets/sibylle/brand/logo-primary.png",
+        "image": "https://sibylle-bergold.de/assets/sibylle/portraits/Design-ohne-Titel-2.png",
+        "description": "Systemische Aufstellungen, Ahnenmuster & Beziehungscoaching mit Sibylle Bergold.",
+        "telephone": "+491785511230",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "München",
+          "addressCountry": "DE"
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://sibylle-bergold.de/#person",
+        "name": "Sibylle Bergold",
+        "jobTitle": "Systemische Aufstellerin & Coach",
+        "url": "https://sibylle-bergold.de",
+        "worksFor": { "@id": "https://sibylle-bergold.de/#organization" }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://sibylle-bergold.de/#website",
+        "url": "https://sibylle-bergold.de",
+        "name": "Sibylle Bergold",
+        "publisher": { "@id": "https://sibylle-bergold.de/#organization" }
+      }
+    ]
+  };
+
   return (
     <html lang="de">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body>
         <div className={`sibylle-site ${serif.variable} ${sans.variable}`}>
           <SiteHeader />

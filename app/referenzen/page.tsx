@@ -4,6 +4,13 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { testimonials, ctaLinks, getWhatsAppLink, whatsappConfig } from '@/lib/sibylle/siteData';
 import { CTAButton } from '@/components/sibylle/CTAButton';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Erfahrungen & Referenzen | Sibylle Bergold",
+  description: "Was Klienten über die systemische Arbeit mit Sibylle Bergold sagen. Authentische Einblicke in Prozesse und Transformationen.",
+  keywords: ["Erfahrungen Systemaufstellung", "Referenzen Coaching", "Sibylle Bergold Bewertungen", "Klientenfeedback"],
+};
 
 const ease = [0.22, 1, 0.36, 1] as const;
 

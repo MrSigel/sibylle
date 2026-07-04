@@ -4,6 +4,13 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { CTAButton } from '@/components/sibylle/CTAButton';
 import { ctaLinks, getWhatsAppLink, whatsappConfig } from '@/lib/sibylle/siteData';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Beziehungsmuster erkennen & lösen | Systemisches Coaching",
+  description: "Wiederholen sich deine Beziehungsprobleme? Sibylle Bergold hilft dir, die tieferen Ursachen deiner Beziehungsmuster zu verstehen und nachhaltig zu verändern.",
+  keywords: ["Beziehungsmuster", "Bindungsangst", "Verlustangst", "Partnerschaft Probleme", "Systemisches Coaching", "Liebeskummer überwinden"],
+};
 
 const ease = [0.22, 1, 0.36, 1] as const;
 

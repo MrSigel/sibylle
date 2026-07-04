@@ -4,6 +4,13 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { CTAButton } from '@/components/sibylle/CTAButton';
 import { ctaLinks, getWhatsAppLink, whatsappConfig } from '@/lib/sibylle/siteData';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Über Sibylle Bergold | Expertin für Systemische Aufstellungen",
+  description: "Lerne Sibylle Bergold kennen – Gründerin der Deutschen Akademie für Systemaufstellungen mit über 15 Jahren Erfahrung in systemischer Begleitung.",
+  keywords: ["Sibylle Bergold", "Systemische Aufstellerin", "Coaching Expertise", "Akademie für Systemaufstellungen", "Erfahrung systemische Arbeit"],
+};
 
 const ease = [0.22, 1, 0.36, 1] as const;
 

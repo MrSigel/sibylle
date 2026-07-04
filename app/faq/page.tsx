@@ -1,8 +1,32 @@
 import { faqItems } from '@/lib/sibylle/siteData';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Häufige Fragen zu Systemaufstellungen | Sibylle Bergold",
+  description: "Erfahre alles über den Ablauf, die Wirkung und die Anwendungsgebiete von systemischen Aufstellungen in meinen FAQ.",
+  keywords: ["Systemaufstellung FAQ", "Ablauf Aufstellung", "Coaching Fragen", "Voraussetzungen Aufstellung"],
+};
 
 export default function FAQPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map((item) => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer
+      }
+    }))
+  };
+
   return (
     <main className="bg-white px-4 py-16 text-warmBlack md:px-0 md:py-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="container space-y-10">
         <div className="space-y-4">
           <p className="text-sm font-semibold uppercase tracking-[0.32em] text-deepGold">FAQ</p>
