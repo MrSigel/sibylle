@@ -21,6 +21,7 @@ const staticPages: SearchResult[] = [
   { id: "p-fin", title: "Finanzen", subtitle: "Rechnungen & Umsatz", type: "page", href: "/crm/finances" },
   { id: "p-doc", title: "Dokumente", subtitle: "Tresor & Vorlagen", type: "page", href: "/crm/documents" },
   { id: "p-cal", title: "Kalender", subtitle: "Termin-Übersicht", type: "page", href: "/crm/calendar" },
+  { id: "p-self", title: "Selbsttest", subtitle: "Beziehungs-Kompass Leads", type: "page", href: "/crm/selbsttest" },
   { id: "p-stats", title: "Analyse", subtitle: "Performance & Kennzahlen", type: "page", href: "/crm/stats" },
 ];
 
