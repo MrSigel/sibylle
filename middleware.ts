@@ -5,8 +5,9 @@ export function middleware(request: NextRequest) {
   const session = request.cookies.get("crm_session");
   const isLoginPage = request.nextUrl.pathname === "/login";
   const isCrmPath = request.nextUrl.pathname.startsWith("/crm");
+  const isAdminPath = request.nextUrl.pathname.startsWith("/admin");
 
-  if (isCrmPath && !session) {
+  if ((isCrmPath || isAdminPath) && !session) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
@@ -18,5 +19,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/crm/:path*", "/login"],
+  matcher: ["/crm/:path*", "/admin/:path*", "/login"],
 };

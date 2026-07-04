@@ -1,4 +1,4 @@
-﻿-- SUPABASE DATABASE SCHEMA FOR SIBYLLE BERGOLD CRM
+-- SUPABASE DATABASE SCHEMA FOR SIBYLLE BERGOLD CRM
 -- Ausführen im Supabase SQL Editor
 
 create extension if not exists "uuid-ossp";
@@ -121,3 +121,18 @@ create policy "Allow CRM document uploads" on storage.objects
 
 create policy "Allow CRM document deletes" on storage.objects
   for delete using (bucket_id = 'crm-documents');
+
+-- Selbsttest / Beziehungs-Kompass Leads
+create table if not exists selbsttests (
+  id uuid default uuid_generate_v4() primary key,
+  vorname text not null,
+  telefonnummer text not null,
+  ergebnis_typ text not null,
+  created_at timestamp with time zone default now()
+);
+
+create index if not exists selbsttests_created_at_idx on selbsttests (created_at desc);
+
+alter table selbsttests enable row level security;
+drop policy if exists "Allow all access" on selbsttests;
+create policy "Allow all access" on selbsttests for all using (true) with check (true);

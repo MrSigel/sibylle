@@ -3,6 +3,7 @@ export const navLinks = [
   { href: "/ueber-mich", label: "Über mich" },
   { href: "/systemaufstellung", label: "Systemaufstellung" },
   { href: "/beziehungsmuster", label: "Beziehungsmuster" },
+  { href: "/kompass", label: "Selbsttest" },
   { href: "/partnerschaft", label: "Partnerschaft" },
   { href: "/preise", label: "Preise" },
   { href: "/referenzen", label: "Referenzen" },
@@ -322,3 +323,4 @@ export const testimonials = [
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150&h=150",
   },
 ];
+
