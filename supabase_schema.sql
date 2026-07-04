@@ -79,3 +79,4 @@ create policy "Allow all access" on invoices for all using (true);
 create policy "Allow all access" on projects for all using (true);
 create policy "Allow all access" on appointments for all using (true);
 create policy "Allow all access" on documents for all using (true);
+
