@@ -20,8 +20,17 @@ type SelbsttestLead = {
 };
 
 function scoreLabel(score: Score) {
-  if (!score?.energy && !score?.authenticity) return "-";
+  if (!score?.energy && !score?.authenticity) return "";
   return `${score.energy ?? 0}% Energie / ${score.authenticity ?? 0}% Authentizität`;
+}
+
+function selftestLabel(score: Score) {
+  return score?.energy || score?.authenticity ? "Inneres Schloss" : "Beziehungs-Kompass";
+}
+
+function resultLabel(lead: SelbsttestLead) {
+  const score = scoreLabel(lead.ergebnis_score);
+  return score ? `${score} · ${lead.ergebnis_typ}` : lead.ergebnis_typ;
 }
 
 function whatsAppHref(phone: string) {
@@ -52,6 +61,20 @@ export default function SelbsttestAdminPage() {
     setLoading(false);
   }
 
+  async function deleteLead(lead: SelbsttestLead) {
+    const confirmed = window.confirm(`Selbsttest-Lead von ${lead.vorname} wirklich löschen?`);
+    if (!confirmed) return;
+
+    const { error } = await supabase.from("selbsttests").delete().eq("id", lead.id);
+    if (error) {
+      console.error(error);
+      alert("Der Selbsttest-Lead konnte nicht gelöscht werden.");
+      return;
+    }
+
+    setLeads((current) => current.filter((item) => item.id !== lead.id));
+  }
+
   const todayCount = leads.filter((lead) => new Date(lead.created_at).toDateString() === new Date().toDateString()).length;
 
   return (
@@ -66,7 +89,7 @@ export default function SelbsttestAdminPage() {
             <div>
               <p className="text-xs font-bold uppercase tracking-widest text-gold/70">Admin CRM</p>
               <h1 className="mt-1 text-3xl font-bold text-white">Selbsttest-Leads</h1>
-              <p className="mt-1 text-sm text-cream/60">Beziehungs-Kompass und Inneres Schloss, chronologisch sortiert.</p>
+              <p className="mt-1 text-sm text-cream/60">Beziehungs-Kompass und Inneres Schloss mit Spielergebnis und Kontaktweg.</p>
             </div>
           </div>
           <Link href="/crm/selbsttest" className="rounded-full border border-gold/25 px-5 py-3 text-sm font-bold text-gold transition hover:bg-gold/10">
@@ -89,19 +112,20 @@ export default function SelbsttestAdminPage() {
                   <th className="px-8 py-4">Vorname</th>
                   <th className="px-8 py-4">Spielergebnis</th>
                   <th className="px-8 py-4">Kontaktdaten</th>
-                  <th className="px-8 py-4">Ergebnistyp</th>
+                  <th className="px-8 py-4">Selbsttest</th>
+                  <th className="px-8 py-4 text-right">Aktion</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gold/10">
                 {loading ? (
-                  <tr><td colSpan={5} className="px-8 py-10 text-center text-sm italic text-cream/40">Daten werden geladen...</td></tr>
+                  <tr><td colSpan={6} className="px-8 py-10 text-center text-sm italic text-cream/40">Daten werden geladen...</td></tr>
                 ) : leads.length === 0 ? (
-                  <tr><td colSpan={5} className="px-8 py-10 text-center text-sm italic text-cream/40">Noch keine Selbsttest-Leads vorhanden.</td></tr>
+                  <tr><td colSpan={6} className="px-8 py-10 text-center text-sm italic text-cream/40">Noch keine Selbsttest-Leads vorhanden.</td></tr>
                 ) : leads.map((lead, index) => (
                   <motion.tr key={lead.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.025 }} className="hover:bg-gold/5">
                     <td className="px-8 py-5 text-sm text-cream/55">{formatDateTime(lead.created_at)}</td>
                     <td className="px-8 py-5 font-semibold text-white">{lead.vorname}</td>
-                    <td className="px-8 py-5 text-sm text-cream/70">{scoreLabel(lead.ergebnis_score)}</td>
+                    <td className="px-8 py-5 text-sm text-cream/70">{resultLabel(lead)}</td>
                     <td className="px-8 py-5">
                       <div className="space-y-1 text-sm">
                         {lead.email && <a href={`mailto:${lead.email}`} className="block text-gold hover:text-cream">{lead.email}</a>}
@@ -111,8 +135,17 @@ export default function SelbsttestAdminPage() {
                     </td>
                     <td className="px-8 py-5">
                       <span className="rounded-full border border-gold/20 bg-gold/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-gold">
-                        {lead.ergebnis_typ}
+                        {selftestLabel(lead.ergebnis_score)}
                       </span>
+                    </td>
+                    <td className="px-8 py-5 text-right">
+                      <button
+                        type="button"
+                        onClick={() => deleteLead(lead)}
+                        className="rounded-full border border-red-400/30 px-4 py-2 text-xs font-bold text-red-200 transition hover:bg-red-500/10 hover:text-white"
+                      >
+                        Löschen
+                      </button>
                     </td>
                   </motion.tr>
                 ))}
