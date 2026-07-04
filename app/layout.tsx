@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/sibylle/SiteHeader";
 import { SiteFooter } from "@/components/sibylle/SiteFooter";
 import { MobileStickyCTA } from "@/components/sibylle/MobileStickyCTA";
 import { CookieBanner } from "@/components/sibylle/CookieBanner";
+import { ExitIntentBanner } from "@/components/sibylle/ExitIntentBanner";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next"
 
@@ -150,6 +151,7 @@ export default function RootLayout({
           <SiteFooter />
           <MobileStickyCTA />
           <CookieBanner />
+          <ExitIntentBanner />
           <Analytics />
         </div>
       </body>
