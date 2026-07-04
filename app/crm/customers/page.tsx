@@ -8,10 +8,34 @@ export default function CustomersPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [customers, setCustomers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newCustomer, setNewCustomer] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    status: "Interessent",
+    plan: ""
+  });
 
   useEffect(() => {
     fetchCustomers();
   }, []);
+
+  async function handleAddCustomer(e: React.FormEvent) {
+    e.preventDefault();
+    try {
+      const { error } = await supabase
+        .from('customers')
+        .insert([newCustomer]);
+      
+      if (error) throw error;
+      setIsModalOpen(false);
+      setNewCustomer({ name: "", email: "", phone: "", status: "Interessent", plan: "" });
+      fetchCustomers();
+    } catch (error) {
+      alert("Fehler beim Erstellen des Kunden");
+    }
+  }
 
   async function fetchCustomers() {
     try {
@@ -43,13 +67,107 @@ export default function CustomersPage() {
           <h1 className="text-3xl font-bold text-warmBlack">Kunden-Datenbank</h1>
           <p className="text-deepGold/70">Verwalten Sie Ihre Kontakte und deren Historie.</p>
         </div>
-        <button className="flex items-center gap-2 rounded-full bg-deepGold px-6 py-3 font-semibold text-white shadow-soft transition-all hover:bg-gold active:scale-95">
+        <button 
+          onClick={() => setIsModalOpen(true)}
+          className="flex items-center gap-2 rounded-full bg-deepGold px-6 py-3 font-semibold text-white shadow-soft transition-all hover:bg-gold active:scale-95"
+        >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
           Neuer Kunde
         </button>
       </div>
+
+      {/* New Customer Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsModalOpen(false)}
+              className="absolute inset-0 bg-warmBlack/40 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-lg rounded-[32px] bg-white p-8 shadow-2xl md:p-12"
+            >
+              <h2 className="mb-8 text-2xl font-bold text-warmBlack">Neuen Kunden anlegen</h2>
+              <form onSubmit={handleAddCustomer} className="space-y-6">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-widest text-deepGold/60">Vollständiger Name</label>
+                  <input 
+                    required
+                    value={newCustomer.name}
+                    onChange={(e) => setNewCustomer({...newCustomer, name: e.target.value})}
+                    className="w-full rounded-2xl border border-gold/15 bg-mist/5 px-4 py-3 outline-none focus:border-gold/40 focus:bg-white"
+                  />
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-widest text-deepGold/60">E-Mail</label>
+                    <input 
+                      type="email"
+                      value={newCustomer.email}
+                      onChange={(e) => setNewCustomer({...newCustomer, email: e.target.value})}
+                      className="w-full rounded-2xl border border-gold/15 bg-mist/5 px-4 py-3 outline-none focus:border-gold/40 focus:bg-white"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-widest text-deepGold/60">Telefon</label>
+                    <input 
+                      value={newCustomer.phone}
+                      onChange={(e) => setNewCustomer({...newCustomer, phone: e.target.value})}
+                      className="w-full rounded-2xl border border-gold/15 bg-mist/5 px-4 py-3 outline-none focus:border-gold/40 focus:bg-white"
+                    />
+                  </div>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-widest text-deepGold/60">Status</label>
+                    <select 
+                      value={newCustomer.status}
+                      onChange={(e) => setNewCustomer({...newCustomer, status: e.target.value})}
+                      className="w-full rounded-2xl border border-gold/15 bg-mist/5 px-4 py-3 outline-none focus:border-gold/40 focus:bg-white appearance-none"
+                    >
+                      <option>Interessent</option>
+                      <option>Aktiv</option>
+                      <option>Inaktiv</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-widest text-deepGold/60">Programm / Fokus</label>
+                    <input 
+                      value={newCustomer.plan}
+                      onChange={(e) => setNewCustomer({...newCustomer, plan: e.target.value})}
+                      placeholder="z.B. Ahnenmuster"
+                      className="w-full rounded-2xl border border-gold/15 bg-mist/5 px-4 py-3 outline-none focus:border-gold/40 focus:bg-white"
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-4 pt-4">
+                  <button 
+                    type="button" 
+                    onClick={() => setIsModalOpen(false)}
+                    className="flex-1 rounded-full border border-gold/20 py-4 font-bold text-deepGold transition-all hover:bg-gold/5"
+                  >
+                    Abbrechen
+                  </button>
+                  <button 
+                    type="submit"
+                    className="flex-1 rounded-full bg-deepGold py-4 font-bold text-white shadow-soft transition-all hover:bg-gold"
+                  >
+                    Speichern
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       <div className="flex flex-col gap-4 md:flex-row md:items-center">
         <div className="relative flex-1">

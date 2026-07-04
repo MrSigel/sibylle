@@ -1,26 +1,98 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-
-const stats = [
-  { label: "Aktive Kunden", value: "0", change: "0%", icon: "users" },
-  { label: "Offene Rechnungen", value: "0,00 €", change: "0%", icon: "invoice" },
-  { label: "Angebote (Offen)", value: "0", change: "0", icon: "offer" },
-  { label: "Anstehende Termine", value: "Keine heute", change: "nächste: -", icon: "calendar" },
-];
-
-const recentActivity: any[] = [];
+import { supabase } from "@/lib/sibylle/supabase";
+import Link from "next/link";
 
 export default function CrmDashboard() {
+  const [stats, setStats] = useState([
+    { label: "Aktive Kunden", value: "...", change: "Lade...", icon: "users" },
+    { label: "Offene Rechnungen", value: "...", change: "Lade...", icon: "invoice" },
+    { label: "Angebote (Offen)", value: "...", change: "Lade...", icon: "offer" },
+    { label: "Anstehende Termine", value: "...", change: "Lade...", icon: "calendar" },
+  ]);
+  const [recentActivity, setRecentActivity] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  async function fetchDashboardData() {
+    setIsLoading(true);
+    try {
+      // 1. Fetch Stats
+      const { count: activeCustomers } = await supabase
+        .from('customers')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'Aktiv');
+
+      const { data: openInvoices } = await supabase
+        .from('invoices')
+        .select('amount')
+        .eq('status', 'Offen');
+      
+      const totalOpenAmount = openInvoices?.reduce((sum, inv) => sum + Number(inv.amount), 0) || 0;
+
+      const { count: todayAppointments } = await supabase
+        .from('appointments')
+        .select('*', { count: 'exact', head: true })
+        .gte('start_time', new Date().toISOString().split('T')[0])
+        .lte('start_time', new Date(Date.now() + 86400000).toISOString().split('T')[0]);
+
+      setStats([
+        { label: "Aktive Kunden", value: String(activeCustomers || 0), change: "Aktuell im System", icon: "users" },
+        { label: "Offene Rechnungen", value: new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(totalOpenAmount), change: `${openInvoices?.length || 0} Rechnungen`, icon: "invoice" },
+        { label: "Angebote (Offen)", value: "0", change: "Modul in Planung", icon: "offer" },
+        { label: "Anstehende Termine", value: String(todayAppointments || 0), change: "Termine heute", icon: "calendar" },
+      ]);
+
+      // 2. Fetch Recent Activity (Mix of Customers & Invoices)
+      const activity: any[] = [];
+      
+      const { data: newCusts } = await supabase
+        .from('customers')
+        .select('name, created_at')
+        .order('created_at', { ascending: false })
+        .limit(3);
+      
+      newCusts?.forEach(c => activity.push({
+        action: `Neuer Kunde: ${c.name}`,
+        user: "System",
+        time: new Date(c.created_at).toLocaleDateString('de-DE'),
+        type: "customer"
+      }));
+
+      const { data: newInvs } = await supabase
+        .from('invoices')
+        .select('id, amount, customers(name), created_at')
+        .order('created_at', { ascending: false })
+        .limit(3);
+
+      newInvs?.forEach(i => activity.push({
+        action: `Rechnung ${i.id} für ${i.customers?.name || 'Kunde'} erstellt`,
+        user: "Sibylle",
+        time: new Date(i.created_at).toLocaleDateString('de-DE'),
+        type: "invoice"
+      }));
+
+      setRecentActivity(activity.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()).slice(0, 5));
+
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className="space-y-10">
-      {/* Welcome Section */}
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold text-warmBlack">Guten Tag, Sibylle</h1>
         <p className="text-deepGold/70">Hier ist die Übersicht über Ihr Business heute.</p>
       </div>
 
-      {/* Stats Grid */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, i) => (
           <motion.div
@@ -35,7 +107,6 @@ export default function CrmDashboard() {
                 {stat.label}
               </span>
               <div className="rounded-full bg-gold/10 p-2 text-deepGold">
-                {/* Simplified Icon placeholders */}
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                 </svg>
@@ -44,7 +115,7 @@ export default function CrmDashboard() {
             <div className="flex items-end justify-between">
               <div>
                 <div className="text-2xl font-bold text-warmBlack">{stat.value}</div>
-                <div className="mt-1 text-xs font-medium text-softGold">{stat.change} im Vgl. zum Vormonat</div>
+                <div className="mt-1 text-xs font-medium text-softGold">{stat.change}</div>
               </div>
             </div>
           </motion.div>
@@ -52,11 +123,9 @@ export default function CrmDashboard() {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
-        {/* Recent Activity */}
         <div className="lg:col-span-2 space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-warmBlack">Letzte Aktivitäten</h2>
-            <button className="text-sm font-semibold text-deepGold hover:underline">Alle ansehen</button>
           </div>
           
           <div className="rounded-[32px] border border-gold/15 bg-white p-2 shadow-soft overflow-hidden">
@@ -87,11 +156,10 @@ export default function CrmDashboard() {
           </div>
         </div>
 
-        {/* Shortcuts / Quick Actions */}
         <div className="space-y-6">
           <h2 className="text-xl font-bold text-warmBlack">Schnellzugriff</h2>
           <div className="grid gap-4">
-            <button className="flex items-center gap-4 rounded-2xl border border-gold/15 bg-white p-4 transition-all hover:border-gold/30 hover:shadow-md text-left">
+            <Link href="/crm/customers" className="flex items-center gap-4 rounded-2xl border border-gold/15 bg-white p-4 transition-all hover:border-gold/30 hover:shadow-md text-left">
               <div className="rounded-xl bg-sand/30 p-3 text-deepGold">
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -101,9 +169,9 @@ export default function CrmDashboard() {
                 <div className="font-bold text-warmBlack">Neuer Kunde</div>
                 <div className="text-xs text-deepGold/60">Kontakt anlegen</div>
               </div>
-            </button>
+            </Link>
             
-            <button className="flex items-center gap-4 rounded-2xl border border-gold/15 bg-white p-4 transition-all hover:border-gold/30 hover:shadow-md text-left">
+            <Link href="/crm/finances" className="flex items-center gap-4 rounded-2xl border border-gold/15 bg-white p-4 transition-all hover:border-gold/30 hover:shadow-md text-left">
               <div className="rounded-xl bg-mist/30 p-3 text-deepGold">
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -113,9 +181,7 @@ export default function CrmDashboard() {
                 <div className="font-bold text-warmBlack">Rechnung erstellen</div>
                 <div className="text-xs text-deepGold/60">PDF Generierung</div>
               </div>
-            </button>
-
-
+            </Link>
           </div>
         </div>
       </div>
