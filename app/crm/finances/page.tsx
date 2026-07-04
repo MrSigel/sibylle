@@ -127,21 +127,24 @@ export default function FinancesPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gold/5">
-            {invoices.map(inv => (
-              <tr key={inv.id} className="hover:bg-gold/5">
-                <td className="px-8 py-5 font-mono text-xs">{inv.id}</td>
-                <td className="px-8 py-5 font-semibold">{inv.customers?.name}</td>
-                <td className="px-8 py-5 font-bold">{new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(inv.amount)}</td>
-                <td className="px-8 py-5">
-                  <span className={`rounded-full px-3 py-1 text-[10px] font-bold uppercase ${inv.status === 'Bezahlt' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}`}>
-                    {inv.status}
-                  </span>
-                </td>
-                <td className="px-8 py-5 text-right">
-                  <button className="text-gold hover:text-deepGold">PDF</button>
-                </td>
-              </tr>
-            ))}
+            {invoices.map(inv => {
+              const customerName = Array.isArray(inv.customers) ? inv.customers[0]?.name : inv.customers?.name;
+              return (
+                <tr key={inv.id} className="hover:bg-gold/5">
+                  <td className="px-8 py-5 font-mono text-xs">{inv.id}</td>
+                  <td className="px-8 py-5 font-semibold">{customerName}</td>
+                  <td className="px-8 py-5 font-bold">{new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(inv.amount)}</td>
+                  <td className="px-8 py-5">
+                    <span className={`rounded-full px-3 py-1 text-[10px] font-bold uppercase ${inv.status === 'Bezahlt' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}`}>
+                      {inv.status}
+                    </span>
+                  </td>
+                  <td className="px-8 py-5 text-right">
+                    <button className="text-gold hover:text-deepGold">PDF</button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

@@ -51,10 +51,11 @@ export function NotificationCenter() {
         .limit(3);
 
       appts?.forEach(a => {
+        const customerName = Array.isArray(a.customers) ? a.customers[0]?.name : a.customers?.name;
         alerts.push({
           id: `appt-${a.id}`,
           title: "Anstehender Termin",
-          message: `${a.title} mit ${a.customers?.name || 'Kunde'}`,
+          message: `${a.title} mit ${customerName || 'Kunde'}`,
           time: new Date(a.start_time).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }),
           type: "appointment",
           isRead: false,
@@ -70,10 +71,11 @@ export function NotificationCenter() {
         .limit(2);
 
       invs?.forEach(i => {
+        const customerName = Array.isArray(i.customers) ? i.customers[0]?.name : i.customers?.name;
         alerts.push({
           id: `inv-${i.id}`,
           title: "Offene Rechnung",
-          message: `${i.id} für ${i.customers?.name || 'Kunde'} (${i.amount} €)`,
+          message: `${i.id} für ${customerName || 'Kunde'} (${i.amount} €)`,
           time: "HEUTE",
           type: "invoice",
           isRead: false,

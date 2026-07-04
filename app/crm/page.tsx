@@ -70,12 +70,15 @@ export default function CrmDashboard() {
         .order('created_at', { ascending: false })
         .limit(3);
 
-      newInvs?.forEach(i => activity.push({
-        action: `Rechnung ${i.id} für ${i.customers?.name || 'Kunde'} erstellt`,
-        user: "Sibylle",
-        time: new Date(i.created_at).toLocaleDateString('de-DE'),
-        type: "invoice"
-      }));
+      newInvs?.forEach(i => {
+        const customerName = Array.isArray(i.customers) ? i.customers[0]?.name : i.customers?.name;
+        activity.push({
+          action: `Rechnung ${i.id} für ${customerName || 'Kunde'} erstellt`,
+          user: "Sibylle",
+          time: new Date(i.created_at).toLocaleDateString('de-DE'),
+          type: "invoice"
+        });
+      });
 
       setRecentActivity(activity.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()).slice(0, 5));
 
