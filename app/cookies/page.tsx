@@ -19,12 +19,12 @@ export default function CookiesPage() {
   ];
 
   return (
-    <main className="grain min-h-screen bg-cream py-16 text-warmBlack md:py-24">
+    <main className="grain min-h-screen bg-white py-16 text-warmBlack md:py-24">
       <div className="container max-w-4xl">
         <div className="mb-12 text-center md:text-left">
           <p className="eyebrow mx-auto md:mx-0">Privatsphäre</p>
           <h1 className="editorial mt-6 text-5xl md:text-7xl">Cookie-Richtlinie</h1>
-          <p className="mt-8 max-w-2xl text-lg leading-8 text-deepOlive/80">
+          <p className="mt-8 max-w-2xl text-lg leading-8 text-deepGold/80">
             Hier erfährst du, welche Cookies wir verwenden und warum. Transparenz ist uns wichtig, damit du dich auf unserer Seite sicher fühlst.
           </p>
         </div>
@@ -32,21 +32,21 @@ export default function CookiesPage() {
         <div className="space-y-8">
           {cookieGroups.map((group) => (
             <div key={group.title} className="premium-panel rounded-[2.5rem] p-8 md:p-12">
-              <h2 className="editorial text-3xl text-deepOlive">{group.title}</h2>
-              <p className="mt-4 text-base leading-relaxed text-deepOlive/70">{group.desc}</p>
+              <h2 className="editorial text-3xl text-deepGold">{group.title}</h2>
+              <p className="mt-4 text-base leading-relaxed text-deepGold/70">{group.desc}</p>
               
-              <div className="mt-10 overflow-hidden rounded-2xl border border-olive/10 bg-white/40">
-                <div className="grid grid-cols-[1fr_2fr_1fr] bg-deepOlive/5 px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-deepOlive/60">
+              <div className="mt-10 overflow-hidden rounded-2xl border border-gold/10 bg-white/40">
+                <div className="grid grid-cols-[1fr_2fr_1fr] bg-deepGold/5 px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-deepGold/60">
                   <span>Name</span>
                   <span>Zweck</span>
                   <span>Dauer</span>
                 </div>
-                <div className="divide-y divide-olive/5">
+                <div className="divide-y divide-gold/5">
                   {group.items.map((item) => (
-                    <div key={item.name} className="grid grid-cols-[1fr_2fr_1fr] px-6 py-5 text-sm leading-relaxed text-deepOlive/80">
+                    <div key={item.name} className="grid grid-cols-[1fr_2fr_1fr] px-6 py-5 text-sm leading-relaxed text-deepGold/80">
                       <code className="text-[11px] font-bold text-softGold">{item.name}</code>
                       <span>{item.purpose}</span>
-                      <span className="text-xs text-deepOlive/50">{item.duration}</span>
+                      <span className="text-xs text-deepGold/50">{item.duration}</span>
                     </div>
                   ))}
                 </div>

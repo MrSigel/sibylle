@@ -37,35 +37,35 @@ export function CookieBanner() {
         >
           <div className="premium-panel overflow-hidden rounded-[2.5rem] p-8 shadow-[0_20px_60px_rgba(35,42,26,0.15)]">
             <h3 className="editorial text-2xl text-warmBlack">Ein Moment für deine Privatsphäre</h3>
-            <p className="mt-4 text-sm leading-relaxed text-deepOlive/70">
+            <p className="mt-4 text-sm leading-relaxed text-deepGold/70">
               Wir nutzen Cookies, um die Seite sicher und zuverlässig zu betreiben und dein Erlebnis zu verbessern. Einige sind essenziell, andere helfen uns dabei.
             </p>
             
             <div className="mt-8 flex flex-col gap-3">
               <button
                 onClick={handleAccept}
-                className="focus-ring flex h-12 items-center justify-center rounded-full bg-deepOlive px-6 text-xs font-bold uppercase tracking-widest text-cream transition hover:bg-softGold"
+                className="focus-ring flex h-12 items-center justify-center rounded-full bg-deepGold px-6 text-xs font-bold uppercase tracking-widest text-cream transition hover:bg-softGold"
               >
                 Alle akzeptieren
               </button>
               <div className="grid grid-cols-2 gap-3">
                 <button
                   onClick={handleDecline}
-                  className="focus-ring flex h-12 items-center justify-center rounded-full border border-olive/20 bg-white/50 px-4 text-[10px] font-bold uppercase tracking-widest text-deepOlive transition hover:bg-white"
+                  className="focus-ring flex h-12 items-center justify-center rounded-full border border-gold/20 bg-white/50 px-4 text-[10px] font-bold uppercase tracking-widest text-deepGold transition hover:bg-white"
                 >
                   Nur essenziell
                 </button>
                 <Link
                   href="/cookies"
                   onClick={() => setShow(false)}
-                  className="focus-ring flex h-12 items-center justify-center rounded-full border border-olive/20 bg-white/50 px-4 text-[10px] font-bold uppercase tracking-widest text-deepOlive transition hover:bg-white"
+                  className="focus-ring flex h-12 items-center justify-center rounded-full border border-gold/20 bg-white/50 px-4 text-[10px] font-bold uppercase tracking-widest text-deepGold transition hover:bg-white"
                 >
                   Einstellungen
                 </Link>
               </div>
             </div>
             
-            <p className="mt-6 text-center text-[10px] text-deepOlive/40">
+            <p className="mt-6 text-center text-[10px] text-deepGold/40">
               Mehr Details findest du in unserer{' '}
               <Link href="/datenschutz" className="underline underline-offset-2 hover:text-softGold">
                 Datenschutzerklärung

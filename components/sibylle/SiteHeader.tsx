@@ -19,7 +19,7 @@ export function SiteHeader() {
   const mobileLinks = navLinks;
   return (
     <header
-      className={`sticky top-0 z-50 border-b backdrop-blur-2xl transition-all duration-500 ${scrolled ? "border-olive/15 bg-cream/95 shadow-[0_12px_35px_rgba(35,42,26,.08)]" : "border-olive/10 bg-cream/90"}`}
+      className={`sticky top-0 z-50 border-b backdrop-blur-2xl transition-all duration-500 ${scrolled ? "border-gold/15 bg-white/95 shadow-[0_12px_35px_rgba(35,42,26,.08)]" : "border-gold/10 bg-white/90"}`}
     >
       <div
         className={`container flex items-center justify-between transition-[height] duration-500 ${scrolled ? "h-[68px] md:h-[76px]" : "h-[76px] md:h-[88px]"}`}
@@ -44,7 +44,7 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="focus-ring text-xs font-semibold text-deepOlive transition hover:text-softGold"
+                className="focus-ring text-xs font-semibold text-deepGold transition hover:text-softGold"
               >
                 {item.label}
               </Link>
@@ -67,13 +67,13 @@ export function SiteHeader() {
           aria-label={open ? "Menü schließen" : "Menü öffnen"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="focus-ring flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-full border border-olive/25 lg:hidden"
+          className="focus-ring flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-full border border-gold/25 lg:hidden"
         >
           <span
-            className={`h-px w-5 bg-deepOlive transition ${open ? "translate-y-[3.5px] rotate-45" : ""}`}
+            className={`h-px w-5 bg-deepGold transition ${open ? "translate-y-[3.5px] rotate-45" : ""}`}
           />
           <span
-            className={`h-px w-5 bg-deepOlive transition ${open ? "-translate-y-[3.5px] -rotate-45" : ""}`}
+            className={`h-px w-5 bg-deepGold transition ${open ? "-translate-y-[3.5px] -rotate-45" : ""}`}
           />
         </button>
       </div>
@@ -83,7 +83,7 @@ export function SiteHeader() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden border-t border-olive/10 bg-cream lg:hidden"
+            className="overflow-hidden border-t border-gold/10 bg-white lg:hidden"
           >
             <div className="container py-6">
               <nav className="grid gap-1">
@@ -92,7 +92,7 @@ export function SiteHeader() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="rounded-2xl px-4 py-3 text-base text-deepOlive hover:bg-sibylleMist"
+                    className="rounded-2xl px-4 py-3 text-base text-deepGold hover:bg-gold/5"
                   >
                     {item.label}
                   </Link>

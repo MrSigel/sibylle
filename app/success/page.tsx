@@ -41,13 +41,13 @@ function SuccessContent() {
         </div>
 
         <h1 className="editorial text-5xl md:text-7xl">Vielen Dank!</h1>
-        <p className="mt-8 text-xl leading-relaxed text-deepOlive/80">
-          Deine Buchung für das Paket <span className="font-bold text-deepOlive italic">„{paketName}“</span> war erfolgreich.
+        <p className="mt-8 text-xl leading-relaxed text-deepGold/80">
+          Deine Buchung für das Paket <span className="font-bold text-deepGold italic">„{paketName}“</span> war erfolgreich.
         </p>
 
         <div className="premium-panel mt-16 rounded-[3rem] p-10 md:p-14">
           <h2 className="editorial text-3xl">Wie geht es jetzt weiter?</h2>
-          <p className="mt-6 text-lg leading-relaxed text-deepOlive/70">
+          <p className="mt-6 text-lg leading-relaxed text-deepGold/70">
             Damit wir direkt in die Planung deiner Begleitung starten können, melde dich bitte kurz bei mir per WhatsApp.
           </p>
           
@@ -58,7 +58,7 @@ function SuccessContent() {
           </div>
 
           {countdown > 0 && (
-            <p className="mt-8 text-sm text-deepOlive/40">
+            <p className="mt-8 text-sm text-deepGold/40">
               Du wirst in {countdown} Sekunden automatisch weitergeleitet...
             </p>
           )}

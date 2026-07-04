@@ -13,14 +13,14 @@ export function ThemeCards() {
   ];
 
   return (
-    <section className="section-shell bg-sibylleMist/30">
+    <section className="section-shell bg-white/30">
       <div className="container">
         <div className="mb-16 flex flex-col justify-between gap-10 md:flex-row md:items-end">
           <motion.div initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{duration:0.8}}>
             <p className="eyebrow">Themenwelten</p>
             <h2 className="editorial mt-6 max-w-3xl text-[clamp(3.2rem,6vw,6.5rem)] leading-[.92]">Wo suchst du gerade Klarheit?</h2>
           </motion.div>
-          <motion.p initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{duration:0.8,delay:0.2}} className="max-w-sm text-lg leading-8 text-olive">
+          <motion.p initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{duration:0.8,delay:0.2}} className="max-w-sm text-lg leading-8 text-gold">
             Kein Schema, sondern ein sorgfältiger Blick auf das, was sich in deinem Leben zeigt.
           </motion.p>
         </div>
@@ -39,7 +39,7 @@ export function ThemeCards() {
               {/* Background Image with Overlay */}
               <div className="absolute inset-0 transition-transform duration-1000 group-hover:scale-105">
                 <Image src={images[index]} alt={item.title} fill className="object-cover" />
-                <div className={`absolute inset-0 transition-colors duration-700 ${index===0 ? 'bg-deepOlive/85 group-hover:bg-deepOlive/85' : 'bg-white/85 group-hover:bg-white/85'}`} />
+                <div className={`absolute inset-0 transition-colors duration-700 ${index===0 ? 'bg-deepGold/85 group-hover:bg-deepGold/85' : 'bg-white/85 group-hover:bg-white/85'}`} />
               </div>
 
               <div className="relative flex h-full flex-col z-10">
@@ -49,7 +49,7 @@ export function ThemeCards() {
                 <h3 className={`editorial mt-10 max-w-md text-5xl leading-[.95] md:text-6xl ${index===0 ? 'text-cream' : 'text-warmBlack'}`}>
                   {item.title}
                 </h3>
-                <p className={`mt-8 max-w-md text-lg leading-9 ${index===0 ? 'text-cream/70' : 'text-deepOlive/75'}`}>
+                <p className={`mt-8 max-w-md text-lg leading-9 ${index===0 ? 'text-cream/70' : 'text-deepGold/75'}`}>
                   {item.description}
                 </p>
                 
@@ -58,7 +58,7 @@ export function ThemeCards() {
                   className={`focus-ring mt-auto inline-flex w-fit items-center gap-5 pt-12 text-[.8rem] font-bold uppercase tracking-widest ${index===0 ? 'text-cream' : 'text-warmBlack'}`}
                 >
                   <span>Den Raum entdecken</span>
-                  <span className={`flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-500 group-hover:translate-x-2 ${index===0 ? 'border-cream/30 group-hover:bg-softGold group-hover:text-warmBlack' : 'border-warmBlack/20 group-hover:bg-deepOlive group-hover:text-cream'}`}>
+                  <span className={`flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-500 group-hover:translate-x-2 ${index===0 ? 'border-cream/30 group-hover:bg-softGold group-hover:text-warmBlack' : 'border-warmBlack/20 group-hover:bg-deepGold group-hover:text-cream'}`}>
                     →
                   </span>
                 </Link>

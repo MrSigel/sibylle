@@ -11,8 +11,8 @@ const config: Config = {
       colors: {
         cream: '#f8f3ea',
         warmBlack: '#1f211a',
-        deepOlive: '#3f4a2c',
-        olive: '#6f7b55',
+        deepGold: '#846733',
+        gold: '#a68a4c',
         softGold: '#c7a974',
         sand: '#e6d5b8',
         mist: '#d8d4c9',

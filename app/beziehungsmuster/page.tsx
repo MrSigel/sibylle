@@ -25,13 +25,13 @@ export default function BeziehungsmusterPage() {
             >
               <p className="eyebrow mx-auto">Wenn Liebe sich wiederholt</p>
               <h1 className="editorial mt-7 text-[clamp(3rem,7vw,7.5rem)] leading-[.88] text-warmBlack">
-                Warum passiert mir das <span className="italic text-deepOlive">immer wieder?</span>
+                Warum passiert mir das <span className="italic text-deepGold">immer wieder?</span>
               </h1>
-              <p className="mx-auto mt-10 max-w-2xl text-lg leading-8 text-deepOlive/85 md:text-xl md:leading-9">
+              <p className="mx-auto mt-10 max-w-2xl text-lg leading-8 text-deepGold/85 md:text-xl md:leading-9">
                 Du gibst viel, hoffst auf echte Nähe – und landest doch immer wieder in ähnlichen Dynamiken. Vielleicht wiederholen sich Konflikte, Rückzug, Bindungsangst oder das Gefühl, nicht wirklich gesehen zu werden.
               </p>
               
-              <div className="mt-10 rounded-[2rem] bg-sibylleMist/30 p-8 text-base leading-8 text-deepOlive/80">
+              <div className="mt-10 rounded-[2rem] bg-white/30 p-8 text-base leading-8 text-deepGold/80">
                 In einer Systemaufstellung mit Sibylle Bergold geht es nicht darum, Schuld bei dir oder deinem Partner zu suchen. Es geht darum, sichtbar zu machen, welche tieferen Muster im Hintergrund wirken – und warum sie sich in Beziehungen immer wieder zeigen.
               </div>
 
@@ -56,8 +56,8 @@ export default function BeziehungsmusterPage() {
             >
               <p className="eyebrow">Abschnitt 1</p>
               <h2 className="editorial mt-6 text-4xl md:text-5xl lg:text-6xl">Wiederkehrende Muster</h2>
-              <h3 className="mt-6 font-serif text-2xl italic text-deepOlive/70">Wenn Liebe sich wiederholt – aber nicht erfüllt</h3>
-              <div className="mt-8 space-y-6 text-base leading-8 text-deepOlive/85">
+              <h3 className="mt-6 font-serif text-2xl italic text-deepGold/70">Wenn Liebe sich wiederholt – aber nicht erfüllt</h3>
+              <div className="mt-8 space-y-6 text-base leading-8 text-deepGold/85">
                 <p>
                   Manche Menschen erleben in Beziehungen immer wieder ähnliche Situationen: Sie ziehen sich zurück, sobald Nähe entsteht. Sie geben zu viel. Sie geraten an Menschen, die nicht wirklich verfügbar sind.
                 </p>
@@ -67,12 +67,12 @@ export default function BeziehungsmusterPage() {
               </div>
             </motion.div>
             <div className="relative aspect-square lg:aspect-[4/5]">
-               <div className="absolute inset-0 rounded-[3rem] bg-sibylleMist/40 blur-3xl" />
+               <div className="absolute inset-0 rounded-[3rem] bg-white/40 blur-3xl" />
                <motion.div 
                  initial={{ opacity: 0, scale: 0.95 }}
                  whileInView={{ opacity: 1, scale: 1 }}
                  viewport={{ once: true }}
-                 className="relative h-full w-full overflow-hidden rounded-[3.5rem] border border-olive/10 shadow-xl"
+                 className="relative h-full w-full overflow-hidden rounded-[3.5rem] border border-gold/10 shadow-xl"
                >
                  <Image src="/assets/sibylle/portraits/kontakt.png" alt="Beziehungsmuster verstehen" fill className="object-cover" />
                </motion.div>
@@ -82,7 +82,7 @@ export default function BeziehungsmusterPage() {
       </section>
 
       {/* Abschnitt 2: Ursprung */}
-      <section className="section-shell bg-sibylleMist/20 overflow-hidden">
+      <section className="section-shell bg-white/20 overflow-hidden">
         <div className="container">
           <div className="grid gap-16 lg:grid-cols-[.45fr_1fr]">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
@@ -95,13 +95,13 @@ export default function BeziehungsmusterPage() {
               viewport={{ once: true }}
               className="premium-panel rounded-[3rem] p-10 md:p-14"
             >
-              <h3 className="font-serif text-3xl text-deepOlive">Vielleicht geht es nicht nur um diese eine Beziehung</h3>
-              <div className="mt-8 space-y-7 text-lg leading-9 text-deepOlive/80">
+              <h3 className="font-serif text-3xl text-deepGold">Vielleicht geht es nicht nur um diese eine Beziehung</h3>
+              <div className="mt-8 space-y-7 text-lg leading-9 text-deepGold/80">
                 <p>
                   Wenn ein Beziehungsmuster sich wiederholt, liegt die Ursache oft nicht allein im aktuellen Partner oder in der aktuellen Situation. In der Aufstellungsarbeit zeigt sich manchmal, dass alte Loyalitäten, Erfahrungen aus der Herkunftsfamilie oder übernommene Dynamiken bis heute wirken.
                 </p>
                 <div className="rounded-2xl bg-white/50 p-8 shadow-sm">
-                   <p className="font-semibold text-deepOlive italic">Das bedeutet nicht, dass du „falsch“ bist. Es bedeutet, dass etwas gesehen werden möchte, das bisher im Hintergrund geblieben ist.</p>
+                   <p className="font-semibold text-deepGold italic">Das bedeutet nicht, dass du „falsch“ bist. Es bedeutet, dass etwas gesehen werden möchte, das bisher im Hintergrund geblieben ist.</p>
                 </div>
               </div>
             </motion.div>
@@ -115,12 +115,12 @@ export default function BeziehungsmusterPage() {
           <div className="mx-auto max-w-4xl text-center">
              <p className="eyebrow mx-auto">Abschnitt 3</p>
              <h2 className="editorial mt-6 text-4xl md:text-5xl lg:text-6xl">Wie Aufstellung helfen kann</h2>
-             <h3 className="mt-6 font-serif text-2xl italic text-deepOlive/70">Was sichtbar wird, kann sich verändern</h3>
+             <h3 className="mt-6 font-serif text-2xl italic text-deepGold/70">Was sichtbar wird, kann sich verändern</h3>
           </div>
           
           <div className="mt-16 grid gap-10 lg:grid-cols-2 lg:items-center">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-8">
-              <p className="text-lg leading-9 text-deepOlive/85">
+              <p className="text-lg leading-9 text-deepGold/85">
                 In einer Systemaufstellung wird dein inneres oder familiäres Beziehungssystem sichtbar gemacht. Dadurch kann erkennbar werden, warum bestimmte Dynamiken immer wieder entstehen:
               </p>
               <ul className="grid gap-4">
@@ -130,7 +130,7 @@ export default function BeziehungsmusterPage() {
                   "Schuldgefühle",
                   "Verlust des Selbst in Beziehungen"
                 ].map((item) => (
-                  <li key={item} className="flex items-center gap-4 rounded-2xl bg-sibylleMist/20 p-5 text-[.95rem] font-bold text-deepOlive">
+                  <li key={item} className="flex items-center gap-4 rounded-2xl bg-white/20 p-5 text-[.95rem] font-bold text-deepGold">
                     <span className="h-2 w-2 rounded-full bg-softGold" />
                     {item}
                   </li>
@@ -143,7 +143,7 @@ export default function BeziehungsmusterPage() {
               viewport={{ once: true }}
               className="premium-panel rounded-[2.5rem] p-10 lg:p-14"
             >
-              <p className="text-base leading-8 text-deepOlive/80">
+              <p className="text-base leading-8 text-deepGold/80">
                 Sibylle schafft dafür einen ruhigen, geschützten Raum. Nicht über Druck. Nicht über schnelle Versprechen. Sondern über einen klaren Blick auf das, was unter der Oberfläche wirkt.
               </p>
               <div className="mt-10">
@@ -155,17 +155,17 @@ export default function BeziehungsmusterPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="section-shell bg-deepOlive py-28 text-center text-white">
+      <section className="section-shell bg-white py-28 text-center text-warmBlack border-t border-gold/10">
         <div className="container max-w-3xl">
           <h2 className="editorial text-4xl md:text-5xl lg:text-6xl">Wenn du dein Muster wirklich ansehen möchtest...</h2>
-          <p className="mt-10 text-xl leading-relaxed text-white/70">
+          <p className="mt-10 text-xl leading-relaxed text-deepGold/75">
             Der erste Schritt muss nicht groß sein. Oft reicht ein ehrliches Gespräch, um zu spüren, ob dieser Weg für dich passt. Schreib Sibylle dein Anliegen.
           </p>
           <div className="mt-14 flex flex-col justify-center gap-5 sm:flex-row">
-            <CTAButton href={waLink} className="!bg-white !text-deepOlive hover:!bg-softGold hover:!text-deepOlive">
+            <CTAButton href={waLink} className="!bg-deepGold !text-white hover:!bg-gold">
               Nachricht schreiben
             </CTAButton>
-            <CTAButton href={waLink} variant="secondary" external className="!border-white/20 !text-white hover:!bg-white/10">
+            <CTAButton href={waLink} variant="secondary" external className="!border-gold/20 !text-deepGold hover:!bg-gold/10">
               Gespräch vereinbaren
             </CTAButton>
           </div>

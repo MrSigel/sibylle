@@ -59,7 +59,7 @@ export const metadata: Metadata = {
       {
         rel: "mask-icon",
         url: "/assets/sibylle/favicon/safari-pinned-tab.svg",
-        color: "#3F4A2C",
+        color: "#846733",
       },
     ],
   },
@@ -89,7 +89,7 @@ export const metadata: Metadata = {
   },
   other: {
     "msapplication-config": "/assets/sibylle/favicon/browserconfig.xml",
-    "theme-color": "#3F4A2C",
+    "theme-color": "#846733",
   },
 };
 

@@ -13,7 +13,7 @@ body {
 .sibylle-site {
   min-height: 100vh;
   overflow-x: clip;
-  background: #f8f3ea;
+  background: #ffffff;
   color: #1f211a;
   font-family: var(--font-sans), Arial, sans-serif;
 }
@@ -29,10 +29,10 @@ body {
 .sibylle-site a { -webkit-tap-highlight-color: transparent; }
 .sibylle-site .container { width: min(1240px, calc(100% - 2rem)); margin-inline: auto; }
 .sibylle-site .editorial { font-family: var(--font-serif), Georgia, 'Times New Roman', serif; font-weight: 400; letter-spacing: -.045em; }
-.sibylle-site .eyebrow { display: inline-flex; align-items: center; gap: .65rem; border: 0; border-radius: 0; background: transparent; padding: 0; font-size: .7rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: #6f7b55; }
+.sibylle-site .eyebrow { display: inline-flex; align-items: center; gap: .65rem; border: 0; border-radius: 0; background: transparent; padding: 0; font-size: .7rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: #a68a4c; }
 .sibylle-site .eyebrow::before { content: ''; width: 1.9rem; height: 1px; background: #c7a974; }
 .sibylle-site .section-shell { position: relative; padding: 7.5rem 1rem; }
-.sibylle-site .premium-panel { border: 1px solid rgba(111, 123, 85, .16); background: rgba(255, 255, 255, .58); box-shadow: 0 28px 80px rgba(31, 33, 26, .08), inset 0 1px 0 rgba(255, 255, 255, .8); backdrop-filter: blur(18px); }
+.sibylle-site .premium-panel { border: 1px solid rgba(166, 138, 76, .16); background: rgba(255, 255, 255, .58); box-shadow: 0 28px 80px rgba(31, 33, 26, .08), inset 0 1px 0 rgba(255, 255, 255, .8); backdrop-filter: blur(18px); }
 .sibylle-site .grain { position: relative; }
 .sibylle-site .grain::after { content: ''; pointer-events: none; position: absolute; inset: 0; opacity: .045; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E"); }
 .sibylle-site .focus-ring:focus-visible { outline: 2px solid #c7a974; outline-offset: 4px; }

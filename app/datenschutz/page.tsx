@@ -1,6 +1,6 @@
 export default function DatenschutzPage() {
   return (
-    <main className="grain min-h-screen bg-cream py-16 text-warmBlack md:py-24">
+    <main className="grain min-h-screen bg-white py-16 text-warmBlack md:py-24">
       <div className="container max-w-4xl">
         <div className="mb-12">
           <p className="eyebrow">Rechtliches</p>
@@ -9,8 +9,8 @@ export default function DatenschutzPage() {
 
         <div className="premium-panel space-y-12 rounded-[2.5rem] p-8 md:p-12">
           <section>
-            <h2 className="editorial text-3xl text-deepOlive">1. Datenschutz auf einen Blick</h2>
-            <div className="mt-6 space-y-4 text-base leading-8 text-deepOlive/80">
+            <h2 className="editorial text-3xl text-deepGold">1. Datenschutz auf einen Blick</h2>
+            <div className="mt-6 space-y-4 text-base leading-8 text-deepGold/80">
               <p>
                 Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können.
               </p>
@@ -18,8 +18,8 @@ export default function DatenschutzPage() {
           </section>
 
           <section>
-            <h2 className="editorial text-3xl text-deepOlive">2. Verantwortliche Stelle</h2>
-            <div className="mt-6 space-y-2 text-lg leading-relaxed text-deepOlive/90">
+            <h2 className="editorial text-3xl text-deepGold">2. Verantwortliche Stelle</h2>
+            <div className="mt-6 space-y-2 text-lg leading-relaxed text-deepGold/90">
               <p className="font-bold">Sibylle Bergold</p>
               <p>Cranachstraße 52</p>
               <p>63739 Aschaffenburg</p>
@@ -29,8 +29,8 @@ export default function DatenschutzPage() {
           </section>
 
           <section>
-            <h2 className="editorial text-3xl text-deepOlive">3. Hosting und Infrastruktur</h2>
-            <div className="mt-6 space-y-6 text-base leading-8 text-deepOlive/80">
+            <h2 className="editorial text-3xl text-deepGold">3. Hosting und Infrastruktur</h2>
+            <div className="mt-6 space-y-6 text-base leading-8 text-deepGold/80">
               <div>
                 <h3 className="font-bold text-warmBlack">Vercel</h3>
                 <p className="mt-2">
@@ -47,8 +47,8 @@ export default function DatenschutzPage() {
           </section>
 
           <section>
-            <h2 className="editorial text-3xl text-deepOlive">4. Datenerfassung auf dieser Website</h2>
-            <div className="mt-6 space-y-6 text-base leading-8 text-deepOlive/80">
+            <h2 className="editorial text-3xl text-deepGold">4. Datenerfassung auf dieser Website</h2>
+            <div className="mt-6 space-y-6 text-base leading-8 text-deepGold/80">
               <div>
                 <h3 className="font-bold text-warmBlack">Server-Log-Dateien</h3>
                 <p className="mt-2">
@@ -65,15 +65,15 @@ export default function DatenschutzPage() {
           </section>
 
           <section>
-            <h2 className="editorial text-3xl text-deepOlive">5. Ihre Rechte</h2>
-            <div className="mt-6 space-y-4 text-base leading-8 text-deepOlive/80">
+            <h2 className="editorial text-3xl text-deepGold">5. Ihre Rechte</h2>
+            <div className="mt-6 space-y-4 text-base leading-8 text-deepGold/80">
               <p>
                 Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten. Sie haben außerdem ein Recht, die Berichtigung oder Löschung dieser Daten zu verlangen. Des Weiteren steht Ihnen ein Beschwerderecht bei der zuständigen Aufsichtsbehörde zu.
               </p>
             </div>
           </section>
 
-          <section className="border-t border-olive/10 pt-10 text-sm text-deepOlive/60">
+          <section className="border-t border-gold/10 pt-10 text-sm text-deepGold/60">
             <p>Stand: {new Date().toLocaleDateString('de-DE', { month: 'long', year: 'numeric' })}</p>
           </section>
         </div>

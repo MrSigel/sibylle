@@ -9,7 +9,7 @@ export function TestimonialMarquee() {
   const items = [...testimonials, ...testimonials];
 
   return (
-    <section className="section-shell overflow-hidden bg-sibylleMist/20">
+    <section className="section-shell overflow-hidden bg-white/20">
       <div className="container mb-16 text-center">
         <p className="eyebrow mx-auto">Erfahrungen</p>
         <h2 className="editorial mt-6 text-[clamp(2.8rem,5vw,5.5rem)] leading-none">Das sagen meine Klienten</h2>
@@ -30,18 +30,18 @@ export function TestimonialMarquee() {
           {items.map((item, idx) => (
             <div 
               key={idx} 
-              className="w-[420px] shrink-0 rounded-[2.5rem] border border-olive/10 bg-white p-10 shadow-[0_20px_50px_rgba(35,42,26,0.05)] transition-all hover:border-softGold/30 hover:shadow-md"
+              className="w-[420px] shrink-0 rounded-[2.5rem] border border-gold/10 bg-white p-10 shadow-[0_20px_50px_rgba(35,42,26,0.05)] transition-all hover:border-softGold/30 hover:shadow-md"
             >
               <div className="flex gap-0.5 text-softGold">
                 {[...Array(item.rating)].map((_, i) => (
                   <span key={i} className="text-lg">★</span>
                 ))}
               </div>
-              <p className="mt-6 whitespace-normal text-[1.05rem] leading-relaxed italic text-deepOlive/85">
+              <p className="mt-6 whitespace-normal text-[1.05rem] leading-relaxed italic text-deepGold/85">
                 „{item.text}“
               </p>
               <div className="mt-8 flex items-center gap-4">
-                <div className="relative h-12 w-12 overflow-hidden rounded-full border border-olive/10">
+                <div className="relative h-12 w-12 overflow-hidden rounded-full border border-gold/10">
                    <Image 
                      src={item.image || ""} 
                      alt={item.name} 
@@ -49,7 +49,7 @@ export function TestimonialMarquee() {
                      className="object-cover"
                    />
                 </div>
-                <span className="font-serif text-lg font-medium text-deepOlive">{item.name}</span>
+                <span className="font-serif text-lg font-medium text-deepGold">{item.name}</span>
               </div>
             </div>
           ))}

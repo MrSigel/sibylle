@@ -1,6 +1,6 @@
 export default function DisclaimerPage() {
   return (
-    <main className="grain min-h-screen bg-cream py-16 text-warmBlack md:py-24">
+    <main className="grain min-h-screen bg-white py-16 text-warmBlack md:py-24">
       <div className="container max-w-4xl">
         <div className="mb-12">
           <p className="eyebrow">Rechtliches</p>
@@ -9,8 +9,8 @@ export default function DisclaimerPage() {
 
         <div className="premium-panel space-y-12 rounded-[2.5rem] p-8 md:p-12">
           <section>
-            <h2 className="editorial text-3xl text-deepOlive">Haftung für Inhalte</h2>
-            <div className="mt-6 space-y-4 text-base leading-8 text-deepOlive/80">
+            <h2 className="editorial text-3xl text-deepGold">Haftung für Inhalte</h2>
+            <div className="mt-6 space-y-4 text-base leading-8 text-deepGold/80">
               <p>
                 Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
               </p>
@@ -21,8 +21,8 @@ export default function DisclaimerPage() {
           </section>
 
           <section>
-            <h2 className="editorial text-3xl text-deepOlive">Haftung für Links</h2>
-            <div className="mt-6 space-y-4 text-base leading-8 text-deepOlive/80">
+            <h2 className="editorial text-3xl text-deepGold">Haftung für Links</h2>
+            <div className="mt-6 space-y-4 text-base leading-8 text-deepGold/80">
               <p>
                 Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar.
               </p>
@@ -33,8 +33,8 @@ export default function DisclaimerPage() {
           </section>
 
           <section>
-            <h2 className="editorial text-3xl text-deepOlive">Urheberrecht</h2>
-            <div className="mt-6 space-y-4 text-base leading-8 text-deepOlive/80">
+            <h2 className="editorial text-3xl text-deepGold">Urheberrecht</h2>
+            <div className="mt-6 space-y-4 text-base leading-8 text-deepGold/80">
               <p>
                 Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.
               </p>
