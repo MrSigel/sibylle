@@ -1,17 +1,29 @@
-"use client";
+﻿"use client";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/sibylle/supabase";
 import { documentCategories, formatDate } from "@/lib/sibylle/crm";
 
+const DOCUMENT_BUCKET = "crm-documents";
+
 const emptyDocument = {
   customer_id: "",
-  file_name: "",
-  file_path: "",
   category: "Allgemein",
-  file_size: "",
 };
+
+function formatFileSize(bytes: number) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function safeStorageName(name: string) {
+  const parts = name.split(".");
+  const ext = parts.length > 1 ? `.${parts.pop()}` : "";
+  const base = parts.join(".") || name;
+  return `${base.toLowerCase().replace(/[^a-z0-9-_]+/g, "-").replace(/^-+|-+$/g, "")}${ext.toLowerCase()}`;
+}
 
 export default function DocumentsPage() {
   const [documents, setDocuments] = useState<any[]>([]);
@@ -19,6 +31,8 @@ export default function DocumentsPage() {
   const [selectedCategory, setSelectedCategory] = useState("Alle");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formDocument, setFormDocument] = useState(emptyDocument);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -37,37 +51,72 @@ export default function DocumentsPage() {
     setCustomers(custs || []);
   }
 
+  function handleFileChange(file: File | null) {
+    setSelectedFile(file);
+  }
+
   async function saveDocument(e: React.FormEvent) {
     e.preventDefault();
+    if (!selectedFile) {
+      alert("Bitte wählen Sie eine Datei aus.");
+      return;
+    }
+
+    setIsUploading(true);
+    const storagePath = `${new Date().getFullYear()}/${crypto.randomUUID()}-${safeStorageName(selectedFile.name)}`;
+    const { error: uploadError } = await supabase.storage
+      .from(DOCUMENT_BUCKET)
+      .upload(storagePath, selectedFile, {
+        cacheControl: "3600",
+        upsert: false,
+        contentType: selectedFile.type || undefined,
+      });
+
+    if (uploadError) {
+      setIsUploading(false);
+      alert(`Datei konnte nicht hochgeladen werden. Prüfen Sie, ob der Storage-Bucket "${DOCUMENT_BUCKET}" existiert.`);
+      return;
+    }
+
     const { error } = await supabase.from("documents").insert([{
       customer_id: formDocument.customer_id || null,
-      file_name: formDocument.file_name.trim(),
-      file_path: formDocument.file_path.trim(),
+      file_name: selectedFile.name,
+      file_path: storagePath,
       category: formDocument.category,
-      file_size: formDocument.file_size.trim() || null,
+      file_size: formatFileSize(selectedFile.size),
     }]);
+
+    setIsUploading(false);
+
     if (error) {
+      await supabase.storage.from(DOCUMENT_BUCKET).remove([storagePath]);
       alert("Dokument konnte nicht gespeichert werden.");
       return;
     }
+
     setIsModalOpen(false);
+    setSelectedFile(null);
     setFormDocument(emptyDocument);
     fetchData();
   }
 
   async function deleteDocument(doc: any) {
     if (!confirm(`Dokument "${doc.file_name}" wirklich löschen?`)) return;
+    if (doc.file_path) {
+      await supabase.storage.from(DOCUMENT_BUCKET).remove([doc.file_path]);
+    }
     const { error } = await supabase.from("documents").delete().eq("id", doc.id);
     if (error) alert("Dokument konnte nicht gelöscht werden.");
     fetchData();
   }
 
-  function openDocument(doc: any) {
-    if (/^https?:\/\//.test(doc.file_path)) {
-      window.open(doc.file_path, "_blank");
-    } else {
-      alert(`Ablagepfad: ${doc.file_path}`);
+  async function openDocument(doc: any) {
+    const { data, error } = await supabase.storage.from(DOCUMENT_BUCKET).createSignedUrl(doc.file_path, 60 * 10);
+    if (error || !data?.signedUrl) {
+      alert("Dokument konnte nicht geöffnet werden.");
+      return;
     }
+    window.open(data.signedUrl, "_blank");
   }
 
   const categories = useMemo(() => documentCategories.map((name) => ({
@@ -86,7 +135,7 @@ export default function DocumentsPage() {
         </div>
         <button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2 rounded-full bg-deepGold px-6 py-3 font-semibold text-white shadow-soft transition-all hover:bg-gold">
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0l-4 4m4-4v12" /></svg>
-          Dokument hinzufügen
+          Dokument hochladen
         </button>
       </div>
 
@@ -94,23 +143,37 @@ export default function DocumentsPage() {
         {isModalOpen && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsModalOpen(false)} className="absolute inset-0 bg-warmBlack/40 backdrop-blur-sm" />
-            <motion.form onSubmit={saveDocument} initial={{ opacity: 0, y: 20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 20, scale: 0.95 }} className="relative w-full max-w-xl rounded-[32px] bg-white p-8 shadow-2xl md:p-12">
-              <h2 className="mb-8 text-2xl font-bold text-warmBlack">Dokument erfassen</h2>
+            <motion.form onSubmit={saveDocument} initial={{ opacity: 0, y: 20, scale: 0.95 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, y: 20, scale: 0.95 }} className="relative w-full max-w-xl rounded-[32px] bg-white p-8 shadow-2xl md:p-12">
+              <h2 className="mb-8 text-2xl font-bold text-warmBlack">Dokument hochladen</h2>
               <div className="space-y-5">
-                <Field label="Dateiname" required value={formDocument.file_name} onChange={(value) => setFormDocument({ ...formDocument, file_name: value })} />
-                <Field label="Pfad oder URL" required value={formDocument.file_path} onChange={(value) => setFormDocument({ ...formDocument, file_path: value })} />
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-widest text-deepGold/60">Datei auswählen</label>
+                  <input
+                    required
+                    type="file"
+                    onChange={(e) => handleFileChange(e.target.files?.[0] || null)}
+                    className="w-full rounded-2xl border border-dashed border-gold/30 bg-mist/5 px-4 py-5 text-sm text-deepGold outline-none file:mr-4 file:rounded-full file:border-0 file:bg-deepGold file:px-4 file:py-2 file:text-sm file:font-bold file:text-white hover:bg-gold/5"
+                  />
+                </div>
+
+                {selectedFile && (
+                  <div className="rounded-2xl border border-gold/15 bg-sand/20 p-4 text-sm text-deepGold/75">
+                    <div><span className="font-bold text-warmBlack">Dateiname:</span> {selectedFile.name}</div>
+                    <div><span className="font-bold text-warmBlack">Dateigröße:</span> {formatFileSize(selectedFile.size)}</div>
+                  </div>
+                )}
+
                 <div className="grid gap-4 sm:grid-cols-2">
                   <Select label="Kategorie" value={formDocument.category} onChange={(value) => setFormDocument({ ...formDocument, category: value })}>{documentCategories.map((cat) => <option key={cat}>{cat}</option>)}</Select>
-                  <Field label="Dateigröße" value={formDocument.file_size} placeholder="z.B. 240 KB" onChange={(value) => setFormDocument({ ...formDocument, file_size: value })} />
+                  <Select label="Kunde" value={formDocument.customer_id} onChange={(value) => setFormDocument({ ...formDocument, customer_id: value })}>
+                    <option value="">Ohne Kundenzuordnung</option>
+                    {customers.map((customer) => <option key={customer.id} value={customer.id}>{customer.name}</option>)}
+                  </Select>
                 </div>
-                <Select label="Kunde" value={formDocument.customer_id} onChange={(value) => setFormDocument({ ...formDocument, customer_id: value })}>
-                  <option value="">Ohne Kundenzuordnung</option>
-                  {customers.map((customer) => <option key={customer.id} value={customer.id}>{customer.name}</option>)}
-                </Select>
               </div>
               <div className="mt-8 flex gap-4">
                 <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 rounded-full border border-gold/20 py-4 font-bold text-deepGold hover:bg-gold/5">Abbrechen</button>
-                <button type="submit" className="flex-1 rounded-full bg-deepGold py-4 font-bold text-white shadow-soft hover:bg-gold">Speichern</button>
+                <button type="submit" disabled={isUploading} className="flex-1 rounded-full bg-deepGold py-4 font-bold text-white shadow-soft hover:bg-gold disabled:opacity-60">{isUploading ? "Wird hochgeladen..." : "Hochladen"}</button>
               </div>
             </motion.form>
           </div>
@@ -162,10 +225,6 @@ export default function DocumentsPage() {
       </div>
     </div>
   );
-}
-
-function Field({ label, value, onChange, type = "text", required, placeholder = "" }: { label: string; value: string; onChange: (value: string) => void; type?: string; required?: boolean; placeholder?: string }) {
-  return <div className="space-y-2"><label className="text-xs font-bold uppercase tracking-widest text-deepGold/60">{label}</label><input required={required} type={type} value={value} placeholder={placeholder} onChange={(e) => onChange(e.target.value)} className="w-full rounded-2xl border border-gold/15 bg-mist/5 px-4 py-3 outline-none focus:border-gold/40 focus:bg-white" /></div>;
 }
 
 function Select({ label, value, onChange, children }: { label: string; value: string; onChange: (value: string) => void; children: React.ReactNode }) {
