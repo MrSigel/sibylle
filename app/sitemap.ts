@@ -20,6 +20,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/ahnenmuster',
     '/berufliche-aufstellung',
     '/inneres-kind',
+    '/impressum',
+    '/datenschutz',
+    '/disclaimer',
+    '/widerruf',
   ];
 
   return pages.map((page) => ({
