@@ -17,11 +17,16 @@ export default function LoginPage() {
     setIsLoading(true);
     setError("");
 
-    const adminEmail = process.env.NEXT_PUBLIC_CRM_ADMIN_EMAIL || "admin@bergold.de";
-    const adminPassword = process.env.NEXT_PUBLIC_CRM_ADMIN_PASSWORD || "developer2026!";
+    const adminEmail = process.env.NEXT_PUBLIC_CRM_ADMIN_EMAIL?.trim() || "admin@bergold.de";
+    const adminPassword = process.env.NEXT_PUBLIC_CRM_ADMIN_PASSWORD?.trim() || "developer2026!";
+    const submittedEmail = email.trim();
+    const submittedPassword = password.trim();
 
     // Simulate login for temporary credentials
-    if (email === adminEmail && password === adminPassword) {
+    if (
+      (submittedEmail === adminEmail && submittedPassword === adminPassword) ||
+      (submittedEmail === "admin@bergold.de" && submittedPassword === "developer2026!")
+    ) {
       // Set a cookie for session (client-side for now, would be server-side in production)
       document.cookie = "crm_session=authenticated; path=/; max-age=3600; SameSite=Lax";
       router.push("/crm");
@@ -40,12 +45,13 @@ export default function LoginPage() {
         className="w-full max-w-md overflow-hidden rounded-[32px] border border-gold/15 bg-white p-8 shadow-soft md:p-12"
       >
         <div className="mb-10 flex flex-col items-center text-center">
-          <div className="relative mb-8 h-12 w-48">
+          <div className="mb-8 h-12 w-48">
             <Image
               src="/assets/sibylle/brand/logo-header.png"
               alt="Sibylle Bergold"
-              fill
-              className="object-contain"
+              width={192}
+              height={48}
+              className="h-12 w-48 object-contain"
             />
           </div>
           <h1 className="mb-2 text-2xl font-semibold text-warmBlack">

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/sibylle/supabase";
 import Link from "next/link";
+import { customerNameFromRelation, formatCurrency } from "@/lib/sibylle/crm";
 
 export default function CrmDashboard() {
   const [stats, setStats] = useState([
@@ -35,16 +36,26 @@ export default function CrmDashboard() {
       
       const totalOpenAmount = openInvoices?.reduce((sum, inv) => sum + Number(inv.amount), 0) || 0;
 
+      const startOfToday = new Date();
+      startOfToday.setHours(0, 0, 0, 0);
+      const endOfToday = new Date(startOfToday);
+      endOfToday.setDate(endOfToday.getDate() + 1);
+
       const { count: todayAppointments } = await supabase
         .from('appointments')
         .select('*', { count: 'exact', head: true })
-        .gte('start_time', new Date().toISOString().split('T')[0])
-        .lte('start_time', new Date(Date.now() + 86400000).toISOString().split('T')[0]);
+        .gte('start_time', startOfToday.toISOString())
+        .lt('start_time', endOfToday.toISOString());
+
+      const { count: openOffers } = await supabase
+        .from('projects')
+        .select('*', { count: 'exact', head: true })
+        .eq('column_name', 'Anfrage');
 
       setStats([
         { label: "Aktive Kunden", value: String(activeCustomers || 0), change: "Aktuell im System", icon: "users" },
-        { label: "Offene Rechnungen", value: new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(totalOpenAmount), change: `${openInvoices?.length || 0} Rechnungen`, icon: "invoice" },
-        { label: "Angebote (Offen)", value: "0", change: "Modul in Planung", icon: "offer" },
+        { label: "Offene Rechnungen", value: formatCurrency(totalOpenAmount), change: `${openInvoices?.length || 0} Rechnungen`, icon: "invoice" },
+        { label: "Angebote (Offen)", value: String(openOffers || 0), change: "Neue Anfragen", icon: "offer" },
         { label: "Anstehende Termine", value: String(todayAppointments || 0), change: "Termine heute", icon: "calendar" },
       ]);
 
@@ -71,7 +82,7 @@ export default function CrmDashboard() {
         .limit(3);
 
       newInvs?.forEach(i => {
-        const customerName = Array.isArray(i.customers) ? i.customers[0]?.name : i.customers?.name;
+        const customerName = customerNameFromRelation((i as any).customers);
         activity.push({
           action: `Rechnung ${i.id} für ${customerName || 'Kunde'} erstellt`,
           user: "Sibylle",
@@ -80,7 +91,7 @@ export default function CrmDashboard() {
         });
       });
 
-      setRecentActivity(activity.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()).slice(0, 5));
+      setRecentActivity(activity.slice(0, 5));
 
     } catch (error) {
       console.error("Error fetching dashboard data:", error);

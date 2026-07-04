@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/sibylle/supabase";
+import { customerNameFromRelation, formatCurrency } from "@/lib/sibylle/crm";
 
 interface Notification {
   id: string;
@@ -51,7 +52,7 @@ export function NotificationCenter() {
         .limit(3);
 
       appts?.forEach(a => {
-        const customerName = Array.isArray(a.customers) ? a.customers[0]?.name : a.customers?.name;
+        const customerName = customerNameFromRelation((a as any).customers);
         alerts.push({
           id: `appt-${a.id}`,
           title: "Anstehender Termin",
@@ -71,11 +72,11 @@ export function NotificationCenter() {
         .limit(2);
 
       invs?.forEach(i => {
-        const customerName = Array.isArray(i.customers) ? i.customers[0]?.name : i.customers?.name;
+        const customerName = customerNameFromRelation((i as any).customers);
         alerts.push({
           id: `inv-${i.id}`,
           title: "Offene Rechnung",
-          message: `${i.id} für ${customerName || 'Kunde'} (${i.amount} €)`,
+          message: `${i.id} für ${customerName || 'Kunde'} (${formatCurrency(i.amount)})`,
           time: "HEUTE",
           type: "invoice",
           isRead: false,
