@@ -2,12 +2,7 @@
 
 import { motion } from "framer-motion";
 
-const appointments = [
-  { time: "09:00", title: "Erstgespräch", client: "Max Mustermann", type: "Zoom" },
-  { time: "11:30", title: "Ahnenmuster-Session", client: "Anna Schmidt", type: "Vor Ort" },
-  { time: "14:00", title: "Business Coaching", client: "TechCorp CEO", type: "Zoom" },
-  { time: "16:30", title: "Nachbereitung", client: "Interne Orga", type: "Fokus" },
-];
+const appointments: any[] = [];
 
 export default function CalendarPage() {
   return (
@@ -48,14 +43,9 @@ export default function CalendarPage() {
             {Array.from({ length: 30 }).map((_, i) => (
               <div 
                 key={i} 
-                className={`flex h-20 flex-col items-center justify-center rounded-2xl border transition-all cursor-pointer ${
-                  i + 1 === 18 
-                    ? "border-deepGold bg-deepGold text-white shadow-md" 
-                    : "border-gold/5 bg-mist/5 text-warmBlack hover:border-gold/30 hover:bg-white"
-                }`}
+                className="flex h-20 flex-col items-center justify-center rounded-2xl border border-gold/5 bg-mist/5 text-warmBlack hover:border-gold/30 hover:bg-white transition-all cursor-pointer"
               >
                 <span className="text-sm font-bold">{i + 1}</span>
-                {i + 1 === 18 && <div className="mt-1 h-1 w-1 rounded-full bg-white" />}
               </div>
             ))}
           </div>
@@ -65,27 +55,33 @@ export default function CalendarPage() {
         <div className="space-y-6">
           <h2 className="text-xl font-bold text-warmBlack">Agenda für Heute</h2>
           <div className="space-y-4">
-            {appointments.map((apt, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className="group relative flex gap-4 rounded-2xl border border-gold/15 bg-white p-5 shadow-soft hover:border-gold/30"
-              >
-                <div className="flex flex-col items-center border-r border-gold/10 pr-4">
-                  <span className="text-sm font-bold text-warmBlack">{apt.time}</span>
-                  <div className="mt-2 h-2 w-2 rounded-full bg-softGold" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-warmBlack">{apt.title}</h3>
-                  <p className="text-sm text-deepGold/60">{apt.client}</p>
-                  <div className="mt-2 inline-flex rounded-full bg-mist/30 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-deepGold">
-                    {apt.type}
+            {appointments.length > 0 ? (
+              appointments.map((apt, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group relative flex gap-4 rounded-2xl border border-gold/15 bg-white p-5 shadow-soft hover:border-gold/30"
+                >
+                  <div className="flex flex-col items-center border-r border-gold/10 pr-4">
+                    <span className="text-sm font-bold text-warmBlack">{apt.time}</span>
+                    <div className="mt-2 h-2 w-2 rounded-full bg-softGold" />
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                  <div>
+                    <h3 className="font-bold text-warmBlack">{apt.title}</h3>
+                    <p className="text-sm text-deepGold/60">{apt.client}</p>
+                    <div className="mt-2 inline-flex rounded-full bg-mist/30 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-deepGold">
+                      {apt.type}
+                    </div>
+                  </div>
+                </motion.div>
+              ))
+            ) : (
+              <div className="p-10 text-center text-deepGold/40 italic text-sm border border-gold/10 rounded-2xl bg-white">
+                Keine Termine für heute.
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { SiteHeader } from "@/components/sibylle/SiteHeader";
-import { SiteFooter } from "@/components/sibylle/SiteFooter";
-import { MobileStickyCTA } from "@/components/sibylle/MobileStickyCTA";
-import { CookieBanner } from "@/components/sibylle/CookieBanner";
-import { ExitIntentBanner } from "@/components/sibylle/ExitIntentBanner";
+import { ConditionalLayout } from "@/components/sibylle/ConditionalLayout";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next"
 
@@ -146,12 +142,9 @@ export default function RootLayout({
       </head>
       <body>
         <div className={`sibylle-site ${serif.variable} ${sans.variable}`}>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
-          <MobileStickyCTA />
-          <CookieBanner />
-          <ExitIntentBanner />
+          <ConditionalLayout>
+            {children}
+          </ConditionalLayout>
           <Analytics />
         </div>
       </body>

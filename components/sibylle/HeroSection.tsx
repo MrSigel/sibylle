@@ -104,13 +104,7 @@ export function HeroSection() {
               <Image src="/assets/sibylle/brand/monogram-cream.png" alt="" width={618} height={799} className="h-20 w-auto sm:h-28" />
             </div>
 
-            <motion.div 
-              animate={{ y: [0, -12, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-10 -right-6 z-20 rounded-[2.5rem] bg-white/95 p-6 shadow-2xl backdrop-blur-md border border-gold/5"
-            >
-              <p className="font-serif text-xl italic text-deepGold">15+ Jahre Erfahrung</p>
-            </motion.div>
+
           </motion.div>
         </div>
 

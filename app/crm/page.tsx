@@ -3,18 +3,13 @@
 import { motion } from "framer-motion";
 
 const stats = [
-  { label: "Aktive Kunden", value: "124", change: "+12%", icon: "users" },
-  { label: "Offene Rechnungen", value: "12.450 €", change: "+5%", icon: "invoice" },
-  { label: "Angebote (Offen)", value: "8", change: "-2", icon: "offer" },
-  { label: "Anstehende Termine", value: "5 heute", change: "nächste: 14:00", icon: "calendar" },
+  { label: "Aktive Kunden", value: "0", change: "0%", icon: "users" },
+  { label: "Offene Rechnungen", value: "0,00 €", change: "0%", icon: "invoice" },
+  { label: "Angebote (Offen)", value: "0", change: "0", icon: "offer" },
+  { label: "Anstehende Termine", value: "Keine heute", change: "nächste: -", icon: "calendar" },
 ];
 
-const recentActivity = [
-  { user: "Sibylle Bergold", action: "Rechnung #2024-042 erstellt", time: "Vor 10 Min.", type: "invoice" },
-  { user: "System", action: "Neues Erstgespräch gebucht: Max Mustermann", time: "Vor 1 Std.", type: "calendar" },
-  { user: "Sibylle Bergold", action: "Angebot für 'Team-Aufstellung' versendet", time: "Vor 3 Std.", type: "offer" },
-  { user: "System", action: "Kunde 'Anna Schmidt' hat Dokument hochgeladen", time: "Vor 5 Std.", type: "document" },
-];
+const recentActivity: any[] = [];
 
 export default function CrmDashboard() {
   return (
@@ -66,22 +61,28 @@ export default function CrmDashboard() {
           
           <div className="rounded-[32px] border border-gold/15 bg-white p-2 shadow-soft overflow-hidden">
             <div className="divide-y divide-gold/5">
-              {recentActivity.map((activity, i) => (
-                <div key={i} className="flex items-center gap-4 p-5 transition-colors hover:bg-gold/5">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-mist/20 text-deepGold">
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+              {recentActivity.length > 0 ? (
+                recentActivity.map((activity, i) => (
+                  <div key={i} className="flex items-center gap-4 p-5 transition-colors hover:bg-gold/5">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-mist/20 text-deepGold">
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-warmBlack">{activity.action}</div>
+                      <div className="text-xs text-deepGold/50">{activity.user} • {activity.time}</div>
+                    </div>
+                    <div className="rounded-full border border-gold/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-deepGold">
+                      {activity.type}
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <div className="text-sm font-medium text-warmBlack">{activity.action}</div>
-                    <div className="text-xs text-deepGold/50">{activity.user} • {activity.time}</div>
-                  </div>
-                  <div className="rounded-full border border-gold/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-deepGold">
-                    {activity.type}
-                  </div>
+                ))
+              ) : (
+                <div className="p-10 text-center text-deepGold/40 italic text-sm">
+                  Keine aktuellen Aktivitäten vorhanden.
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </div>

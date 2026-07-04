@@ -5,29 +5,19 @@ import { motion } from "framer-motion";
 const columns = [
   {
     title: "Anfrage",
-    tasks: [
-      { id: 1, title: "Erstgespräch Müller", client: "Peter Müller", type: "Coaching" },
-      { id: 2, title: "Anfrage Team-Aufstellung", client: "TechCorp GmbH", type: "Business" },
-    ]
+    tasks: []
   },
   {
     title: "In Planung",
-    tasks: [
-      { id: 3, title: "Analyse Ahnenmuster", client: "Anna Schmidt", type: "Methodik" },
-    ]
+    tasks: []
   },
   {
     title: "In Umsetzung",
-    tasks: [
-      { id: 4, title: "8-Wochen Programm", client: "Sarah Meyer", type: "Intensiv" },
-      { id: 5, title: "Systemische Klärung", client: "Julia Weber", type: "Session" },
-    ]
+    tasks: []
   },
   {
     title: "Abgeschlossen",
-    tasks: [
-      { id: 6, title: "Abschluss-Session", client: "Max Mustermann", type: "Coaching" },
-    ]
+    tasks: []
   }
 ];
 

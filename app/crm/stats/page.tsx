@@ -21,7 +21,7 @@ export default function StatsPage() {
             </select>
           </div>
           <div className="relative h-64 w-full flex items-end justify-between gap-2 px-4">
-            {[40, 65, 45, 80, 55, 95].map((height, i) => (
+            {[0, 0, 0, 0, 0, 0].map((height, i) => (
               <motion.div
                 key={i}
                 initial={{ height: 0 }}
@@ -46,10 +46,10 @@ export default function StatsPage() {
           <h2 className="text-xl font-bold text-warmBlack mb-6">Konversions-Trichter</h2>
           <div className="space-y-6">
             {[
-              { label: "Website Besucher", value: "1.240", percent: 100 },
-              { label: "Anfragen", value: "84", percent: 25 },
-              { label: "Erstgespräche", value: "42", percent: 12 },
-              { label: "Neue Kunden", value: "12", percent: 4 },
+              { label: "Website Besucher", value: "0", percent: 0 },
+              { label: "Anfragen", value: "0", percent: 0 },
+              { label: "Erstgespräche", value: "0", percent: 0 },
+              { label: "Neue Kunden", value: "0", percent: 0 },
             ].map((item, i) => (
               <div key={item.label} className="space-y-2">
                 <div className="flex justify-between text-sm font-medium">
@@ -74,19 +74,19 @@ export default function StatsPage() {
       <div className="grid gap-6 md:grid-cols-3">
         <div className="rounded-[32px] bg-white p-8 border border-gold/15 shadow-soft text-center">
           <div className="text-xs font-bold uppercase tracking-widest text-deepGold/60 mb-2">Beliebtestes Programm</div>
-          <div className="text-xl font-bold text-warmBlack">Ahnenmuster-Aufstellung</div>
-          <div className="mt-2 text-sm text-softGold">42% aller Buchungen</div>
+          <div className="text-xl font-bold text-warmBlack">-</div>
+          <div className="mt-2 text-sm text-softGold">0% aller Buchungen</div>
         </div>
 
         <div className="rounded-[32px] bg-white p-8 border border-gold/15 shadow-soft text-center">
           <div className="text-xs font-bold uppercase tracking-widest text-deepGold/60 mb-2">Klienten-Zufriedenheit</div>
-          <div className="text-xl font-bold text-warmBlack">4.9 / 5.0</div>
-          <div className="mt-2 text-sm text-softGold">Basierend auf 86 Feedbacks</div>
+          <div className="text-xl font-bold text-warmBlack">- / 5.0</div>
+          <div className="mt-2 text-sm text-softGold">Noch keine Feedbacks</div>
         </div>
 
         <div className="rounded-[32px] bg-white p-8 border border-gold/15 shadow-soft text-center">
           <div className="text-xs font-bold uppercase tracking-widest text-deepGold/60 mb-2">Durchschn. Kundenwert</div>
-          <div className="text-xl font-bold text-warmBlack">1.840 €</div>
+          <div className="text-xl font-bold text-warmBlack">0,00 €</div>
           <div className="mt-2 text-sm text-softGold">Lifetime Value</div>
         </div>
       </div>
