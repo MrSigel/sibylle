@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ConditionalLayout } from "@/components/sibylle/ConditionalLayout";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
+import { ConsentAnalytics } from "@/components/sibylle/ConsentAnalytics";
+import { pricingPackages } from "@/lib/sibylle/siteData";
 
 const serif = Cormorant_Garamond({
   subsets: ["latin"],
@@ -72,6 +73,25 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const baseUrl = "https://sibylle-bergold.de";
+  const servicePages = [
+    ["Systemaufstellung", "/systemaufstellung", "Systemische Aufstellungen online und vor Ort zur Klärung familiärer, beruflicher und persönlicher Dynamiken."],
+    ["Familienaufstellung", "/familienmuster", "Familienmuster sichtbar machen und wiederkehrende Prägungen aus der Herkunftsfamilie verstehen."],
+    ["Beziehungsmuster lösen", "/beziehungsmuster", "Systemisches Coaching für wiederkehrende Nähe-, Rückzugs- und Bindungsmuster in Beziehungen."],
+    ["Partnerschaft", "/partnerschaft", "Begleitung für Dynamiken in Liebe, Nähe und Partnerschaft."],
+    ["Berufliche Aufstellung", "/berufliche-aufstellung", "Systemische Aufstellung für berufliche Entscheidungen, Rollen, Erfolgsmuster und Organisationsthemen."],
+    ["Inneres Kind", "/inneres-kind", "Systemische Selbsterfahrung zur Arbeit mit inneren Anteilen, alten Prägungen und emotionalen Mustern."],
+  ] as const;
+  const breadcrumbPages = [
+    ["Start", "/"],
+    ["Über mich", "/ueber-mich"],
+    ["Systemaufstellung", "/systemaufstellung"],
+    ["Beziehungsmuster", "/beziehungsmuster"],
+    ["Partnerschaft", "/partnerschaft"],
+    ["Preise", "/preise"],
+    ["Referenzen", "/referenzen"],
+    ["FAQ", "/faq"],
+  ] as const;
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -85,6 +105,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         description:
           "Systemische Aufstellung, Beziehungsmuster lösen und Coaching als Selbsterfahrung mit Sibylle Bergold.",
         telephone: "+491785511230",
+        priceRange: "399 EUR - 9999 EUR",
+        contactPoint: [
+          {
+            "@type": "ContactPoint",
+            telephone: "+491785511230",
+            contactType: "customer service",
+            availableLanguage: ["de"],
+          },
+        ],
         areaServed: ["München", "Deutschland", "Online"],
         knowsAbout: [
           "Systemische Aufstellung",
@@ -115,6 +144,49 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         name: "Sibylle Bergold",
         publisher: { "@id": "https://sibylle-bergold.de/#organization" },
       },
+      ...servicePages.map(([name, url, description]) => ({
+        "@type": "Service",
+        "@id": `${baseUrl}${url}#service`,
+        name,
+        description,
+        url: `${baseUrl}${url}`,
+        provider: { "@id": "https://sibylle-bergold.de/#organization" },
+        areaServed: ["Deutschland", "München", "Online"],
+        serviceType: "Systemische Aufstellung und Coaching",
+      })),
+      ...pricingPackages.map((pkg) => ({
+        "@type": "Offer",
+        "@id": `${baseUrl}/preise#${pkg.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+        name: pkg.title,
+        description: `${pkg.duration}: ${pkg.features.join(", ")}`,
+        price: pkg.price.replace(/[^\d,.]/g, "").replace(",", "."),
+        priceCurrency: "EUR",
+        availability: "https://schema.org/InStock",
+        url: `${baseUrl}/preise`,
+        seller: { "@id": "https://sibylle-bergold.de/#organization" },
+      })),
+      ...breadcrumbPages.map(([name, url]) => ({
+        "@type": "BreadcrumbList",
+        "@id": `${baseUrl}${url === "/" ? "" : url}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Start",
+            item: baseUrl,
+          },
+          ...(url === "/"
+            ? []
+            : [
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name,
+                  item: `${baseUrl}${url}`,
+                },
+              ]),
+        ],
+      })),
     ],
   };
 
@@ -126,7 +198,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div className={`sibylle-site ${serif.variable} ${sans.variable}`}>
           <ConditionalLayout>{children}</ConditionalLayout>
-          <Analytics />
+          <ConsentAnalytics />
         </div>
       </body>
     </html>

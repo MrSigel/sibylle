@@ -1,3 +1,11 @@
+import { pageMetadata } from "@/lib/sibylle/metadata";
+
+export const metadata = pageMetadata({
+  title: "Datenschutzerklärung",
+  description: "Datenschutzhinweise zur Website von Sibylle Bergold, Hosting, Supabase, Kontaktwegen und Analyse nach Einwilligung.",
+  path: "/datenschutz",
+});
+
 export default function DatenschutzPage() {
   return (
     <main className="grain min-h-screen bg-white py-16 text-warmBlack md:py-24">

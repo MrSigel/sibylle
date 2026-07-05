@@ -1,3 +1,12 @@
+import { pageMetadata } from "@/lib/sibylle/metadata";
+
+export const metadata = pageMetadata({
+  title: "Cookie-Richtlinie",
+  description: "Informationen zu essenziellen Cookies, Infrastruktur-Cookies und optionaler Analyse auf sibylle-bergold.de.",
+  path: "/cookies",
+  noIndex: true,
+});
+
 export default function CookiesPage() {
   const cookieGroups = [
     {

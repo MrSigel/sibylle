@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/sibylle/supabase";
 import { formatDateTime, formatTime, isPublicSlotBookable } from "@/lib/sibylle/crm";
+import { getWhatsAppLink, whatsappConfig } from "@/lib/sibylle/siteData";
+import { trackEvent } from "@/lib/sibylle/tracking";
 
 type BookingForm = {
   name: string;
@@ -74,6 +76,7 @@ export function PublicBookingCalendar() {
     }
 
     setSuccess("Dein Terminwunsch ist für 24 Stunden reserviert. Sibylle prüft den Termin im CRM und bestätigt oder meldet sich bei dir.");
+    trackEvent("booking_request", { slotId: selectedSlot.id, startTime: selectedSlot.start_time });
     setSelectedSlot(null);
     setForm(emptyForm);
     fetchSlots();
@@ -118,6 +121,15 @@ export function PublicBookingCalendar() {
             <div className="rounded-[2rem] bg-mist/10 p-10 text-center">
               <h3 className="text-xl font-bold text-warmBlack">Aktuell sind keine freien Termine veröffentlicht.</h3>
               <p className="mt-3 text-sm leading-7 text-deepGold/70">Schreib Sibylle gern direkt per WhatsApp, wenn du einen individuellen Terminwunsch hast.</p>
+              <a
+                href={getWhatsAppLink(whatsappConfig.messages.erstgespraech)}
+                onClick={() => trackEvent("whatsapp_click", { context: "empty_booking_slots" })}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="mt-6 inline-flex rounded-full bg-deepGold px-6 py-3 text-sm font-bold text-white shadow-soft transition hover:bg-gold"
+              >
+                Individuellen Termin per WhatsApp anfragen
+              </a>
             </div>
           ) : (
             <div className="space-y-5">

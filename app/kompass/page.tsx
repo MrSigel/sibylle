@@ -4,6 +4,9 @@ import { BeziehungsKompassClient } from "./BeziehungsKompassClient";
 export const metadata: Metadata = {
   title: "Beziehungs-Kompass Selbsttest | Sibylle Bergold",
   description: "Kostenloser Selbsttest zu Beziehungsmustern. Erhalte deinen Beziehungs-Kompass per WhatsApp und Impulse zu systemischem Coaching.",
+  alternates: {
+    canonical: "/kompass",
+  },
   openGraph: {
     title: "Beziehungs-Kompass Selbsttest | Sibylle Bergold",
     description: "Finde heraus, welches Beziehungsmuster gerade sichtbar ist.",

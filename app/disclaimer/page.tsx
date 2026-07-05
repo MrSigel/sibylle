@@ -1,3 +1,11 @@
+import { pageMetadata } from "@/lib/sibylle/metadata";
+
+export const metadata = pageMetadata({
+  title: "Disclaimer",
+  description: "Haftungsausschluss, Hinweise zu Inhalten, externen Links und Urheberrecht auf sibylle-bergold.de.",
+  path: "/disclaimer",
+});
+
 export default function DisclaimerPage() {
   return (
     <main className="grain min-h-screen bg-white py-16 text-warmBlack md:py-24">

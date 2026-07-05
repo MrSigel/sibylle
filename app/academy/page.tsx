@@ -1,4 +1,11 @@
 import Link from 'next/link';
+import { pageMetadata } from '@/lib/sibylle/metadata';
+
+export const metadata = pageMetadata({
+  title: 'Academy für systemische Aufstellungen',
+  description: 'Vertiefende Inhalte, Formate und Begleitung rund um systemische Aufstellungen und Selbsterfahrung mit Sibylle Bergold.',
+  path: '/academy',
+});
 
 export default function AcademyPage() {
   return (

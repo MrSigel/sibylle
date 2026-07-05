@@ -1,3 +1,11 @@
+import { pageMetadata } from "@/lib/sibylle/metadata";
+
+export const metadata = pageMetadata({
+  title: "Widerruf",
+  description: "Informationen zum Widerrufsrecht für Coaching-Begleitung und Vereinbarungen im Fernabsatz.",
+  path: "/widerruf",
+});
+
 export default function WiderrufPage() {
   return (
     <main className="bg-white px-4 py-16 text-warmBlack md:px-0 md:py-24">

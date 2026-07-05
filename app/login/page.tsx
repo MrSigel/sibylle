@@ -17,23 +17,21 @@ export default function LoginPage() {
     setIsLoading(true);
     setError("");
 
-    const adminEmail = process.env.NEXT_PUBLIC_CRM_ADMIN_EMAIL?.trim() || "admin@bergold.de";
-    const adminPassword = process.env.NEXT_PUBLIC_CRM_ADMIN_PASSWORD?.trim() || "developer2026!";
-    const submittedEmail = email.trim();
-    const submittedPassword = password.trim();
+    const response = await fetch("/api/crm/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
-    // Simulate login for temporary credentials
-    if (
-      (submittedEmail === adminEmail && submittedPassword === adminPassword) ||
-      (submittedEmail === "admin@bergold.de" && submittedPassword === "developer2026!")
-    ) {
-      // Set a cookie for session (client-side for now, would be server-side in production)
-      document.cookie = "crm_session=authenticated; path=/; max-age=3600; SameSite=Lax";
+    if (response.ok) {
       router.push("/crm");
-    } else {
-      setError("Ungültige E-Mail oder Passwort.");
-      setIsLoading(false);
+      router.refresh();
+      return;
     }
+
+    const data = (await response.json().catch(() => null)) as { error?: string } | null;
+    setError(data?.error || "Ungültige E-Mail oder Passwort.");
+    setIsLoading(false);
   };
 
   return (
@@ -54,20 +52,13 @@ export default function LoginPage() {
               className="h-12 w-48 object-contain"
             />
           </div>
-          <h1 className="mb-2 text-2xl font-semibold text-warmBlack">
-            CRM Login
-          </h1>
-          <p className="text-sm text-gold/80">
-            Bitte melden Sie sich an, um fortzufahren.
-          </p>
+          <h1 className="mb-2 text-2xl font-semibold text-warmBlack">CRM Login</h1>
+          <p className="text-sm text-gold/80">Bitte melden Sie sich an, um fortzufahren.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <label
-              htmlFor="email"
-              className="block text-xs font-bold uppercase tracking-wider text-deepGold"
-            >
+            <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-deepGold">
               E-Mail Adresse
             </label>
             <input
@@ -77,15 +68,12 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-2xl border border-gold/20 bg-cream/30 px-5 py-4 text-warmBlack transition-all focus:border-gold/50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-gold/5"
-              placeholder="admin@bergold.de"
+              placeholder="admin@example.com"
             />
           </div>
 
           <div className="space-y-2">
-            <label
-              htmlFor="password"
-              className="block text-xs font-bold uppercase tracking-wider text-deepGold"
-            >
+            <label htmlFor="password" className="block text-xs font-bold uppercase tracking-wider text-deepGold">
               Passwort
             </label>
             <input

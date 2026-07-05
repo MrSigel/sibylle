@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { pricingPackages, academyInfo, getWhatsAppLink, whatsappConfig } from '@/lib/sibylle/siteData';
 import { CTAButton } from '@/components/sibylle/CTAButton';
+import { trackEvent } from '@/lib/sibylle/tracking';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -79,8 +80,9 @@ export function PreiseClient() {
                     href={`/success?paket=${encodeURIComponent(pkg.title)}`}
                     variant={pkg.highlight ? 'secondary' : 'primary'}
                     className="w-full"
+                    onClick={() => trackEvent('package_click', { package: pkg.title, action: 'request_steps' })}
                   >
-                    Paket direkt buchen
+                    Paket anfragen
                   </CTAButton>
                   <CTAButton 
                     href={getWhatsAppLink(whatsappConfig.messages.paketAnfrage(pkg.title))}

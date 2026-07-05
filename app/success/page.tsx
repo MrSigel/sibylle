@@ -1,67 +1,44 @@
-'use client';
+"use client";
 
-import { useEffect, useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { motion } from 'framer-motion';
-import { getWhatsAppLink, whatsappConfig } from '@/lib/sibylle/siteData';
-import { CTAButton } from '@/components/sibylle/CTAButton';
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import { motion } from "framer-motion";
+import { getWhatsAppLink, whatsappConfig } from "@/lib/sibylle/siteData";
+import { CTAButton } from "@/components/sibylle/CTAButton";
 
 function SuccessContent() {
   const searchParams = useSearchParams();
-  const paketName = searchParams.get('paket') || 'dein Paket';
-  const [countdown, setCountdown] = useState(5);
-  const waLink = getWhatsAppLink(whatsappConfig.messages.success(paketName));
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          window.location.href = waLink;
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [waLink]);
+  const paketName = searchParams.get("paket") || "dein Paket";
+  const waLink = getWhatsAppLink(whatsappConfig.messages.paketAnfrage(paketName));
 
   return (
-    <div className="container max-w-3xl relative z-10 text-center">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8 }}
-      >
+    <div className="container relative z-10 max-w-3xl text-center">
+      <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }}>
         <div className="mb-10 inline-flex h-20 w-20 items-center justify-center rounded-full bg-softGold/20 text-softGold">
           <svg className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
 
-        <h1 className="editorial text-5xl md:text-7xl">Vielen Dank!</h1>
+        <h1 className="editorial text-5xl md:text-7xl">Anfrage vorbereiten</h1>
         <p className="mt-8 text-xl leading-relaxed text-deepGold/80">
-          Deine Buchung für das Paket <span className="font-bold text-deepGold italic">„{paketName}“</span> war erfolgreich.
+          Für <span className="font-bold italic text-deepGold">„{paketName}“</span> ist noch keine verbindliche Buchung oder Zahlung erfolgt.
         </p>
 
         <div className="premium-panel mt-16 rounded-[3rem] p-10 md:p-14">
           <h2 className="editorial text-3xl">Wie geht es jetzt weiter?</h2>
           <p className="mt-6 text-lg leading-relaxed text-deepGold/70">
-            Damit wir direkt in die Planung deiner Begleitung starten können, melde dich bitte kurz bei mir per WhatsApp.
+            Schreibe Sibylle kurz per WhatsApp. Danach werden Rahmen, Termin und nächste Schritte persönlich bestätigt.
           </p>
-          
-          <div className="mt-12">
+
+          <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row">
             <CTAButton href={waLink} className="!h-16 !px-10 text-lg">
-              Jetzt WhatsApp öffnen
+              Anfrage per WhatsApp senden
+            </CTAButton>
+            <CTAButton href="/preise" variant="secondary" className="!h-16 !px-10 text-lg">
+              Pakete ansehen
             </CTAButton>
           </div>
-
-          {countdown > 0 && (
-            <p className="mt-8 text-sm text-deepGold/40">
-              Du wirst in {countdown} Sekunden automatisch weitergeleitet...
-            </p>
-          )}
         </div>
       </motion.div>
     </div>

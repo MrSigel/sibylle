@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/success', '/crm', '/login'],
+      disallow: ['/success', '/crm', '/admin', '/login', '/cookies'],
     },
     sitemap: 'https://sibylle-bergold.de/sitemap.xml',
   };

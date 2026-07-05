@@ -17,11 +17,13 @@ export function CookieBanner() {
 
   const handleAccept = () => {
     localStorage.setItem('sibylle-cookie-consent', 'all');
+    window.dispatchEvent(new Event('sibylle-cookie-consent-change'));
     setShow(false);
   };
 
   const handleDecline = () => {
     localStorage.setItem('sibylle-cookie-consent', 'essential');
+    window.dispatchEvent(new Event('sibylle-cookie-consent-change'));
     setShow(false);
   };
 

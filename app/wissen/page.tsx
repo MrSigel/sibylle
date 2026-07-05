@@ -1,4 +1,11 @@
 import Link from "next/link";
+import { pageMetadata } from "@/lib/sibylle/metadata";
+
+export const metadata = pageMetadata({
+  title: "Wissen über systemische Muster",
+  description: "Hintergründe zu Systemaufstellungen, Beziehungsmustern, Familienmustern und systemischer Selbsterfahrung.",
+  path: "/wissen",
+});
 
 export default function WissenPage() {
   return (

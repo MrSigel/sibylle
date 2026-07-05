@@ -1,4 +1,10 @@
-import { motion } from 'framer-motion';
+import { pageMetadata } from "@/lib/sibylle/metadata";
+
+export const metadata = pageMetadata({
+  title: "Impressum",
+  description: "Impressum und Anbieterkennzeichnung von Sibylle Bergold.",
+  path: "/impressum",
+});
 
 export default function ImpressumPage() {
   return (

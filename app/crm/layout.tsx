@@ -69,8 +69,8 @@ export default function CrmLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const handleLogout = () => {
-    document.cookie = "crm_session=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+  const handleLogout = async () => {
+    await fetch("/api/crm/logout", { method: "POST" }).catch(() => null);
     router.push("/login");
   };
 

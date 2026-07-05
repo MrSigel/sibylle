@@ -239,6 +239,36 @@ export const faqItems = [
     answer:
       "Sibylle Bergold ist Gründerin der Deutschen Akademie für Systemaufstellungen und begleitet Menschen seit über 25 Jahren in systemischer Aufstellung, Coaching und Selbsterfahrung.",
   },
+  {
+    question: "Wie lange dauert eine systemische Aufstellung?",
+    answer:
+      "Eine Einzelsession dauert in der Regel 90 Minuten. Intensivere Begleitungen können mehrere Termine über einige Wochen oder Monate umfassen.",
+  },
+  {
+    question: "Was kostet eine systemische Aufstellung bei Sibylle Bergold?",
+    answer:
+      "Die Pakete beginnen bei 399 Euro für eine 90-minütige Einzelsession. Mehrmonatige Begleitungen werden auf der Preise-Seite transparent als Pakete dargestellt.",
+  },
+  {
+    question: "Findet die Begleitung in München oder online statt?",
+    answer:
+      "Die Begleitung ist online möglich und kann je nach Rahmen auch vor Ort im Raum München abgestimmt werden. Der passende Rahmen wird vorab persönlich geklärt.",
+  },
+  {
+    question: "Welche Voraussetzungen brauche ich?",
+    answer:
+      "Du brauchst keine Vorerfahrung. Wichtig sind ein konkretes Anliegen, Offenheit für Selbstreflexion und ein ungestörter Rahmen während der Sitzung.",
+  },
+  {
+    question: "Wo liegen die Grenzen der Methode?",
+    answer:
+      "Systemische Aufstellungen sind Coaching und Selbsterfahrung. Sie ersetzen keine ärztliche, psychotherapeutische oder heilpraktische Diagnose oder Behandlung.",
+  },
+  {
+    question: "Welches Ergebnis kann ich erwarten?",
+    answer:
+      "Viele Menschen gewinnen mehr Klarheit über Dynamiken, Rollen und nächste Schritte. Ein bestimmtes Ergebnis oder eine Heilwirkung wird nicht versprochen.",
+  },
 ];
 
 export const footerLinks = [
