@@ -62,7 +62,7 @@ export function UeberMichClient() {
             >
               <div className="relative aspect-[4/5] overflow-hidden rounded-[3.5rem] border border-gold/15 shadow-[0_35px_100px_rgba(35,42,26,.12)]">
                 <Image 
-                  src="/assets/sibylle/portraits/cho.png" 
+                  src="/assets/sibylle/portraits/1.jpg" 
                   alt="Sibylle Bergold" 
                   fill 
                   priority 

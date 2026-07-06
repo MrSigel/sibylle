@@ -51,7 +51,7 @@ export function SinnfrageClient() {
                  viewport={{ once: true }}
                  className="relative h-full w-full overflow-hidden rounded-[3.5rem] border border-gold/15 shadow-2xl"
                >
-                 <Image src="/assets/sibylle/portraits/cho.png" alt="Sinnsuche und Orientierung" fill className="object-cover" />
+                 <Image src="/assets/sibylle/portraits/1.jpg" alt="Sinnsuche und Orientierung" fill className="object-cover" />
                </motion.div>
             </div>
             <motion.div 

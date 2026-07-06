@@ -8,8 +8,8 @@ import Image from 'next/image';
 export function ThemeCards() {
   const featured = themeCards.filter((_,i)=>i<2);
   const images = [
-    "/assets/sibylle/portraits/cosmic_roots.webp",
-    "/assets/sibylle/portraits/be_you.webp"
+    "/assets/sibylle/portraits/3.jpg",
+    "/assets/sibylle/portraits/2.jpg"
   ];
 
   return (

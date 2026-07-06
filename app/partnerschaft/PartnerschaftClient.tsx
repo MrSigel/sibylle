@@ -75,7 +75,7 @@ export function PartnerschaftClient() {
                  viewport={{ once: true }}
                  className="relative h-full w-full overflow-hidden rounded-[3.5rem] border border-gold/10 shadow-2xl"
                >
-                 <Image src="/assets/sibylle/portraits/cho.png" alt="Beziehungskrise" fill className="object-cover object-center" priority />
+                 <Image src="/assets/sibylle/portraits/1.jpg" alt="Beziehungskrise" fill className="object-cover object-center" priority />
                </motion.div>
             </div>
           </div>
@@ -93,7 +93,7 @@ export function PartnerschaftClient() {
                  viewport={{ once: true }}
                  className="relative h-full w-full overflow-hidden rounded-[3.5rem] border border-gold/10 shadow-2xl"
                >
-                 <Image src="/assets/sibylle/portraits/be_you.webp" alt="Single Muster verstehen" fill className="object-cover object-center" />
+                 <Image src="/assets/sibylle/portraits/2.jpg" alt="Single Muster verstehen" fill className="object-cover object-center" />
                </motion.div>
             </div>
             <motion.div 

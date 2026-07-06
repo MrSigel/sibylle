@@ -79,7 +79,7 @@ export function AhnenmusterClient() {
                  viewport={{ once: true }}
                  className="relative h-full w-full overflow-hidden rounded-[3.5rem] border border-gold/10 shadow-2xl"
                >
-                 <Image src="/assets/sibylle/portraits/cosmic_roots.webp" alt="Ahnenmuster verstehen" fill className="object-cover" />
+                 <Image src="/assets/sibylle/portraits/3.jpg" alt="Ahnenmuster verstehen" fill className="object-cover" />
                </motion.div>
             </div>
           </div>

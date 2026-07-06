@@ -15,7 +15,7 @@ export function SystemaufstellungClient() {
       label: "Familienaufstellung",
       desc: "Lösung von Verstrickungen innerhalb der Herkunfts- oder Gegenwartsfamilie.",
       video: "/assets/sibylle/videos/YTDown_YouTube_Familienaufstellungen_Media_0H-f0LiLrdQ_001_1080p.mp4",
-      poster: "/assets/sibylle/portraits/cosmic_roots.webp"
+      poster: "/assets/sibylle/portraits/3.jpg"
     },
     { 
       title: "Organisationssystem", 

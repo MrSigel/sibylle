@@ -79,7 +79,7 @@ export function InneresKindClient() {
                  viewport={{ once: true }}
                  className="relative h-full w-full overflow-hidden rounded-[3.5rem] border border-gold/10 shadow-2xl"
                >
-                 <Image src="/assets/sibylle/portraits/be_you.webp" alt="Arbeit mit dem inneren Kind" fill className="object-cover" />
+                 <Image src="/assets/sibylle/portraits/2.jpg" alt="Arbeit mit dem inneren Kind" fill className="object-cover" />
                </motion.div>
             </div>
           </div>
