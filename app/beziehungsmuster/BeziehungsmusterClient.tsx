@@ -74,7 +74,7 @@ export function BeziehungsmusterClient() {
                  viewport={{ once: true }}
                  className="relative h-full w-full overflow-hidden rounded-[3.5rem] border border-gold/10 shadow-xl"
                >
-                 <Image src="/assets/sibylle/portraits/kontakt.png" alt="Beziehungsmuster verstehen" fill className="object-cover" />
+                 <Image src="/assets/sibylle/portraits/3.jpg" alt="Beziehungsmuster verstehen" fill className="object-cover" />
                </motion.div>
             </div>
           </div>

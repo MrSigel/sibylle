@@ -101,7 +101,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         name: "Sibylle Bergold | Systemische Klarheit",
         url: "https://sibylle-bergold.de",
         logo: "https://sibylle-bergold.de/assets/sibylle/brand/logo-primary.png",
-        image: "https://sibylle-bergold.de/assets/sibylle/portraits/Design-ohne-Titel-2.png",
+        image: "https://sibylle-bergold.de/assets/sibylle/portraits/1.jpg",
         description:
           "Systemische Aufstellung, Beziehungsmuster lösen und Coaching als Selbsterfahrung mit Sibylle Bergold.",
         telephone: "+491785511230",

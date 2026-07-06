@@ -15,7 +15,7 @@ export function AboutSibylle() {
             className="relative aspect-[4/5] overflow-hidden rounded-[3.5rem] bg-white border border-gold/10 shadow-[0_35px_90px_rgba(35,42,26,.14)]"
           >
             <Image 
-              src="/assets/sibylle/portraits/kontakt.png" 
+              src="/assets/sibylle/portraits/3.jpg" 
               alt="Sibylle Bergold" 
               fill 
               sizes="(min-width: 1024px) 500px, 90vw" 

@@ -51,7 +51,7 @@ export function BeruflicheAufstellungClient() {
                  viewport={{ once: true }}
                  className="relative h-full w-full overflow-hidden rounded-[3.5rem] border border-gold/10 shadow-2xl"
                >
-                 <Image src="/assets/sibylle/portraits/erfolg_.png" alt="Berufliche Aufstellung" fill className="object-cover" />
+                 <Image src="/assets/sibylle/portraits/2.jpg" alt="Berufliche Aufstellung" fill className="object-cover" />
                </motion.div>
             </div>
             <motion.div 

@@ -22,14 +22,14 @@ export function SystemaufstellungClient() {
       label: "Organisationsaufstellung",
       desc: "Klärung von Dynamiken in Unternehmen, Teams oder beruflichen Kontexten.",
       video: "/assets/sibylle/videos/YTDown_YouTube_Organisationsaufstellungen-V01_Media_uT3JVGZfe9s_001_1080p.mp4",
-      poster: "/assets/sibylle/portraits/erfolg_.png"
+      poster: "/assets/sibylle/portraits/2.jpg"
     },
     { 
       title: "Abstrahiertes System", 
       label: "Strukturaufstellung",
       desc: "Arbeit mit abstrakten Elementen wie Zielen, Hindernissen oder inneren Anteilen.",
       video: "/assets/sibylle/videos/YTDown_YouTube_Systemaufstellungen_Media_q_TYVp_PWk0_001_1080p (2).mp4",
-      poster: "/assets/sibylle/portraits/higherself_connection.webp"
+      poster: "/assets/sibylle/portraits/1.jpg"
     }
   ];
 
