@@ -79,7 +79,7 @@ export function HeroSection() {
             >
               <motion.div style={{ y: portraitY }} className="relative h-full w-full">
                 <Image
-                  src="/assets/sibylle/portraits/Design-ohne-Titel-2.png"
+                  src="/assets/sibylle/portraits/1.jpg"
                   alt="Sibylle Bergold - systemische Aufstellung und Coaching"
                   fill
                   priority
