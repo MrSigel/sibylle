@@ -33,22 +33,27 @@ export default function DocumentsPage() {
   const [formDocument, setFormDocument] = useState(emptyDocument);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchData();
   }, []);
 
   async function fetchData() {
-    const [{ data: docs, error }, { data: custs }] = await Promise.all([
+    setLoading(true);
+    setError("");
+    const [{ data: docs, error: docError }, { data: custs }] = await Promise.all([
       supabase.from("documents").select("*, customers(name)").order("created_at", { ascending: false }),
       supabase.from("customers").select("id, name").order("name"),
     ]);
-    if (error) {
-      console.error(error);
-      alert("Dokumente konnten nicht geladen werden.");
+    if (docError) {
+      console.error(docError);
+      setError("Dokumente konnten nicht geladen werden. Bitte prüfe die Verbindung.");
     }
     setDocuments(docs || []);
     setCustomers(custs || []);
+    setLoading(false);
   }
 
   function handleFileChange(file: File | null) {
@@ -139,6 +144,12 @@ export default function DocumentsPage() {
         </button>
       </div>
 
+      {error && (
+        <div className="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-semibold text-red-700">
+          {error}
+        </div>
+      )}
+
       <AnimatePresence>
         {isModalOpen && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -199,7 +210,9 @@ export default function DocumentsPage() {
         </div>
         <div className="overflow-hidden rounded-[32px] border border-gold/15 bg-white shadow-soft">
           <div className="divide-y divide-gold/5">
-            {visibleDocs.length > 0 ? visibleDocs.map((doc) => (
+            {loading ? (
+              <div className="p-10 text-center text-sm italic text-deepGold/40">Dokumente werden geladen...</div>
+            ) : visibleDocs.length > 0 ? visibleDocs.map((doc) => (
               <div key={doc.id} className="flex items-center gap-6 p-6 transition-all hover:bg-gold/5">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-mist/20 text-deepGold">
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z" /></svg>

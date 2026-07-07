@@ -10,22 +10,36 @@ export default function StatsPage() {
   const [invoices, setInvoices] = useState<any[]>([]);
   const [projects, setProjects] = useState<any[]>([]);
   const [appointments, setAppointments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchStats();
   }, []);
 
   async function fetchStats() {
-    const [{ data: custs }, { data: invs }, { data: projs }, { data: appts }] = await Promise.all([
-      supabase.from("customers").select("*"),
-      supabase.from("invoices").select("*"),
-      supabase.from("projects").select("*"),
-      supabase.from("appointments").select("*"),
-    ]);
-    setCustomers(custs || []);
-    setInvoices(invs || []);
-    setProjects(projs || []);
-    setAppointments(appts || []);
+    setLoading(true);
+    setError("");
+    try {
+      const results = await Promise.all([
+        supabase.from("customers").select("*"),
+        supabase.from("invoices").select("*"),
+        supabase.from("projects").select("*"),
+        supabase.from("appointments").select("*"),
+      ]);
+      const failed = results.find((result) => result.error);
+      if (failed?.error) throw failed.error;
+      const [custs, invs, projs, appts] = results.map((result) => result.data || []);
+      setCustomers(custs);
+      setInvoices(invs);
+      setProjects(projs);
+      setAppointments(appts);
+    } catch (statsError) {
+      console.error(statsError);
+      setError("Kennzahlen konnten nicht geladen werden. Bitte prüfe die Verbindung.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   const monthRevenue = useMemo(() => {
@@ -71,6 +85,17 @@ export default function StatsPage() {
         <h1 className="text-3xl font-bold text-warmBlack">Analyse & Performance</h1>
         <p className="text-deepGold/70">Detaillierte Einblicke in Ihr Business-Wachstum und Coaching-Kennzahlen.</p>
       </div>
+
+      {error && (
+        <div className="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-semibold text-red-700">
+          {error}
+        </div>
+      )}
+      {loading && !error && (
+        <div className="rounded-[32px] border border-gold/15 bg-white p-10 text-sm italic text-deepGold/50 shadow-soft">
+          Kennzahlen werden geladen...
+        </div>
+      )}
 
       <div className="grid gap-8 lg:grid-cols-2">
         <div className="rounded-[32px] border border-gold/15 bg-white p-8 shadow-soft">

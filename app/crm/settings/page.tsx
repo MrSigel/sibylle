@@ -2,43 +2,51 @@
 
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import {
+  defaultBusinessSettings,
+  loadBusinessSettings,
+  saveBusinessSettings,
+} from "@/lib/sibylle/crmSettings";
 
 export default function SettingsPage() {
-  const [settings, setSettings] = useState({
-    businessName: "Sibylle Bergold",
-    ownerName: "Sibylle Bergold",
-    email: "kontakt@sibylle-bergold.com",
-    phone: "+49 178 5511230",
-    address: "Bitte vollständige Geschäftsanschrift hinterlegen",
-    taxId: "Bitte USt-IdNr. oder Steuernummer hinterlegen",
-    bankName: "Bitte Bank hinterlegen",
-    iban: "Bitte IBAN hinterlegen",
-    bic: "Bitte BIC hinterlegen",
-    invoicePrefix: `RE-${new Date().getFullYear()}-`,
-    footerText: "Vielen Dank für Ihr Vertrauen in meine systemische Begleitung. Die Begleitung ist Coaching und Selbsterfahrung und enthält keine Heilversprechen."
-  });
+  const [settings, setSettings] = useState(defaultBusinessSettings);
 
+  const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const saved = localStorage.getItem("crm_business_settings");
-    if (saved) {
-      setSettings(JSON.parse(saved));
-    }
+    let active = true;
+    (async () => {
+      try {
+        const loaded = await loadBusinessSettings();
+        if (active) setSettings(loaded);
+      } catch {
+        if (active) setError("Einstellungen konnten nicht geladen werden.");
+      } finally {
+        if (active) setIsLoading(false);
+      }
+    })();
+    return () => {
+      active = false;
+    };
   }, []);
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      localStorage.setItem("crm_business_settings", JSON.stringify(settings));
-      setIsSaving(false);
+    setError("");
+
+    try {
+      await saveBusinessSettings(settings);
       setShowSuccess(true);
       setTimeout(() => setShowSuccess(false), 3000);
-    }, 800);
+    } catch (saveError) {
+      setError(saveError instanceof Error ? saveError.message : "Speichern fehlgeschlagen.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -53,6 +61,17 @@ export default function SettingsPage() {
         <p className="text-deepGold/70">Verwalten Sie Ihre Geschäftsdaten für Rechnungen und Angebote.</p>
       </div>
 
+      {error && (
+        <div className="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-semibold text-red-700">
+          {error}
+        </div>
+      )}
+
+      {isLoading ? (
+        <div className="rounded-[32px] border border-gold/15 bg-white p-10 text-sm italic text-deepGold/50 shadow-soft">
+          Einstellungen werden geladen...
+        </div>
+      ) : (
       <form onSubmit={handleSave} className="space-y-8">
         {/* Business Info */}
         <div className="rounded-[32px] border border-gold/15 bg-white p-8 shadow-soft">
@@ -199,6 +218,7 @@ export default function SettingsPage() {
           </AnimatePresence>
         </div>
       </form>
+      )}
     </div>
   );
 }

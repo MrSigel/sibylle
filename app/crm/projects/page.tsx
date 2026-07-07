@@ -18,6 +18,7 @@ export default function ProjectsPage() {
   const [projects, setProjects] = useState<any[]>([]);
   const [customers, setCustomers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formProject, setFormProject] = useState(emptyProject);
 
@@ -27,13 +28,14 @@ export default function ProjectsPage() {
 
   async function fetchData() {
     setLoading(true);
+    setError("");
     const [{ data: projectData, error: projectError }, { data: customerData }] = await Promise.all([
       supabase.from("projects").select("*, customers(name)").order("updated_at", { ascending: false }),
       supabase.from("customers").select("id, name").order("name"),
     ]);
     if (projectError) {
       console.error(projectError);
-      alert("Projekte konnten nicht geladen werden.");
+      setError("Projekte konnten nicht geladen werden. Bitte prüfe die Verbindung.");
     }
     setProjects(projectData || []);
     setCustomers(customerData || []);
@@ -103,6 +105,12 @@ export default function ProjectsPage() {
         </div>
         <button onClick={() => openProject("Anfrage")} className="rounded-full bg-deepGold px-6 py-3 font-semibold text-white shadow-soft transition-all hover:bg-gold">Neue Karte</button>
       </div>
+
+      {error && (
+        <div className="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-semibold text-red-700">
+          {error}
+        </div>
+      )}
 
       <AnimatePresence>
         {isModalOpen && (

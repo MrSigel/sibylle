@@ -15,6 +15,7 @@ const emptySlot = {
 export default function AvailabilityPage() {
   const [slots, setSlots] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formSlot, setFormSlot] = useState(emptySlot);
 
@@ -24,16 +25,17 @@ export default function AvailabilityPage() {
 
   async function fetchSlots() {
     setLoading(true);
-    const { data, error } = await supabase
+    setError("");
+    const { data, error: fetchError } = await supabase
       .from("appointments")
       .select("*")
       .eq("public_visible", true)
       .gte("start_time", new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString())
       .order("start_time", { ascending: true });
 
-    if (error) {
-      console.error(error);
-      alert("Freigaben konnten nicht geladen werden.");
+    if (fetchError) {
+      console.error(fetchError);
+      setError("Freigaben konnten nicht geladen werden. Bitte prüfe die Verbindung.");
     }
     setSlots(data || []);
     setLoading(false);
@@ -111,6 +113,12 @@ export default function AvailabilityPage() {
         </div>
         <button onClick={() => setIsModalOpen(true)} className="rounded-full bg-deepGold px-6 py-3 font-semibold text-white shadow-soft transition-all hover:bg-gold">Freien Slot anlegen</button>
       </div>
+
+      {error && (
+        <div className="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-semibold text-red-700">
+          {error}
+        </div>
+      )}
 
       <div className="grid gap-6 md:grid-cols-3">
         <Stat label="Reserviert" value={String(reservedSlots.length)} />

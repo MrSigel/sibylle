@@ -101,6 +101,31 @@ function mailboxName(type: CrmMailbox) {
   return type === "sent" ? config.sentMailbox : config.inboxMailbox;
 }
 
+/**
+ * Resolves the real mailbox path on the server. Providers name the Sent folder
+ * differently ("Sent", "Sent Items", "INBOX.Sent", ...), so we prefer the
+ * IMAP special-use flag (\Sent) and fall back to the configured/common names.
+ */
+async function resolveMailboxPath(client: ImapFlow, type: CrmMailbox): Promise<string> {
+  const configured = mailboxName(type);
+  if (type !== "sent") return configured;
+
+  try {
+    const boxes = await client.list();
+    const bySpecialUse = boxes.find((box) => box.specialUse === "\\Sent");
+    if (bySpecialUse) return bySpecialUse.path;
+
+    const candidates = [configured, "Sent Items", "Sent", "INBOX.Sent"];
+    for (const candidate of candidates) {
+      const match = boxes.find((box) => box.path.toLowerCase() === candidate.toLowerCase());
+      if (match) return match.path;
+    }
+  } catch {
+    // fall through to the configured name
+  }
+  return configured;
+}
+
 function dateToIso(value: Date | string | null | undefined) {
   if (!value) return null;
   const date = value instanceof Date ? value : new Date(value);
@@ -112,7 +137,8 @@ export async function listMailMessages(mailbox: CrmMailbox, limit = 25): Promise
   await client.connect();
 
   try {
-    const lock = await client.getMailboxLock(mailboxName(mailbox));
+    const path = await resolveMailboxPath(client, mailbox);
+    const lock = await client.getMailboxLock(path);
     try {
       const exists = client.mailbox ? client.mailbox.exists || 0 : 0;
       if (!exists) return [];
@@ -198,7 +224,8 @@ async function appendSentMessage(mail: Record<string, unknown>) {
   const client = createImapClient();
   await client.connect();
   try {
-    await client.append(mailboxName("sent"), message, ["\\Seen"]);
+    const sentPath = await resolveMailboxPath(client, "sent");
+    await client.append(sentPath, message, ["\\Seen"]);
   } finally {
     await client.logout().catch(() => undefined);
   }

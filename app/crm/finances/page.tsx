@@ -5,40 +5,30 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { supabase } from "@/lib/sibylle/supabase";
 import { customerNameFromRelation, formatCurrency, formatDate, invoiceStatuses } from "@/lib/sibylle/crm";
+import {
+  type BusinessSettings,
+  defaultBusinessSettings,
+  loadBusinessSettings,
+} from "@/lib/sibylle/crmSettings";
 
 type InvoiceItem = { description: string; price: number };
-type BusinessSettings = {
-  businessName: string;
-  ownerName: string;
-  email: string;
-  phone: string;
-  address: string;
-  taxId: string;
-  bankName: string;
-  iban: string;
-  bic: string;
-  invoicePrefix: string;
-  footerText: string;
-};
 
 const defaultItem: InvoiceItem = { description: "Systemische Aufstellung", price: 0 };
 
-const defaultBusinessSettings: BusinessSettings = {
-  businessName: "Sibylle Bergold",
-  ownerName: "Sibylle Bergold",
-  email: "kontakt@sibylle-bergold.com",
-  phone: "+49 178 5511230",
-  address: "Bitte Anschrift in den CRM-Einstellungen hinterlegen",
-  taxId: "Bitte USt-IdNr. oder Steuernummer hinterlegen",
-  bankName: "Bitte Bank in den CRM-Einstellungen hinterlegen",
-  iban: "Bitte IBAN hinterlegen",
-  bic: "Bitte BIC hinterlegen",
-  invoicePrefix: `RE-${new Date().getFullYear()}-`,
-  footerText: "Vielen Dank für Ihr Vertrauen in meine systemische Begleitung. Die Begleitung ist Coaching und Selbsterfahrung und enthält keine Heilversprechen.",
-};
-
 function nextInvoiceId(prefix = defaultBusinessSettings.invoicePrefix) {
   return `${prefix}${Math.floor(100 + Math.random() * 900)}`;
+}
+
+function emptyInvoice(prefix = defaultBusinessSettings.invoicePrefix) {
+  return {
+    customer_id: "",
+    amount: 0,
+    status: "Offen",
+    due_date: new Date(Date.now() + 14 * 86400000).toISOString().slice(0, 10),
+    notes: "",
+    items: [defaultItem],
+    id: nextInvoiceId(prefix),
+  };
 }
 
 function escapeHtml(value: unknown) {
@@ -62,41 +52,55 @@ export default function FinancesPage() {
   const [invoices, setInvoices] = useState<any[]>([]);
   const [customers, setCustomers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [businessSettings, setBusinessSettings] = useState<BusinessSettings>(defaultBusinessSettings);
-  const [newInvoice, setNewInvoice] = useState({
-    customer_id: "",
-    amount: 0,
-    status: "Offen",
-    due_date: new Date(Date.now() + 14 * 86400000).toISOString().slice(0, 10),
-    notes: "",
-    items: [defaultItem],
-    id: nextInvoiceId(),
-  });
+  const [newInvoice, setNewInvoice] = useState(emptyInvoice());
 
   useEffect(() => {
     fetchData();
-    const saved = localStorage.getItem("crm_business_settings");
-    if (saved) {
-      const parsed = normalizeSettings(JSON.parse(saved));
+    loadBusinessSettings().then((parsed) => {
       setBusinessSettings(parsed);
-      setNewInvoice((prev) => ({ ...prev, id: nextInvoiceId(parsed.invoicePrefix) }));
-    }
+      setNewInvoice((prev) => (editingId ? prev : { ...prev, id: nextInvoiceId(parsed.invoicePrefix) }));
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function fetchData() {
     setLoading(true);
-    const [{ data: invs, error }, { data: custs }] = await Promise.all([
+    setError("");
+    const [{ data: invs, error: invError }, { data: custs }] = await Promise.all([
       supabase.from("invoices").select("*, customers (name, address)").order("created_at", { ascending: false }),
       supabase.from("customers").select("id, name, address").order("name"),
     ]);
-    if (error) {
-      console.error(error);
-      alert("Rechnungen konnten nicht geladen werden.");
+    if (invError) {
+      console.error(invError);
+      setError("Rechnungen konnten nicht geladen werden. Bitte prüfe die Verbindung.");
     }
     setInvoices(invs || []);
     setCustomers(custs || []);
     setLoading(false);
+  }
+
+  function openNewInvoice() {
+    setEditingId(null);
+    setNewInvoice(emptyInvoice(businessSettings.invoicePrefix));
+    setIsModalOpen(true);
+  }
+
+  function openEditInvoice(invoice: any) {
+    setEditingId(invoice.id);
+    setNewInvoice({
+      customer_id: invoice.customer_id || "",
+      amount: Number(invoice.amount || 0),
+      status: invoice.status || "Offen",
+      due_date: invoice.due_date ? String(invoice.due_date).slice(0, 10) : "",
+      notes: invoice.notes || "",
+      items: invoice.items?.length ? invoice.items : [defaultItem],
+      id: invoice.id,
+    });
+    setIsModalOpen(true);
   }
 
   function updateItems(items: InvoiceItem[]) {
@@ -114,7 +118,7 @@ export default function FinancesPage() {
       return;
     }
 
-    const { error } = await supabase.from("invoices").insert([{
+    const payload = {
       id: newInvoice.id,
       customer_id: newInvoice.customer_id,
       amount: newInvoice.amount,
@@ -122,7 +126,14 @@ export default function FinancesPage() {
       items: newInvoice.items,
       due_date: newInvoice.due_date || null,
       notes: newInvoice.notes || null,
-    }]);
+    };
+
+    const { error } = editingId
+      ? await supabase
+          .from("invoices")
+          .update({ ...payload, updated_at: new Date().toISOString() })
+          .eq("id", editingId)
+      : await supabase.from("invoices").insert([payload]);
 
     if (error) {
       alert(error.code === "23505" ? "Diese Rechnungsnummer existiert bereits." : "Fehler beim Speichern der Rechnung.");
@@ -130,15 +141,8 @@ export default function FinancesPage() {
     }
 
     setIsModalOpen(false);
-    setNewInvoice({
-      customer_id: "",
-      amount: 0,
-      status: "Offen",
-      due_date: new Date(Date.now() + 14 * 86400000).toISOString().slice(0, 10),
-      notes: "",
-      items: [defaultItem],
-      id: nextInvoiceId(businessSettings.invoicePrefix),
-    });
+    setEditingId(null);
+    setNewInvoice(emptyInvoice(businessSettings.invoicePrefix));
     fetchData();
   }
 
@@ -157,7 +161,7 @@ export default function FinancesPage() {
 
   function getInvoiceModel(invoice: any = newInvoice) {
     const customer = invoice.customers || customers.find((c) => c.id === invoice.customer_id) || {};
-    const items: InvoiceItem[] = invoice.items?.length ? invoice.items : newInvoice.items;
+    const items: InvoiceItem[] = invoice.items?.length ? invoice.items : [];
     const amount = Number(invoice.amount || items.reduce((sum, item) => sum + Number(item.price || 0), 0));
     return { invoice, customer, items, amount, settings: businessSettings };
   }
@@ -272,8 +276,14 @@ export default function FinancesPage() {
           <h1 className="text-3xl font-bold text-warmBlack">Finanz-Management</h1>
           <p className="text-deepGold/70">Rechnungen, Angebote und steuerliche Übersicht.</p>
         </div>
-        <button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2 rounded-full bg-deepGold px-6 py-3 font-semibold text-white shadow-soft transition-all hover:bg-gold">Neue Rechnung erstellen</button>
+        <button onClick={openNewInvoice} className="flex items-center gap-2 rounded-full bg-deepGold px-6 py-3 font-semibold text-white shadow-soft transition-all hover:bg-gold">Neue Rechnung erstellen</button>
       </div>
+
+      {error && (
+        <div className="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-semibold text-red-700">
+          {error}
+        </div>
+      )}
 
       <div className="grid gap-6 md:grid-cols-3">
         <Stat label="Umsatz (Bezahlt)" value={formatCurrency(totalRevenue)} />
@@ -307,6 +317,7 @@ export default function FinancesPage() {
                     </select>
                   </td>
                   <td className="px-8 py-5 text-right">
+                    <button onClick={() => openEditInvoice(inv)} className="mr-4 text-deepGold hover:text-gold">Bearbeiten</button>
                     <button onClick={() => printInvoice(inv)} className="mr-4 text-gold hover:text-deepGold">PDF</button>
                     <button onClick={() => deleteInvoice(inv)} className="text-red-400 hover:text-red-600">Löschen</button>
                   </td>
@@ -322,7 +333,7 @@ export default function FinancesPage() {
           <div className="fixed inset-0 z-[100] flex overflow-y-auto bg-warmBlack/40 p-4 backdrop-blur-sm sm:p-10">
             <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 50 }} className="m-auto flex min-h-[80vh] w-full max-w-6xl flex-col overflow-hidden rounded-[40px] bg-white shadow-2xl lg:flex-row">
               <div className="flex-1 overflow-y-auto border-r border-gold/10 p-8 lg:p-12">
-                <h2 className="mb-8 text-2xl font-bold text-warmBlack">Rechnungs-Details</h2>
+                <h2 className="mb-8 text-2xl font-bold text-warmBlack">{editingId ? "Rechnung bearbeiten" : "Rechnungs-Details"}</h2>
                 <div className="space-y-6">
                   <Select label="Kunde auswählen" value={newInvoice.customer_id} onChange={(value) => setNewInvoice({ ...newInvoice, customer_id: value })}>
                     <option value="">-- Kunde wählen --</option>
@@ -344,8 +355,8 @@ export default function FinancesPage() {
                     <button type="button" onClick={() => updateItems([...newInvoice.items, { description: "", price: 0 }])} className="text-sm font-bold text-deepGold hover:text-gold">+ Posten hinzufügen</button>
                   </div>
                   <div className="flex gap-4 pt-8">
-                    <button onClick={() => setIsModalOpen(false)} className="flex-1 rounded-full border border-gold/20 py-4 font-bold text-deepGold" type="button">Abbrechen</button>
-                    <button onClick={handleCreateInvoice} className="flex-1 rounded-full bg-deepGold py-4 font-bold text-white shadow-soft" type="button">Rechnung speichern</button>
+                    <button onClick={() => { setIsModalOpen(false); setEditingId(null); }} className="flex-1 rounded-full border border-gold/20 py-4 font-bold text-deepGold" type="button">Abbrechen</button>
+                    <button onClick={handleCreateInvoice} className="flex-1 rounded-full bg-deepGold py-4 font-bold text-white shadow-soft" type="button">{editingId ? "Änderungen speichern" : "Rechnung speichern"}</button>
                   </div>
                 </div>
               </div>
