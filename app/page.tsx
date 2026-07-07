@@ -9,17 +9,16 @@ import { MethodStory } from "@/components/sibylle/MethodStory";
 import { PublicBookingCalendar } from "@/components/sibylle/PublicBookingCalendar";
 import { FAQAccordion } from "@/components/sibylle/FAQAccordion";
 import { ClosingCTA } from "@/components/sibylle/ClosingCTA";
-import { Metadata } from "next";
+import { pageMetadata } from "@/lib/sibylle/metadata";
 
-export const metadata: Metadata = {
-  title: "Sibylle Bergold | Systemische Aufstellung München",
+export const metadata = pageMetadata({
+  // The root segment does NOT inherit the layout's title template, so the brand
+  // is included explicitly here (unlike child pages).
+  title: "Systemische Aufstellung München & Online | Sibylle Bergold",
   description: "Systemische Aufstellung, Coaching und freie Erstgespräche mit Sibylle Bergold. Beziehungsmuster und Familienmuster online oder in München klären.",
-  openGraph: {
-    title: "Sibylle Bergold | Systemische Aufstellung München",
-    description: "Freie Erstgespräche, systemische Aufstellung und Coaching mit Sibylle Bergold online oder in München.",
-    url: "/",
-  },
-};
+  path: "/",
+  keywords: ["Systemische Aufstellung", "Familienaufstellung", "Systemisches Coaching", "München", "Beziehungsmuster lösen"],
+});
 
 export default function HomePage() {
   return (

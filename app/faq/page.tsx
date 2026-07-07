@@ -1,11 +1,12 @@
 import { faqItems } from '@/lib/sibylle/siteData';
-import { Metadata } from 'next';
+import { pageMetadata } from '@/lib/sibylle/metadata';
 
-export const metadata: Metadata = {
-  title: "Häufige Fragen zu Systemaufstellungen | Sibylle Bergold",
-  description: "Erfahre alles über den Ablauf, die Wirkung und die Anwendungsgebiete von systemischen Aufstellungen in meinen FAQ.",
+export const metadata = pageMetadata({
+  title: "Häufige Fragen zu Systemaufstellungen",
+  description: "Erfahre alles über den Ablauf, die Wirkung und die Anwendungsgebiete von systemischen Aufstellungen in den FAQ von Sibylle Bergold.",
+  path: "/faq",
   keywords: ["Systemaufstellung FAQ", "Ablauf Aufstellung", "Coaching Fragen", "Voraussetzungen Aufstellung"],
-};
+});
 
 export default function FAQPage() {
   const jsonLd = {

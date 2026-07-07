@@ -1,11 +1,12 @@
-import { Metadata } from 'next';
 import { SystemaufstellungClient } from './SystemaufstellungClient';
+import { pageMetadata } from '@/lib/sibylle/metadata';
 
-export const metadata: Metadata = {
-  title: "Systemaufstellung München & Online | Verstrickungen lösen",
-  description: "Erlebe die befreiende Kraft einer Systemaufstellung. Sibylle Bergold begleitet dich dabei, unbewusste Dynamiken in Familie & Beruf sichtbar zu machen und zu lösen.",
+export const metadata = pageMetadata({
+  title: "Systemaufstellung München & Online",
+  description: "Erlebe die Kraft einer Systemaufstellung. Sibylle Bergold macht unbewusste Dynamiken in Familie & Beruf sichtbar und hilft dir, sie zu lösen.",
+  path: "/systemaufstellung",
   keywords: ["Systemaufstellung", "Familienaufstellung", "Organisationsaufstellung", "Strukturaufstellung", "München Aufstellung", "Online Aufstellung", "Systemische Arbeit"],
-};
+});
 
 export default function SystemaufstellungPage() {
   return <SystemaufstellungClient />;

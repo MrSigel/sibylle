@@ -1,18 +1,12 @@
-import type { Metadata } from "next";
 import { BeziehungsKompassClient } from "./BeziehungsKompassClient";
+import { pageMetadata } from "@/lib/sibylle/metadata";
 
-export const metadata: Metadata = {
-  title: "Beziehungs-Kompass Selbsttest | Sibylle Bergold",
+export const metadata = pageMetadata({
+  title: "Beziehungs-Kompass Selbsttest",
   description: "Kostenloser Selbsttest zu Beziehungsmustern. Erhalte deinen Beziehungs-Kompass per WhatsApp und Impulse zu systemischem Coaching.",
-  alternates: {
-    canonical: "/kompass",
-  },
-  openGraph: {
-    title: "Beziehungs-Kompass Selbsttest | Sibylle Bergold",
-    description: "Finde heraus, welches Beziehungsmuster gerade sichtbar ist.",
-    url: "/kompass",
-  },
-};
+  path: "/kompass",
+  keywords: ["Beziehungstest", "Beziehungsmuster Selbsttest", "Beziehungs-Kompass", "Systemisches Coaching"],
+});
 
 export default function KompassPage() {
   return <BeziehungsKompassClient />;

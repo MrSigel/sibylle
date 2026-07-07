@@ -3,7 +3,18 @@ import "./globals.css";
 import { ConditionalLayout } from "@/components/sibylle/ConditionalLayout";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { ConsentAnalytics } from "@/components/sibylle/ConsentAnalytics";
+import { GoogleTag } from "@/components/sibylle/GoogleTag";
 import { pricingPackages } from "@/lib/sibylle/siteData";
+
+// Google Consent Mode v2 default: everything denied until the user accepts in
+// the cookie banner. Must run before any Google tag fires (EEA/DE requirement).
+const consentDefault = `
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+window.gtag=gtag;
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});
+gtag('set','ads_data_redaction',true);
+gtag('js',new Date());
+`;
 
 const serif = Cormorant_Garamond({
   subsets: ["latin"],
@@ -195,12 +206,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="de">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: consentDefault }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body>
         <div className={`sibylle-site ${serif.variable} ${sans.variable}`}>
           <ConditionalLayout>{children}</ConditionalLayout>
           <ConsentAnalytics />
+          <GoogleTag />
         </div>
       </body>
     </html>

@@ -1,22 +1,12 @@
-import type { Metadata } from "next";
 import { InneresSchlossClient } from "./InneresSchlossClient";
+import { pageMetadata } from "@/lib/sibylle/metadata";
 
-export const metadata: Metadata = {
-  title: "Inneres Schloss Selbsttest | Sibylle Bergold",
+export const metadata = pageMetadata({
+  title: "Inneres Schloss Selbsttest",
   description: "Textbasiertes Mini-Spiel zu Energie, Authentizität und inneren Mustern. Coaching und Selbsterfahrung ohne Heilversprechen.",
-  alternates: {
-    canonical: "/schloss-spiel",
-  },
-  robots: {
-    index: false,
-    follow: false,
-  },
-  openGraph: {
-    title: "Inneres Schloss Selbsttest | Sibylle Bergold",
-    description: "Erkunde fünf innere Räume und erhalte deine persönliche Auswertung.",
-    url: "/schloss-spiel",
-  },
-};
+  path: "/schloss-spiel",
+  noIndex: true,
+});
 
 export default function SchlossSpielPage() {
   return <InneresSchlossClient />;

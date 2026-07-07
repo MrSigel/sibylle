@@ -74,6 +74,9 @@ export function ReferenzenClient() {
               </motion.article>
             ))}
           </div>
+          <p className="mt-12 text-center text-xs leading-6 text-deepGold/50">
+            Namen zum Schutz der Privatsphäre geändert, Portraitbilder symbolisch. Systemische Begleitung ist Coaching und Selbsterfahrung ohne Heilversprechen.
+          </p>
         </div>
       </section>
 

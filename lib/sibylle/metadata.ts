@@ -7,15 +7,18 @@ export function pageMetadata({
   description,
   path,
   noIndex = false,
+  keywords,
 }: {
   title: string;
   description: string;
   path: string;
   noIndex?: boolean;
+  keywords?: string[];
 }): Metadata {
   return {
     title,
     description,
+    keywords,
     alternates: {
       canonical: path,
     },
