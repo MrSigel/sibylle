@@ -25,6 +25,7 @@ const staticPages: SearchResult[] = [
   { id: "p-fin", title: "Finanzen", subtitle: "Rechnungen & Umsatz", type: "page", href: "/crm/finances", keywords: ["rechnung", "umsatz", "bezahlt", "offen"] },
   { id: "p-doc", title: "Dokumente", subtitle: "Tresor & Vorlagen", type: "page", href: "/crm/documents", keywords: ["dateien", "upload", "vertrag", "pdf"] },
   { id: "p-cal", title: "Kalender", subtitle: "Termin-Übersicht", type: "page", href: "/crm/calendar", keywords: ["termine", "zoom", "telefon"] },
+  { id: "p-mail", title: "E-Mail", subtitle: "Eingang, Ausgang und Versand", type: "page", href: "/crm/mail", keywords: ["mail", "email", "smtp", "imap", "postfach", "eingang", "ausgang"] },
   { id: "p-ava", title: "Freigaben", subtitle: "Öffentliche Terminfreigaben", type: "page", href: "/crm/availability", keywords: ["buchung", "landingpage", "reserviert"] },
   { id: "p-self", title: "Selbsttest", subtitle: "Beziehungs-Kompass und Inneres Schloss Leads", type: "page", href: "/crm/selbsttest", keywords: ["kompass", "schloss", "lead", "whatsapp", "email", "beziehung"] },
   { id: "p-stats", title: "Analyse", subtitle: "Performance & Kennzahlen", type: "page", href: "/crm/stats", keywords: ["statistik", "auswertung", "zahlen"] },

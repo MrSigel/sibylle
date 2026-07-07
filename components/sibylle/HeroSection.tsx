@@ -14,12 +14,15 @@ export function HeroSection() {
     target: containerRef,
     offset: ["start start", "end start"],
   });
+  // Panels reveal off the raw page scroll in pixels, so the image behind them
+  // is uncovered right as the user begins scrolling - not only after the hero.
+  const { scrollY } = useScroll();
 
   const portraitY = useTransform(scrollYProgress, [0, 1], [0, 80]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.05]);
-  const leftPanelX = useTransform(scrollYProgress, [0, 0.4], ["0%", "-100%"]);
-  const rightPanelX = useTransform(scrollYProgress, [0, 0.4], ["0%", "100%"]);
-  const panelOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
+  const leftPanelX = useTransform(scrollY, [0, 300], ["0%", "-100%"]);
+  const rightPanelX = useTransform(scrollY, [0, 300], ["0%", "100%"]);
+  const panelOpacity = useTransform(scrollY, [0, 260], [1, 0]);
 
   return (
     <section ref={containerRef} className="grain relative min-h-[calc(100svh-82px)] overflow-hidden px-4 pb-20 pt-8 md:pb-28 md:pt-14 lg:flex lg:items-center">
