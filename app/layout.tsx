@@ -135,6 +135,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           "Systemisches Coaching",
           "Selbsterfahrung",
         ],
+        sameAs: [
+          "https://www.instagram.com/sibyllebergold/",
+          "https://www.facebook.com/sibylle.bergold/",
+        ],
         address: {
           "@type": "PostalAddress",
           addressLocality: "München",
@@ -149,6 +153,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         description: "Gründerin der Deutschen Akademie für Systemaufstellungen mit über 25 Jahren Erfahrung.",
         url: "https://sibylle-bergold.com",
         worksFor: { "@id": "https://sibylle-bergold.com/#organization" },
+        sameAs: [
+          "https://www.instagram.com/sibyllebergold/",
+          "https://www.facebook.com/sibylle.bergold/",
+        ],
       },
       {
         "@type": "WebSite",

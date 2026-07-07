@@ -58,14 +58,14 @@ export function HeroSection() {
                   <Image src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=150&h=150" alt="Familienmuster und Beziehungssystem" fill className="object-cover" />
                 </div>
                 <div className="relative flex h-14 w-14 items-center justify-center rounded-full border-4 border-white bg-softGold text-sm font-bold text-white shadow-md">
-                  25+
+                  33
                 </div>
               </div>
               <div className="flex flex-col gap-1.5">
                 <div className="flex gap-1 text-lg text-softGold">
                   {[1,2,3,4,5].map(star => <span key={star}>★</span>)}
                 </div>
-                <p className="text-[.95rem] font-bold tracking-tight text-deepGold">Über 25 Jahre vertrauensvolle Begleitung</p>
+                <p className="text-[.95rem] font-bold tracking-tight text-deepGold">33 Bewertungen auf Google</p>
               </div>
             </motion.div>
           </motion.div>

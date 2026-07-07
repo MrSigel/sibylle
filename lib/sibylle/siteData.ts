@@ -45,7 +45,7 @@ export const ctaLinks = {
 export const trustItems = [
   "Systemische Aufstellung & Coaching",
   "Über 25 Jahre Erfahrung",
-  "Online & persönlich in München",
+  "33 Bewertungen auf Google",
 ];
 
 export const heroQuestions = [
