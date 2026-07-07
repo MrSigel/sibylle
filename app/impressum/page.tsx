@@ -30,8 +30,8 @@ export default function ImpressumPage() {
               <h2 className="text-sm font-bold uppercase tracking-widest text-softGold">Kontakt</h2>
               <div className="mt-6 space-y-2 text-lg leading-relaxed text-deepGold/90">
                 <p>Telefon: +49 (0) 178 / 55 11 230</p>
-                <p>E-Mail: info@sibylle-bergold.de</p>
-                <p>Web: www.sibylle-bergold.de</p>
+                <p>E-Mail: kontakt@sibylle-bergold.com</p>
+                <p>Website: sibylle-bergold.com</p>
               </div>
             </div>
 

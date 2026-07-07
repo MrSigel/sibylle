@@ -2,7 +2,7 @@ import { pageMetadata } from "@/lib/sibylle/metadata";
 
 export const metadata = pageMetadata({
   title: "Disclaimer",
-  description: "Haftungsausschluss, Hinweise zu Inhalten, externen Links und Urheberrecht auf sibylle-bergold.de.",
+  description: "Haftungsausschluss, Hinweise zu Inhalten, externen Links und Urheberrecht auf sibylle-bergold.com.",
   path: "/disclaimer",
 });
 

@@ -2,7 +2,7 @@ import { pageMetadata } from "@/lib/sibylle/metadata";
 
 export const metadata = pageMetadata({
   title: "Cookie-Richtlinie",
-  description: "Informationen zu essenziellen Cookies, Infrastruktur-Cookies und optionaler Analyse auf sibylle-bergold.de.",
+  description: "Informationen zu essenziellen Cookies, Infrastruktur-Cookies und optionaler Analyse auf sibylle-bergold.com.",
   path: "/cookies",
   noIndex: true,
 });

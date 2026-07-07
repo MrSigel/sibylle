@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/success', '/crm', '/admin', '/login', '/cookies'],
     },
-    sitemap: 'https://sibylle-bergold.de/sitemap.xml',
+    sitemap: 'https://sibylle-bergold.com/sitemap.xml',
   };
 }

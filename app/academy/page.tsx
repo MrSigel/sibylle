@@ -18,7 +18,7 @@ export default function AcademyPage() {
             Informationen zu aktuellen Formaten und Inhalten erhältst du direkt im persönlichen Kontakt.
           </p>
         </div>
-        <Link href="mailto:kontakt@sibylle-bergold.de" className="inline-flex rounded-[1.75rem] bg-deepGold px-8 py-4 text-sm font-semibold text-white transition hover:bg-gold">
+        <Link href="mailto:kontakt@sibylle-bergold.com" className="inline-flex rounded-[1.75rem] bg-deepGold px-8 py-4 text-sm font-semibold text-white transition hover:bg-gold">
           Jetzt persönlich bei Sibylle melden
         </Link>
       </div>

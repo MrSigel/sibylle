@@ -19,7 +19,7 @@ const sans = Manrope({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://sibylle-bergold.de"),
+  metadataBase: new URL("https://sibylle-bergold.com"),
   title: {
     default: "Sibylle Bergold | Systemische Klarheit",
     template: "%s | Sibylle Bergold",
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const baseUrl = "https://sibylle-bergold.de";
+  const baseUrl = "https://sibylle-bergold.com";
   const servicePages = [
     ["Systemaufstellung", "/systemaufstellung", "Systemische Aufstellungen online und vor Ort zur Klärung familiärer, beruflicher und persönlicher Dynamiken."],
     ["Familienaufstellung", "/familienmuster", "Familienmuster sichtbar machen und wiederkehrende Prägungen aus der Herkunftsfamilie verstehen."],
@@ -97,19 +97,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     "@graph": [
       {
         "@type": "ProfessionalService",
-        "@id": "https://sibylle-bergold.de/#organization",
+        "@id": "https://sibylle-bergold.com/#organization",
         name: "Sibylle Bergold | Systemische Klarheit",
-        url: "https://sibylle-bergold.de",
-        logo: "https://sibylle-bergold.de/assets/sibylle/brand/logo-primary.png",
-        image: "https://sibylle-bergold.de/assets/sibylle/portraits/1.jpg",
+        url: "https://sibylle-bergold.com",
+        logo: "https://sibylle-bergold.com/assets/sibylle/brand/logo-primary.png",
+        image: "https://sibylle-bergold.com/assets/sibylle/portraits/1.jpg",
         description:
           "Systemische Aufstellung, Beziehungsmuster lösen und Coaching als Selbsterfahrung mit Sibylle Bergold.",
         telephone: "+491785511230",
+        email: "kontakt@sibylle-bergold.com",
         priceRange: "399 EUR - 9999 EUR",
         contactPoint: [
           {
             "@type": "ContactPoint",
             telephone: "+491785511230",
+            email: "kontakt@sibylle-bergold.com",
             contactType: "customer service",
             availableLanguage: ["de"],
           },
@@ -130,19 +132,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       },
       {
         "@type": "Person",
-        "@id": "https://sibylle-bergold.de/#person",
+        "@id": "https://sibylle-bergold.com/#person",
         name: "Sibylle Bergold",
         jobTitle: "Systemische Aufstellerin und Coach",
         description: "Gründerin der Deutschen Akademie für Systemaufstellungen mit über 25 Jahren Erfahrung.",
-        url: "https://sibylle-bergold.de",
-        worksFor: { "@id": "https://sibylle-bergold.de/#organization" },
+        url: "https://sibylle-bergold.com",
+        worksFor: { "@id": "https://sibylle-bergold.com/#organization" },
       },
       {
         "@type": "WebSite",
-        "@id": "https://sibylle-bergold.de/#website",
-        url: "https://sibylle-bergold.de",
+        "@id": "https://sibylle-bergold.com/#website",
+        url: "https://sibylle-bergold.com",
         name: "Sibylle Bergold",
-        publisher: { "@id": "https://sibylle-bergold.de/#organization" },
+        publisher: { "@id": "https://sibylle-bergold.com/#organization" },
       },
       ...servicePages.map(([name, url, description]) => ({
         "@type": "Service",
@@ -150,7 +152,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         name,
         description,
         url: `${baseUrl}${url}`,
-        provider: { "@id": "https://sibylle-bergold.de/#organization" },
+        provider: { "@id": "https://sibylle-bergold.com/#organization" },
         areaServed: ["Deutschland", "München", "Online"],
         serviceType: "Systemische Aufstellung und Coaching",
       })),
@@ -163,7 +165,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
         url: `${baseUrl}/preise`,
-        seller: { "@id": "https://sibylle-bergold.de/#organization" },
+        seller: { "@id": "https://sibylle-bergold.com/#organization" },
       })),
       ...breadcrumbPages.map(([name, url]) => ({
         "@type": "BreadcrumbList",

@@ -1,5 +1,5 @@
-1. Domain `sibylle-bergold.de` mit dem Hosting verbinden und DNS final setzen.
-2. Google Search Console einrichten und `https://sibylle-bergold.de/sitemap.xml` einreichen.
+1. Domain `sibylle-bergold.com` mit dem Hosting verbinden und DNS final setzen.
+2. Google Search Console einrichten und `https://sibylle-bergold.com/sitemap.xml` einreichen.
 3. Google Business Profile vollständig einrichten oder verknüpfen.
 4. Google API hinzufügen, damit echte Google-Bewertungen statt Platzhalter-Bewertungen angezeigt werden.
 5. Echte Klientenstimmen, Namen/Freigaben und Bewertungsquellen für die Referenzen bereitstellen.

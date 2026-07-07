@@ -32,7 +32,8 @@ export default function DatenschutzPage() {
               <p>Cranachstraße 52</p>
               <p>63739 Aschaffenburg</p>
               <p className="mt-4">Telefon: +49 (0) 178 / 55 11 230</p>
-              <p>E-Mail: info@sibylle-bergold.de</p>
+              <p>E-Mail: kontakt@sibylle-bergold.com</p>
+              <p>Website: sibylle-bergold.com</p>
             </div>
           </section>
 
@@ -43,6 +44,12 @@ export default function DatenschutzPage() {
                 <h3 className="font-bold text-warmBlack">Vercel</h3>
                 <p className="mt-2">
                   Wir hosten unsere Website bei Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA. Vercel ist eine Cloud-Plattform, über die wir unsere Website bereitstellen. Beim Besuch unserer Website werden Daten (wie IP-Adresse, Browsertyp, Betriebssystem) auf den Servern von Vercel verarbeitet, um die Auslieferung der Seite zu ermöglichen.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-bold text-warmBlack">STRATO</h3>
+                <p className="mt-2">
+                  Die Domain sibylle-bergold.com sowie die E-Mail-Infrastruktur werden bei STRATO AG, Otto-Ostrowski-Straße 7, 10249 Berlin, Deutschland, betrieben. Bei der Nutzung der Domain und der E-Mail-Kommunikation werden technische Daten verarbeitet, die für den sicheren Betrieb und die Zustellung von Nachrichten erforderlich sind.
                 </p>
               </div>
               <div>

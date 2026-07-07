@@ -7,7 +7,7 @@ export default function SettingsPage() {
   const [settings, setSettings] = useState({
     businessName: "Sibylle Bergold",
     ownerName: "Sibylle Bergold",
-    email: "info@sibylle-bergold.de",
+    email: "kontakt@sibylle-bergold.com",
     phone: "+49 178 5511230",
     address: "Bitte vollständige Geschäftsanschrift hinterlegen",
     taxId: "Bitte USt-IdNr. oder Steuernummer hinterlegen",

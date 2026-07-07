@@ -26,7 +26,7 @@ const defaultItem: InvoiceItem = { description: "Systemische Aufstellung", price
 const defaultBusinessSettings: BusinessSettings = {
   businessName: "Sibylle Bergold",
   ownerName: "Sibylle Bergold",
-  email: "info@sibylle-bergold.de",
+  email: "kontakt@sibylle-bergold.com",
   phone: "+49 178 5511230",
   address: "Bitte Anschrift in den CRM-Einstellungen hinterlegen",
   taxId: "Bitte USt-IdNr. oder Steuernummer hinterlegen",

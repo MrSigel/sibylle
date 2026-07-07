@@ -28,7 +28,7 @@ export function SiteFooter() {
 
           <div className="md:text-right space-y-6">
             <p className="editorial text-3xl leading-tight text-warmBlack md:text-4xl">Was dich bewegt, darf Raum bekommen.</p>
-            <a href="mailto:kontakt@sibylle-bergold.de" className="focus-ring inline-flex items-center gap-3 rounded-full border border-gold/20 px-6 py-3 font-semibold text-deepGold transition hover:bg-softGold hover:text-white">
+            <a href="mailto:kontakt@sibylle-bergold.com" className="focus-ring inline-flex items-center gap-3 rounded-full border border-gold/20 px-6 py-3 font-semibold text-deepGold transition hover:bg-softGold hover:text-white">
               Sibylle persönlich schreiben <span aria-hidden="true">→</span>
             </a>
           </div>
