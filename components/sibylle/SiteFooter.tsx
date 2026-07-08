@@ -18,6 +18,20 @@ export function SiteFooter() {
           <div className="space-y-6">
             <Image src="/assets/sibylle/brand/logo-primary.png" alt="Sibylle Bergold" width={1114} height={536} className="h-auto w-[220px]" />
             <p className="max-w-sm text-base leading-7 text-deepGold/80">Klarheit, Wahrnehmung und systemische Tiefe – persönlich begleitet von Sibylle Bergold.</p>
+            <a
+              href="https://www.instagram.com/sibyllebergold/"
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="Sibylle Bergold auf Instagram"
+              className="focus-ring inline-flex items-center gap-3 rounded-full border border-gold/20 px-5 py-2.5 font-semibold text-deepGold transition hover:bg-softGold hover:text-white"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+              @sibyllebergold
+            </a>
           </div>
 
           <div className="space-y-6">
@@ -64,7 +78,7 @@ export function SiteFooter() {
           </div>
           <div className="flex flex-col gap-2 md:items-end order-1 md:order-2">
             <p>© {new Date().getFullYear()} Sibylle Bergold</p>
-            <p className="text-xs text-deepGold/40">Website von <a href="https://klickfunden.de" target="_blank" rel="noreferrer noopener" className="text-deepGold/70 underline decoration-softGold/50 underline-offset-4 transition hover:text-softGold">klickfunden.de</a></p>
+            <p className="text-xs text-deepGold/40">Powered by <a href="https://limit-breakers.eu" target="_blank" rel="noreferrer noopener" className="text-deepGold/70 underline decoration-softGold/50 underline-offset-4 transition hover:text-softGold">Limit Breakers</a></p>
           </div>
         </div>
       </div>
