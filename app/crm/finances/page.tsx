@@ -93,6 +93,15 @@ export default function FinancesPage() {
     }
   }, [focusId, loading]);
 
+  useEffect(() => {
+    if (!isModalOpen) return;
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") closeModal();
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isModalOpen]);
+
   async function fetchData() {
     setLoading(true);
     setError("");
@@ -116,6 +125,11 @@ export default function FinancesPage() {
       id: nextSequentialId(businessSettings.invoicePrefix, invoices),
     });
     setIsModalOpen(true);
+  }
+
+  function closeModal() {
+    setIsModalOpen(false);
+    setEditingId(null);
   }
 
   function openEditInvoice(invoice: any) {
@@ -359,8 +373,19 @@ export default function FinancesPage() {
 
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-[100] flex overflow-y-auto bg-warmBlack/40 p-4 backdrop-blur-sm sm:p-10">
-            <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 50 }} className="m-auto flex min-h-[80vh] w-full max-w-6xl flex-col overflow-hidden rounded-[40px] bg-white shadow-2xl lg:flex-row">
+          <div onClick={closeModal} className="fixed inset-0 z-[100] flex overflow-y-auto bg-warmBlack/40 p-4 backdrop-blur-sm sm:p-10">
+            <motion.div onClick={(e) => e.stopPropagation()} initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 50 }} className="relative m-auto flex min-h-[80vh] w-full max-w-6xl flex-col overflow-hidden rounded-[40px] bg-white shadow-2xl lg:flex-row">
+              <button
+                type="button"
+                onClick={closeModal}
+                aria-label="Fenster schließen"
+                className="absolute right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/80 text-warmBlack shadow-soft backdrop-blur-sm transition-all hover:bg-deepGold hover:text-white"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
               <div className="flex-1 overflow-y-auto border-r border-gold/10 p-8 lg:p-12">
                 <h2 className="mb-8 text-2xl font-bold text-warmBlack">{editingId ? "Rechnung bearbeiten" : "Rechnungs-Details"}</h2>
                 <div className="space-y-6">
@@ -384,7 +409,7 @@ export default function FinancesPage() {
                     <button type="button" onClick={() => updateItems([...newInvoice.items, { description: "", price: 0 }])} className="text-sm font-bold text-deepGold hover:text-gold">+ Posten hinzufügen</button>
                   </div>
                   <div className="flex gap-4 pt-8">
-                    <button onClick={() => { setIsModalOpen(false); setEditingId(null); }} className="flex-1 rounded-full border border-gold/20 py-4 font-bold text-deepGold" type="button">Abbrechen</button>
+                    <button onClick={closeModal} className="flex-1 rounded-full border border-gold/20 py-4 font-bold text-deepGold" type="button">Abbrechen</button>
                     <button onClick={handleCreateInvoice} className="flex-1 rounded-full bg-deepGold py-4 font-bold text-white shadow-soft" type="button">{editingId ? "Änderungen speichern" : "Rechnung speichern"}</button>
                   </div>
                 </div>
