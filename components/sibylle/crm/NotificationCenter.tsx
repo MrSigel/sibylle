@@ -16,6 +16,27 @@ interface Notification {
   href: string;
 }
 
+const READ_KEY = "crm_read_notifications";
+
+function getReadIds(): Set<string> {
+  if (typeof window === "undefined") return new Set();
+  try {
+    return new Set<string>(JSON.parse(localStorage.getItem(READ_KEY) || "[]"));
+  } catch {
+    return new Set();
+  }
+}
+
+function saveReadIds(ids: string[]) {
+  if (typeof window === "undefined") return;
+  try {
+    const merged = [...new Set([...getReadIds(), ...ids])].slice(-200);
+    localStorage.setItem(READ_KEY, JSON.stringify(merged));
+  } catch {
+    // ignore
+  }
+}
+
 export function NotificationCenter() {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -160,11 +181,14 @@ export function NotificationCenter() {
       });
     }
 
-    setNotifications(alerts);
-    setHasUnread(alerts.some(n => !n.isRead));
+    const readIds = getReadIds();
+    const withRead = alerts.map((n) => ({ ...n, isRead: n.isRead || readIds.has(n.id) }));
+    setNotifications(withRead);
+    setHasUnread(withRead.some((n) => !n.isRead));
   }
 
   const markAllRead = () => {
+    saveReadIds(notifications.map((n) => n.id));
     setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
     setHasUnread(false);
   };

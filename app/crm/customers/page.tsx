@@ -1,9 +1,10 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "@/lib/sibylle/supabase";
 import { customerStatuses, downloadCsv, formatDate } from "@/lib/sibylle/crm";
+import { useCrmDeepLink } from "@/lib/sibylle/hooks";
 
 const emptyCustomer = {
   id: "",
@@ -25,9 +26,22 @@ export default function CustomersPage() {
   const [saving, setSaving] = useState(false);
   const [formCustomer, setFormCustomer] = useState(emptyCustomer);
 
+  const { openNew, focusId } = useCrmDeepLink();
+  const focusRef = useRef<HTMLTableRowElement | null>(null);
+
   useEffect(() => {
     fetchCustomers();
   }, []);
+
+  useEffect(() => {
+    if (openNew) openNewCustomer();
+  }, [openNew]);
+
+  useEffect(() => {
+    if (focusId && !loading && focusRef.current) {
+      focusRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [focusId, loading]);
 
   async function fetchCustomers() {
     setLoading(true);
@@ -221,7 +235,7 @@ export default function CustomersPage() {
                 <tr><td colSpan={6} className="px-6 py-10 text-center text-sm italic text-deepGold/40">Keine Kunden gefunden.</td></tr>
               ) : (
                 filteredCustomers.map((customer, i) => (
-                  <motion.tr key={customer.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.03 }} className="group transition-colors hover:bg-gold/5">
+                  <motion.tr ref={focusId === customer.id ? focusRef : undefined} key={customer.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.03 }} className={`group transition-colors hover:bg-gold/5 ${focusId === customer.id ? "bg-gold/10 ring-2 ring-inset ring-gold/50" : ""}`}>
                     <td className="px-6 py-5">
                       <div className="flex items-center gap-3">
                         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-sand/30 font-bold text-deepGold">{customer.name?.split(" ").map((n: string) => n[0]).join("").slice(0, 2)}</div>

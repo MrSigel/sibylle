@@ -1,9 +1,10 @@
 ﻿"use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { supabase } from "@/lib/sibylle/supabase";
+import { useCrmDeepLink } from "@/lib/sibylle/hooks";
 import { customerNameFromRelation, formatCurrency, formatDate, invoiceStatuses } from "@/lib/sibylle/crm";
 import {
   type BusinessSettings,
@@ -17,6 +18,18 @@ const defaultItem: InvoiceItem = { description: "Systemische Aufstellung", price
 
 function nextInvoiceId(prefix = defaultBusinessSettings.invoicePrefix) {
   return `${prefix}${Math.floor(100 + Math.random() * 900)}`;
+}
+
+// Sequential invoice number based on existing invoices with the same prefix
+// (e.g. RE-2026-001, -002, ...). Avoids the collision risk of random numbers.
+function nextSequentialId(prefix: string, list: any[]) {
+  const nums = list
+    .map((inv) => String(inv.id))
+    .filter((id) => id.startsWith(prefix))
+    .map((id) => parseInt(id.slice(prefix.length), 10))
+    .filter((n) => Number.isFinite(n));
+  const next = (nums.length ? Math.max(...nums) : 0) + 1;
+  return `${prefix}${String(next).padStart(3, "0")}`;
 }
 
 function emptyInvoice(prefix = defaultBusinessSettings.invoicePrefix) {
@@ -57,6 +70,8 @@ export default function FinancesPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [businessSettings, setBusinessSettings] = useState<BusinessSettings>(defaultBusinessSettings);
   const [newInvoice, setNewInvoice] = useState(emptyInvoice());
+  const { openNew, focusId } = useCrmDeepLink();
+  const focusRef = useRef<HTMLTableRowElement | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -66,6 +81,17 @@ export default function FinancesPage() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (openNew) openNewInvoice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openNew]);
+
+  useEffect(() => {
+    if (focusId && !loading && focusRef.current) {
+      focusRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [focusId, loading]);
 
   async function fetchData() {
     setLoading(true);
@@ -85,7 +111,10 @@ export default function FinancesPage() {
 
   function openNewInvoice() {
     setEditingId(null);
-    setNewInvoice(emptyInvoice(businessSettings.invoicePrefix));
+    setNewInvoice({
+      ...emptyInvoice(businessSettings.invoicePrefix),
+      id: nextSequentialId(businessSettings.invoicePrefix, invoices),
+    });
     setIsModalOpen(true);
   }
 
@@ -306,7 +335,7 @@ export default function FinancesPage() {
               ) : invoices.length === 0 ? (
                 <tr><td colSpan={6} className="px-8 py-10 text-center text-sm italic text-deepGold/40">Keine Rechnungen vorhanden.</td></tr>
               ) : invoices.map((inv) => (
-                <tr key={inv.id} className="hover:bg-gold/5">
+                <tr ref={focusId === inv.id ? focusRef : undefined} key={inv.id} className={`hover:bg-gold/5 ${focusId === inv.id ? "bg-gold/10 ring-2 ring-inset ring-gold/50" : ""}`}>
                   <td className="px-8 py-5 font-mono text-xs">{inv.id}</td>
                   <td className="px-8 py-5 font-semibold">{customerNameFromRelation(inv.customers)}</td>
                   <td className="px-8 py-5 font-bold">{formatCurrency(inv.amount)}</td>

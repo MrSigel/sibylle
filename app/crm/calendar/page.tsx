@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/sibylle/supabase";
 import { appointmentStatuses, appointmentTypes, customerNameFromRelation, formatDateTimeLocal } from "@/lib/sibylle/crm";
+import { useCrmDeepLink } from "@/lib/sibylle/hooks";
 
 const emptyAppointment = {
   title: "",
@@ -24,10 +25,16 @@ export default function CalendarPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formAppointment, setFormAppointment] = useState(emptyAppointment);
+  const { openNew } = useCrmDeepLink();
 
   useEffect(() => {
     fetchData();
   }, [monthDate]);
+
+  useEffect(() => {
+    if (openNew) openNewAppointment();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openNew]);
 
   async function fetchData() {
     setLoading(true);

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/sibylle/supabase";
 import { appointmentTypes, formatDateTime, formatDateTimeLocal, formatTime, publicSlotState } from "@/lib/sibylle/crm";
+import { useCrmDeepLink } from "@/lib/sibylle/hooks";
 
 const emptySlot = {
   title: "Kostenloses Erstgespräch",
@@ -18,10 +19,15 @@ export default function AvailabilityPage() {
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formSlot, setFormSlot] = useState(emptySlot);
+  const { openNew } = useCrmDeepLink();
 
   useEffect(() => {
     fetchSlots();
   }, []);
+
+  useEffect(() => {
+    if (openNew) setIsModalOpen(true);
+  }, [openNew]);
 
   async function fetchSlots() {
     setLoading(true);

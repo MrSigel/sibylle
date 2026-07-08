@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/sibylle/supabase";
 import { customerNameFromRelation, projectColumns, projectPriorities } from "@/lib/sibylle/crm";
+import { useCrmDeepLink } from "@/lib/sibylle/hooks";
 
 const emptyProject = {
   id: "",
@@ -21,10 +22,16 @@ export default function ProjectsPage() {
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formProject, setFormProject] = useState(emptyProject);
+  const { openNew } = useCrmDeepLink();
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (openNew) openProject("Anfrage");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openNew]);
 
   async function fetchData() {
     setLoading(true);

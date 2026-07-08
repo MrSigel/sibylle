@@ -173,7 +173,7 @@ export default function CrmDashboard() {
         <div className="space-y-6">
           <h2 className="text-xl font-bold text-warmBlack">Schnellzugriff</h2>
           <div className="grid gap-4">
-            <Link href="/crm/customers" className="flex items-center gap-4 rounded-2xl border border-gold/15 bg-white p-4 transition-all hover:border-gold/30 hover:shadow-md text-left">
+            <Link href="/crm/customers?new=1" className="flex items-center gap-4 rounded-2xl border border-gold/15 bg-white p-4 transition-all hover:border-gold/30 hover:shadow-md text-left">
               <div className="rounded-xl bg-sand/30 p-3 text-deepGold">
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -185,7 +185,7 @@ export default function CrmDashboard() {
               </div>
             </Link>
             
-            <Link href="/crm/finances" className="flex items-center gap-4 rounded-2xl border border-gold/15 bg-white p-4 transition-all hover:border-gold/30 hover:shadow-md text-left">
+            <Link href="/crm/finances?new=1" className="flex items-center gap-4 rounded-2xl border border-gold/15 bg-white p-4 transition-all hover:border-gold/30 hover:shadow-md text-left">
               <div className="rounded-xl bg-mist/30 p-3 text-deepGold">
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

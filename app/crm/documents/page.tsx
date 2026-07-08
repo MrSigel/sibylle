@@ -1,9 +1,10 @@
 ﻿"use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "@/lib/sibylle/supabase";
 import { documentCategories, formatDate } from "@/lib/sibylle/crm";
+import { useCrmDeepLink } from "@/lib/sibylle/hooks";
 
 const DOCUMENT_BUCKET = "crm-documents";
 
@@ -35,10 +36,22 @@ export default function DocumentsPage() {
   const [isUploading, setIsUploading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const { openNew, focusId } = useCrmDeepLink();
+  const focusRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (openNew) setIsModalOpen(true);
+  }, [openNew]);
+
+  useEffect(() => {
+    if (focusId && !loading && focusRef.current) {
+      focusRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [focusId, loading]);
 
   async function fetchData() {
     setLoading(true);
@@ -213,7 +226,7 @@ export default function DocumentsPage() {
             {loading ? (
               <div className="p-10 text-center text-sm italic text-deepGold/40">Dokumente werden geladen...</div>
             ) : visibleDocs.length > 0 ? visibleDocs.map((doc) => (
-              <div key={doc.id} className="flex items-center gap-6 p-6 transition-all hover:bg-gold/5">
+              <div ref={focusId === doc.id ? focusRef : undefined} key={doc.id} className={`flex items-center gap-6 p-6 transition-all hover:bg-gold/5 ${focusId === doc.id ? "bg-gold/10 ring-2 ring-inset ring-gold/50" : ""}`}>
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-mist/20 text-deepGold">
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z" /></svg>
                 </div>

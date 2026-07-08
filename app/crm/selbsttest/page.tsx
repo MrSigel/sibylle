@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/sibylle/supabase";
 import { formatDateTime } from "@/lib/sibylle/crm";
+import { useCrmDeepLink } from "@/lib/sibylle/hooks";
 
 type Score = { energy?: number; authenticity?: number } | null;
 
@@ -39,10 +40,18 @@ function whatsAppHref(phone: string) {
 export default function CrmSelbsttestPage() {
   const [leads, setLeads] = useState<SelbsttestLead[]>([]);
   const [loading, setLoading] = useState(true);
+  const { focusId } = useCrmDeepLink();
+  const focusRef = useRef<HTMLTableRowElement | null>(null);
 
   useEffect(() => {
     fetchLeads();
   }, []);
+
+  useEffect(() => {
+    if (focusId && !loading && focusRef.current) {
+      focusRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [focusId, loading]);
 
   async function fetchLeads() {
     setLoading(true);
@@ -130,11 +139,12 @@ export default function CrmSelbsttestPage() {
               ) : (
                 leads.map((lead, index) => (
                   <motion.tr
+                    ref={focusId === lead.id ? focusRef : undefined}
                     key={lead.id}
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.025 }}
-                    className="hover:bg-gold/5"
+                    className={`hover:bg-gold/5 ${focusId === lead.id ? "bg-gold/10 ring-2 ring-inset ring-gold/50" : ""}`}
                   >
                     <td className="px-8 py-5 text-sm text-deepGold/70">{formatDateTime(lead.created_at)}</td>
                     <td className="px-8 py-5 font-semibold text-warmBlack">{lead.vorname}</td>

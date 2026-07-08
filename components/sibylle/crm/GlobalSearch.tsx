@@ -33,11 +33,11 @@ const staticPages: SearchResult[] = [
 ];
 
 const actions: SearchResult[] = [
-  { id: "a-ncust", title: "Neuer Kunde", subtitle: "Kontakt anlegen", type: "action", href: "/crm/customers", keywords: ["erstellen", "kontakt"] },
-  { id: "a-ninv", title: "Rechnung erstellen", subtitle: "Finanz-Management", type: "action", href: "/crm/finances", keywords: ["angebot", "zahlung"] },
-  { id: "a-ndoc", title: "Dokument hochladen", subtitle: "Dokumenten-Tresor", type: "action", href: "/crm/documents", keywords: ["datei", "upload"] },
-  { id: "a-napp", title: "Termin anlegen", subtitle: "Kalender", type: "action", href: "/crm/calendar", keywords: ["kalender", "meeting"] },
-  { id: "a-navail", title: "Termin freigeben", subtitle: "Landingpage-Kalender", type: "action", href: "/crm/availability", keywords: ["frei", "öffentlich"] },
+  { id: "a-ncust", title: "Neuer Kunde", subtitle: "Kontakt anlegen", type: "action", href: "/crm/customers?new=1", keywords: ["erstellen", "kontakt"] },
+  { id: "a-ninv", title: "Rechnung erstellen", subtitle: "Finanz-Management", type: "action", href: "/crm/finances?new=1", keywords: ["angebot", "zahlung"] },
+  { id: "a-ndoc", title: "Dokument hochladen", subtitle: "Dokumenten-Tresor", type: "action", href: "/crm/documents?new=1", keywords: ["datei", "upload"] },
+  { id: "a-napp", title: "Termin anlegen", subtitle: "Kalender", type: "action", href: "/crm/calendar?new=1", keywords: ["kalender", "meeting"] },
+  { id: "a-navail", title: "Termin freigeben", subtitle: "Landingpage-Kalender", type: "action", href: "/crm/availability?new=1", keywords: ["frei", "öffentlich"] },
 ];
 
 function normalize(value: unknown) {
@@ -147,7 +147,7 @@ export function GlobalSearch() {
             title: customer.name,
             subtitle: `Kunde • ${customer.email || customer.phone || customer.status || "Kontaktprofil"}`,
             type: "customer",
-            href: "/crm/customers",
+            href: `/crm/customers?focus=${customer.id}`,
           });
         });
 
@@ -158,7 +158,7 @@ export function GlobalSearch() {
             title: invoice.id,
             subtitle: `Rechnung • ${formatCurrency(invoice.amount)} • ${invoice.status}${customerName ? ` • ${customerName}` : ""}`,
             type: "invoice",
-            href: "/crm/finances",
+            href: `/crm/finances?focus=${invoice.id}`,
           });
         });
 
@@ -180,7 +180,7 @@ export function GlobalSearch() {
             title: document.file_name,
             subtitle: `Dokument • ${document.category}${document.file_size ? ` • ${document.file_size}` : ""}${customerName ? ` • ${customerName}` : ""}`,
             type: "document",
-            href: "/crm/documents",
+            href: `/crm/documents?focus=${document.id}`,
           });
         });
 
@@ -205,7 +205,7 @@ export function GlobalSearch() {
             title: lead.vorname,
             subtitle: `Selbsttest • ${lead.ergebnis_typ}${score} • ${contact}`,
             type: "selftest",
-            href: "/crm/selbsttest",
+            href: `/crm/selbsttest?focus=${lead.id}`,
           });
         });
 
