@@ -1,8 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { CTAButton } from '@/components/sibylle/CTAButton';
-import { methodSteps, ctaLinks } from '@/lib/sibylle/siteData';
+import { methodSteps, ctaLinks, themeCards } from '@/lib/sibylle/siteData';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -32,9 +33,33 @@ export function MethodeClient() {
         </div>
       </section>
 
+      {/* Intro */}
+      <section className="section-shell pt-0">
+        <div className="container grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:items-center lg:gap-20">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: .7, ease }}>
+            <p className="eyebrow">Systemische Aufstellung</p>
+            <h2 className="editorial mt-6 text-4xl leading-tight text-warmBlack md:text-5xl">
+              Was in einer Aufstellung <span className="italic text-deepGold">geschieht</span>.
+            </h2>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: .7, delay: .1, ease }} className="space-y-6 text-lg leading-8 text-deepGold/80">
+            <p>
+              In einer systemischen Aufstellung wird dein Anliegen räumlich sichtbar gemacht – über Stellvertreter, Bilder oder innere Positionen. Was vorher nur als diffuses Gefühl spürbar war, bekommt plötzlich eine Ordnung, die du wahrnehmen und verstehen kannst.
+            </p>
+            <p>
+              Oft zeigen sich dabei Dynamiken, die über Generationen wirken: Loyalitäten, unausgesprochene Themen, übernommene Rollen. Sie sichtbar zu machen ist der erste, entscheidende Schritt, um innerlich einen stimmigeren Platz einzunehmen – ruhig, ohne Druck und ohne Bewertung.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Steps Section */}
-      <section className="section-shell">
+      <section className="section-shell pt-0">
         <div className="container">
+          <div className="mb-14 max-w-2xl">
+            <p className="eyebrow">In fünf Schritten</p>
+            <h2 className="editorial mt-6 text-4xl leading-tight text-warmBlack md:text-5xl">Der Weg durch den Prozess.</h2>
+          </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {methodSteps.map((step, index) => (
               <motion.article
@@ -79,6 +104,28 @@ export function MethodeClient() {
               </p>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Vertiefen */}
+      <section className="section-shell">
+        <div className="container">
+          <div className="mb-12 text-center">
+            <p className="eyebrow mx-auto">Vertiefen</p>
+            <h2 className="editorial mt-6 text-4xl leading-tight text-warmBlack md:text-5xl">Wobei diese Arbeit besonders wirkt.</h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {themeCards.map((card, index) => (
+              <motion.div key={card.href} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.08 }}>
+                <Link href={card.href} className="group flex h-full flex-col rounded-[2.5rem] border border-gold/15 bg-white p-8 shadow-soft transition-all hover:-translate-y-1 hover:border-gold/35">
+                  <p className="text-xs font-bold uppercase tracking-widest text-softGold">{card.label}</p>
+                  <h3 className="mt-4 text-xl font-bold text-warmBlack">{card.title}</h3>
+                  <p className="mt-3 flex-grow text-sm leading-7 text-deepGold/70">{card.description}</p>
+                  <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-deepGold transition group-hover:gap-3">Mehr erfahren <span aria-hidden="true">→</span></span>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 

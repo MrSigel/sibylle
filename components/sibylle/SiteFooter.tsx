@@ -2,17 +2,24 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { footerLinks, focusLinks } from '@/lib/sibylle/siteData';
 
+const discoverLinks = [
+  { href: '/methode', label: 'Methode' },
+  { href: '/faq', label: 'Häufige Fragen' },
+  { href: '/wissen', label: 'Wissen' },
+  { href: '/academy', label: 'Academy' },
+];
+
 export function SiteFooter() {
   return (
     <footer className="grain relative overflow-hidden border-t border-gold/15 bg-white px-4 pb-8 pt-16 text-sm text-deepGold/70 md:px-0 md:pt-20">
       <div className="absolute -right-32 -top-40 h-96 w-96 rounded-full bg-softGold/10 blur-[120px]" />
       <div className="container relative z-10">
-        <div className="grid gap-12 border-b border-gold/15 pb-14 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr] md:items-start">
+        <div className="grid gap-12 border-b border-gold/15 pb-14 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr] md:items-start">
           <div className="space-y-6">
             <Image src="/assets/sibylle/brand/logo-primary.png" alt="Sibylle Bergold" width={1114} height={536} className="h-auto w-[220px]" />
             <p className="max-w-sm text-base leading-7 text-deepGold/80">Klarheit, Wahrnehmung und systemische Tiefe – persönlich begleitet von Sibylle Bergold.</p>
           </div>
-          
+
           <div className="space-y-6">
             <h4 className="font-bold uppercase tracking-widest text-warmBlack">Themen</h4>
             <ul className="grid gap-3">
@@ -24,12 +31,19 @@ export function SiteFooter() {
                 </li>
               ))}
             </ul>
-            <div className="flex flex-wrap gap-x-5 gap-y-2 pt-2 text-xs">
-              <Link href="/methode" className="transition hover:text-softGold">Methode</Link>
-              <Link href="/faq" className="transition hover:text-softGold">Häufige Fragen</Link>
-              <Link href="/wissen" className="transition hover:text-softGold">Wissen</Link>
-              <Link href="/academy" className="transition hover:text-softGold">Academy</Link>
-            </div>
+          </div>
+
+          <div className="space-y-6">
+            <h4 className="font-bold uppercase tracking-widest text-warmBlack">Entdecken</h4>
+            <ul className="grid gap-3">
+              {discoverLinks.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className="transition hover:text-softGold">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div className="md:text-right space-y-6">
