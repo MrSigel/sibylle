@@ -287,70 +287,64 @@ export const focusLinks = [
   { href: "/partnerschaft", label: "Partnerschaft & Liebe" },
 ];
 
+// Echte Google-Bewertungen (Auszüge). Ohne Fotos – Initialen-Avatare, da echte
+// Namen mit Stockfotos irreführend wären.
 export const testimonials = [
   {
-    name: "Tanja S.",
+    name: "Elke E. Wolf",
     text:
-      "Ich bin sehr dankbar für die Begleitung durch Sibylle. Die Aufstellung hat mir geholfen, eine tiefe Klarheit über mein Muster zu finden.",
+      "Ich durfte bereits mehrfach am Familienstellen teilnehmen und bin jedes Mal aufs Neue tief berührt und dankbar für diese besondere Erfahrung. Die wertschätzende, achtsame Atmosphäre hat mir von Anfang an das Gefühl gegeben, gesehen, angenommen und sicher zu sein. Gerade bei sehr persönlichen und schwierigen Themen habe ich mich jederzeit gut aufgehoben gefühlt. Besonders bewegt mich die nachhaltige Wirkung der Aufstellungen: Sie haben mir neue Perspektiven eröffnet, Zusammenhänge verständlicher gemacht und mich in meiner persönlichen Entwicklung spürbar weitergebracht.",
+    short:
+      "Die wertschätzende, achtsame Atmosphäre gab mir von Anfang an das Gefühl, gesehen und sicher zu sein. Die Aufstellungen haben mir neue Perspektiven eröffnet und mich spürbar weitergebracht.",
     rating: 5,
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150",
   },
   {
-    name: "Michael R.",
+    name: "Tom Kanitz",
     text:
-      "Sibylle schafft einen sehr sicheren und ruhigen Raum. Ihre Intuition und über 25 Jahre Erfahrung sind in jedem Moment spürbar.",
+      "Nach fast zwei Jahren, in denen wir uns schon kennen und begleiten, machte Sibylle mir das Angebot der systemischen Aufstellung als Ausbildung – und alles passte wie geführt. Jetzt weiß ich, warum ich diesen Weg gehen musste. Blockaden, die ich nicht einmal im Traum auf dem Schirm hatte, kamen zutage und machten den Weg für meine eigene Berufung frei. So zauberhaft, liebevoll, direkt, klar und deutlich vermittelte sie das, was dran war. Ich bin ihr sehr dankbar für ihre geniale Begleitung.",
+    short:
+      "So zauberhaft, liebevoll, direkt, klar und deutlich vermittelte Sibylle, was dran war. Ich bin ihr sehr dankbar für ihre geniale Begleitung.",
     rating: 5,
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150&h=150",
   },
   {
-    name: "Sarah M.",
+    name: "G. S.",
     text:
-      "Die Ausbildung bei Sibylle ist tiefgehend. Man lernt nicht nur die Methode, sondern begegnet den eigenen Mustern sehr bewusst.",
+      "Ich wünschte zum Wohl von allen, jeder würde sich von ihrer tollen Arbeit und ihrer positiven Energie begleiten lassen. Ich bin so unendlich dankbar, dass ich Sibylle getroffen habe und dass mir das, was sie mir beigebracht hat, in jeder schweren Situation innerlich hilft. Danke.",
+    short:
+      "Ich bin so unendlich dankbar, dass ich Sibylle getroffen habe. Was sie mir beigebracht hat, hilft mir innerlich in jeder schweren Situation.",
     rating: 5,
-    image:
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150&h=150",
   },
   {
-    name: "Elena B.",
+    name: "Laura Miller",
     text:
-      "Eine sehr wertschätzende und professionelle Begleitung. Ich habe mich gut aufgehoben gefühlt und konnte mein Thema klarer sehen.",
+      "In den Aufstellungen habe ich es endlich geschafft, tiefsitzende Blockaden, alte Begrenzungen und limitierende Glaubensmuster zu den Themen Geld, Liebe und Beziehungen loszulassen. Es fühlte sich an, als würden jahrelange schwere Ketten endlich von mir abfallen. Besonders beeindruckend war, wie liebevoll, professionell und gleichzeitig kraftvoll Sibylle und das Team arbeiten. Die Atmosphäre im Ausbildungszentrum ist wunderschön – warm, hell und einladend. Ich bin voller Energie, Freude und Zuversicht und erlebe erfüllende Beziehungen. Von ganzem Herzen empfehlenswert.",
+    short:
+      "Tiefsitzende Blockaden und limitierende Glaubensmuster endlich loslassen – liebevoll, professionell und kraftvoll begleitet. Ich bin voller Energie, Freude und Zuversicht.",
     rating: 5,
-    image:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150&h=150",
   },
   {
-    name: "Johannes W.",
+    name: "Betina Zackel",
     text:
-      "Wer die tieferen Zusammenhänge seiner Themen verstehen möchte, findet bei Sibylle Bergold einen klaren und geschützten Rahmen.",
+      "Sibylle macht ihre Arbeit mit unglaublich viel Leidenschaft und Professionalität. Nach jedem Termin bin ich aufs Neue beeindruckt, wie treffsicher und faszinierend ihre Arbeit ist. Ich bin ihr von Herzen dankbar, weil sie mir schon so oft weitergeholfen hat. Sie ist ein unglaublich herzlicher Mensch, und ich verlasse jeden Termin mit einem guten, sicheren Gefühl. Danke für alles!",
+    short:
+      "Nach jedem Termin bin ich aufs Neue beeindruckt, wie treffsicher und faszinierend Sibylles Arbeit ist. Ich verlasse jeden Termin mit einem guten, sicheren Gefühl.",
     rating: 5,
-    image:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150&h=150",
   },
   {
-    name: "Anja K.",
+    name: "Vanessa Seitz",
     text:
-      "Die Arbeit mit systemischen Bildern war für mich neu und sehr eindrücklich. Danke für diese ruhige, klare Begleitung.",
+      "Sibylle ist eine super einfühlsame Person. Ich habe mich direkt bei ihr wohlgefühlt. Ich kann sie wärmstens empfehlen – wenn ihr euch nicht sicher seid, ruft sie an und sprecht mit ihr. Ihr werdet nicht enttäuscht sein.",
+    short:
+      "Sibylle ist eine super einfühlsame Person. Ich habe mich direkt wohlgefühlt und kann sie wärmstens empfehlen.",
     rating: 5,
-    image:
-      "https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&q=80&w=150&h=150",
-  },
-  {
-    name: "Markus L.",
-    text:
-      "Ich habe schon viele Coachings gemacht, aber diese systemische Tiefe war besonders. Sibylles Klarheit hat mir sehr geholfen.",
-    rating: 5,
-    image:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150&h=150",
-  },
-  {
-    name: "Claudia H.",
-    text:
-      "Ein Raum voller Wärme und Vertrauen. Die systemische Aufstellung hat sichtbar gemacht, was vorher schwer in Worte zu fassen war.",
-    rating: 5,
-    image:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150&h=150",
   },
 ];
+
+export function initialsFromName(name: string) {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "?";
+  const first = parts[0][0] || "";
+  const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
+  return (first + last).toUpperCase();
+}
 

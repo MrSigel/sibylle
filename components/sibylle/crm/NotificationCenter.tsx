@@ -40,6 +40,46 @@ export function NotificationCenter() {
     const alerts: Notification[] = [];
 
     try {
+      // 0a. New public booking requests awaiting confirmation (most urgent)
+      const { data: bookings } = await supabase
+        .from("appointments")
+        .select("id, booked_name, start_time, booking_created_at")
+        .eq("booking_status", "Reserviert")
+        .not("booked_name", "is", null)
+        .order("booking_created_at", { ascending: false })
+        .limit(5);
+
+      bookings?.forEach((b) => {
+        alerts.push({
+          id: `book-${b.id}`,
+          title: "Neue Terminanfrage",
+          message: `${b.booked_name} – ${new Date(b.start_time).toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}`,
+          time: "NEU",
+          type: "appointment",
+          isRead: false,
+          href: "/crm/availability",
+        });
+      });
+
+      // 0b. New self-test leads
+      const { data: tests } = await supabase
+        .from("selbsttests")
+        .select("id, vorname, ergebnis_typ, created_at")
+        .order("created_at", { ascending: false })
+        .limit(3);
+
+      tests?.forEach((t) => {
+        alerts.push({
+          id: `test-${t.id}`,
+          title: "Neuer Selbsttest-Lead",
+          message: `${t.vorname || "Lead"}${t.ergebnis_typ ? ` – ${t.ergebnis_typ}` : ""}`,
+          time: "NEU",
+          type: "customer",
+          isRead: false,
+          href: "/crm/selbsttest",
+        });
+      });
+
       // 1. Check for upcoming appointments (next 24h)
       const now = new Date().toISOString();
       const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();

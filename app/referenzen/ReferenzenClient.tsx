@@ -1,8 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { testimonials, getWhatsAppLink, whatsappConfig } from '@/lib/sibylle/siteData';
+import { testimonials, getWhatsAppLink, whatsappConfig, initialsFromName } from '@/lib/sibylle/siteData';
 import { CTAButton } from '@/components/sibylle/CTAButton';
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -58,13 +57,8 @@ export function ReferenzenClient() {
                 </blockquote>
 
                 <div className="mt-12 flex items-center gap-5 border-t border-gold/10 pt-8">
-                  <div className="relative h-16 w-16 overflow-hidden rounded-full border border-gold/10 shadow-sm transition-transform duration-500 group-hover:scale-110">
-                    <Image 
-                      src={item.image || ""} 
-                      alt={item.name} 
-                      fill 
-                      className="object-cover"
-                    />
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-gold/10 bg-sand/40 font-serif text-lg font-bold text-deepGold shadow-sm transition-transform duration-500 group-hover:scale-110">
+                    {initialsFromName(item.name)}
                   </div>
                   <div>
                     <span className="block font-serif text-xl font-medium text-warmBlack">{item.name}</span>
@@ -75,7 +69,7 @@ export function ReferenzenClient() {
             ))}
           </div>
           <p className="mt-12 text-center text-xs leading-6 text-deepGold/50">
-            Namen zum Schutz der Privatsphäre geändert, Portraitbilder symbolisch. Systemische Begleitung ist Coaching und Selbsterfahrung ohne Heilversprechen.
+            Echte Google-Rezensionen (Auszüge). Systemische Begleitung ist Coaching und Selbsterfahrung und enthält keine Heilversprechen.
           </p>
         </div>
       </section>

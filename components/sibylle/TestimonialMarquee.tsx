@@ -1,8 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { testimonials } from '@/lib/sibylle/siteData';
-import Image from 'next/image';
+import { testimonials, initialsFromName } from '@/lib/sibylle/siteData';
 
 export function TestimonialMarquee() {
   // Double the items for a seamless loop
@@ -38,16 +37,11 @@ export function TestimonialMarquee() {
                 ))}
               </div>
               <p className="mt-6 whitespace-normal text-[1.05rem] leading-relaxed italic text-deepGold/85">
-                „{item.text}“
+                „{item.short}“
               </p>
               <div className="mt-8 flex items-center gap-4">
-                <div className="relative h-12 w-12 overflow-hidden rounded-full border border-gold/10">
-                   <Image 
-                     src={item.image || ""} 
-                     alt={item.name} 
-                     fill 
-                     className="object-cover"
-                   />
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-gold/15 bg-sand/40 font-serif text-sm font-bold text-deepGold">
+                  {initialsFromName(item.name)}
                 </div>
                 <span className="font-serif text-lg font-medium text-deepGold">{item.name}</span>
               </div>
