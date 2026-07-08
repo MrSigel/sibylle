@@ -211,6 +211,51 @@ export async function sendCrmMail(input: SendMailInput) {
   return { messageId: sent.messageId };
 }
 
+export type LeadNotificationInput = {
+  kind: "booking" | "selbsttest";
+  subject: string;
+  fields: { label: string; value: string }[];
+  replyTo?: string;
+};
+
+/**
+ * Sends an internal alert to the business inbox whenever a lead comes in via the
+ * public website (booking request or self-test). Uses the same SMTP transport as
+ * the CRM mail. Best-effort: the lead is already persisted in Supabase.
+ */
+export async function sendLeadNotification(input: LeadNotificationInput) {
+  const config = getMailConfig();
+  const smtp = getSmtpConfig();
+  const recipient = config.fromAddress || smtp.user;
+
+  const heading =
+    input.kind === "booking"
+      ? "Neue Terminanfrage über die Website"
+      : "Neuer Selbsttest-Lead über die Website";
+  const text = [
+    heading,
+    "",
+    ...input.fields.map((field) => `${field.label}: ${field.value}`),
+    "",
+    "Bitte zeitnah im CRM bearbeiten und der Person antworten.",
+  ].join("\n");
+
+  const transporter = nodemailer.createTransport({
+    host: smtp.host,
+    port: smtp.port,
+    secure: smtp.secure,
+    auth: { user: smtp.user, pass: smtp.password },
+  });
+
+  await transporter.sendMail({
+    from: `"${config.fromName} · Website" <${recipient}>`,
+    to: recipient,
+    replyTo: input.replyTo || undefined,
+    subject: input.subject,
+    text,
+  });
+}
+
 async function appendSentMessage(mail: Record<string, unknown>) {
   const rawTransporter = nodemailer.createTransport({
     streamTransport: true,

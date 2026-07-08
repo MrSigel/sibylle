@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/sibylle/supabase";
+import { notifyLead } from "@/lib/sibylle/notify";
 
 type Phase = "playing" | "gate" | "done";
 
@@ -167,6 +168,17 @@ export function InneresSchlossClient() {
       return;
     }
 
+    notifyLead(
+      "selbsttest",
+      [
+        { label: "Selbsttest", value: "Inneres Schloss" },
+        { label: "Vorname", value: lead.vorname.trim() },
+        { label: "E-Mail", value: hasValidEmail ? email : "-" },
+        { label: "WhatsApp", value: hasValidPhone ? phone : "-" },
+        { label: "Ergebnis", value: resultType },
+      ],
+      hasValidEmail ? email : undefined,
+    );
     setPhase("done");
   }
 
@@ -282,7 +294,7 @@ export function InneresSchlossClient() {
                     <div className="mb-7 flex h-20 w-20 items-center justify-center rounded-full border border-gold/30 bg-gold/10 text-3xl text-gold">✓</div>
                     <h2 className="text-3xl font-bold text-white md:text-5xl">Vielen Dank!</h2>
                     <p className="mt-6 text-lg leading-8 text-cream/70">
-                      Dein mentaler Zustands-Bericht und dein persönliches Erste-Hilfe-Elixier sind auf dem Weg zu dir.
+                      Sibylle wurde direkt benachrichtigt und meldet sich zeitnah persönlich bei dir mit deinem Zustands-Bericht.
                     </p>
                     <motion.a whileHover={{ y: -3 }} href="/#termine" className="mt-9 inline-flex rounded-full bg-gold px-8 py-4 font-bold text-[#100f0d] shadow-soft transition hover:bg-cream">
                       Jetzt kostenfreies Erstgespräch buchen

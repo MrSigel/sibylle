@@ -6,6 +6,7 @@ import { supabase } from "@/lib/sibylle/supabase";
 import { formatDateTime, formatTime, isPublicSlotBookable } from "@/lib/sibylle/crm";
 import { getWhatsAppLink, whatsappConfig } from "@/lib/sibylle/siteData";
 import { trackEvent } from "@/lib/sibylle/tracking";
+import { notifyLead } from "@/lib/sibylle/notify";
 
 type BookingForm = {
   name: string;
@@ -53,7 +54,7 @@ export function PublicBookingCalendar() {
     setSaving(true);
 
     const reservedUntil = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("appointments")
       .update({
         booking_status: "Reserviert",
@@ -66,16 +67,34 @@ export function PublicBookingCalendar() {
         updated_at: new Date().toISOString(),
       })
       .eq("id", selectedSlot.id)
-      .eq("public_visible", true);
+      .eq("public_visible", true)
+      .select("id");
 
     setSaving(false);
 
-    if (error) {
-      alert("Der Termin konnte nicht reserviert werden. Bitte versuche es erneut oder schreibe Sibylle direkt per WhatsApp.");
+    // No error but zero rows updated = the slot was taken/changed in the meantime.
+    // Without this check the visitor would see a false success and the lead is lost.
+    if (error || !data || data.length === 0) {
+      alert("Dieser Termin ist leider nicht mehr verfügbar. Bitte wähle einen anderen Termin oder schreibe Sibylle direkt per WhatsApp.");
+      setSelectedSlot(null);
+      fetchSlots();
       return;
     }
 
-    setSuccess("Dein Terminwunsch ist für 24 Stunden reserviert. Sibylle prüft den Termin im CRM und bestätigt oder meldet sich bei dir.");
+    // Alert the business inbox so the booking is never missed (best-effort).
+    notifyLead(
+      "booking",
+      [
+        { label: "Termin", value: `${formatDateTime(selectedSlot.start_time)} – ${selectedSlot.title || "Kostenloses Erstgespräch"}` },
+        { label: "Name", value: form.name.trim() },
+        { label: "E-Mail", value: form.email.trim() },
+        { label: "Telefon", value: form.phone.trim() || "-" },
+        { label: "Nachricht", value: form.message.trim() || "-" },
+      ],
+      form.email.trim(),
+    );
+
+    setSuccess("Dein Terminwunsch ist für 24 Stunden reserviert. Sibylle wird direkt benachrichtigt und bestätigt den Termin oder meldet sich bei dir.");
     trackEvent("booking_request", { slotId: selectedSlot.id, startTime: selectedSlot.start_time });
     setSelectedSlot(null);
     setForm(emptyForm);

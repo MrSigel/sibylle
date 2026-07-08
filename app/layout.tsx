@@ -127,7 +127,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             availableLanguage: ["de"],
           },
         ],
-        areaServed: ["München", "Deutschland", "Online"],
+        areaServed: ["Aschaffenburg", "München", "Deutschland", "Online"],
         knowsAbout: [
           "Systemische Aufstellung",
           "Familienaufstellung",
@@ -141,7 +141,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         ],
         address: {
           "@type": "PostalAddress",
-          addressLocality: "München",
+          streetAddress: "Cranachstraße 52",
+          postalCode: "63739",
+          addressLocality: "Aschaffenburg",
           addressCountry: "DE",
         },
       },

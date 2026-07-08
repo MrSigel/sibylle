@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { supabase } from "@/lib/sibylle/supabase";
+import { notifyLead } from "@/lib/sibylle/notify";
 
 type CompassType = "A" | "B" | "C" | "D";
 
@@ -166,6 +167,12 @@ export function BeziehungsKompassClient() {
       alert("Deine Daten konnten gerade nicht gespeichert werden. Bitte versuche es erneut.");
       return;
     }
+    notifyLead("selbsttest", [
+      { label: "Selbsttest", value: "Beziehungs-Kompass" },
+      { label: "Vorname", value: lead.vorname.trim() },
+      { label: "WhatsApp", value: lead.telefonnummer.trim() },
+      { label: "Ergebnis", value: resultLabels[type] },
+    ]);
     setPhase("done");
   }
 
@@ -244,7 +251,7 @@ export function BeziehungsKompassClient() {
               <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-2xl py-10 text-center">
                 <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-sand/40 text-2xl text-deepGold">✓</div>
                 <h2 className="text-3xl font-bold text-warmBlack">Vielen Dank!</h2>
-                <p className="mt-5 text-lg leading-8 text-deepGold/75">Dein persönlicher Beziehungs-Kompass wird in wenigen Augenblicken direkt per WhatsApp an {lead.telefonnummer} gesendet.</p>
+                <p className="mt-5 text-lg leading-8 text-deepGold/75">Sibylle wurde direkt benachrichtigt und schickt dir deine persönliche Auswertung zeitnah per WhatsApp an {lead.telefonnummer}.</p>
                 <motion.a whileHover={{ y: -3 }} href="/#termine" className="mt-9 inline-flex rounded-full bg-deepGold px-8 py-4 font-bold text-white shadow-soft transition hover:bg-gold">Jetzt kostenfreies Erstgespräch buchen</motion.a>
               </motion.div>
             )}

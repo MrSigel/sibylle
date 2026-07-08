@@ -24,6 +24,12 @@ export function SiteFooter() {
                 </li>
               ))}
             </ul>
+            <div className="flex flex-wrap gap-x-5 gap-y-2 pt-2 text-xs">
+              <Link href="/methode" className="transition hover:text-softGold">Methode</Link>
+              <Link href="/faq" className="transition hover:text-softGold">Häufige Fragen</Link>
+              <Link href="/wissen" className="transition hover:text-softGold">Wissen</Link>
+              <Link href="/academy" className="transition hover:text-softGold">Academy</Link>
+            </div>
           </div>
 
           <div className="md:text-right space-y-6">
