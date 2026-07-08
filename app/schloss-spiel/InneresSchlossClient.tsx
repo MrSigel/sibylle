@@ -3,11 +3,14 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import type { FormEvent } from "react";
-import Link from "next/link";
+import Image from "next/image";
 import { supabase } from "@/lib/sibylle/supabase";
 import { notifyLead } from "@/lib/sibylle/notify";
+import { SelbsttestSwitch } from "@/components/sibylle/SelbsttestSwitch";
 
-type Phase = "playing" | "gate" | "done";
+const ease = [0.22, 1, 0.36, 1] as const;
+
+type Phase = "portal" | "warping" | "playing" | "gate" | "done";
 
 type Choice = {
   label: string;
@@ -104,11 +107,12 @@ function scoreText(score: { energy: number; authenticity: number } | null | unde
 }
 
 export function InneresSchlossClient() {
-  const [phase, setPhase] = useState<Phase>("playing");
+  const [phase, setPhase] = useState<Phase>("portal");
   const [step, setStep] = useState(0);
   const [energy, setEnergy] = useState(100);
   const [authenticity, setAuthenticity] = useState(100);
   const [selected, setSelected] = useState<number | null>(null);
+  const [warpTo, setWarpTo] = useState("");
   const [lead, setLead] = useState({ vorname: "", email: "", telefonnummer: "", consent: false });
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -116,21 +120,34 @@ export function InneresSchlossClient() {
   const scene = scenes[step];
   const resultType = useMemo(() => getResultType(energy, authenticity), [energy, authenticity]);
   const progress = ((step + 1) / scenes.length) * 100;
+  const showHud = phase === "playing" || phase === "gate";
+
+  function enterPortal() {
+    setWarpTo(scenes[0].room);
+    setPhase("warping");
+    setTimeout(() => setPhase("playing"), 1150);
+  }
 
   function choose(choice: Choice, index: number) {
-    if (selected !== null) return;
+    if (selected !== null || phase !== "playing") return;
     setSelected(index);
     setEnergy((value) => clamp(value + choice.energy));
     setAuthenticity((value) => clamp(value + choice.authenticity));
 
+    const last = step === scenes.length - 1;
     setTimeout(() => {
       setSelected(null);
-      if (step === scenes.length - 1) {
-        setPhase("gate");
-      } else {
-        setStep((current) => current + 1);
-      }
-    }, 400);
+      setWarpTo(last ? "Deine Auswertung" : scenes[step + 1].room);
+      setPhase("warping");
+      setTimeout(() => {
+        if (last) {
+          setPhase("gate");
+        } else {
+          setStep((current) => current + 1);
+          setPhase("playing");
+        }
+      }, 1150);
+    }, 420);
   }
 
   async function submitLead(event: FormEvent<HTMLFormElement>) {
@@ -196,36 +213,76 @@ export function InneresSchlossClient() {
           </p>
         </div>
 
-        <section className="mx-auto overflow-hidden rounded-[2rem] border border-gold/20 bg-[#181612]/90 shadow-2xl backdrop-blur">
+        <SelbsttestSwitch active="schloss" variant="dark" />
+
+        <section className="relative mx-auto overflow-hidden rounded-[2rem] border border-gold/20 bg-[#181612]/90 shadow-2xl backdrop-blur">
           <div className="h-2 bg-white/5">
-            <motion.div className="h-full bg-gold" animate={{ width: `${phase === "playing" ? progress : 100}%` }} transition={{ duration: 0.5 }} />
+            <motion.div className="h-full bg-gold" initial={false} animate={{ width: `${showHud ? progress : phase === "done" ? 100 : 0}%` }} transition={{ duration: 0.5 }} />
           </div>
 
-          <div className="grid gap-0 lg:grid-cols-[320px_1fr]">
-            <aside className="border-b border-gold/10 bg-black/20 p-6 lg:border-b-0 lg:border-r">
-              <div className="grid gap-4">
-                <Meter label="Energie" value={energy} />
-                <Meter label="Authentizität" value={authenticity} />
-              </div>
-              <div className="mt-8 rounded-3xl border border-gold/10 bg-white/[0.03] p-5">
-                <p className="text-xs font-bold uppercase tracking-widest text-gold/60">Aktueller Raum</p>
-                <p className="mt-2 text-xl font-bold text-white">{phase === "playing" ? scene.room : "Innerer Garten"}</p>
-                <p className="mt-3 text-sm leading-7 text-cream/55">Coaching und Selbsterfahrung, aufmerksam und ohne Heilversprechen.</p>
-              </div>
-            </aside>
+          <div className={showHud ? "grid gap-0 lg:grid-cols-[320px_1fr]" : ""}>
+            {showHud && (
+              <aside className="border-b border-gold/10 bg-black/20 p-6 lg:border-b-0 lg:border-r">
+                <div className="grid gap-4">
+                  <Meter label="Energie" value={energy} />
+                  <Meter label="Authentizität" value={authenticity} />
+                </div>
+                <div className="mt-8 rounded-3xl border border-gold/10 bg-white/[0.03] p-5">
+                  <p className="text-xs font-bold uppercase tracking-widest text-gold/60">Aktueller Raum</p>
+                  <p className="mt-2 text-xl font-bold text-white">{phase === "gate" ? "Innerer Garten" : scene.room}</p>
+                  <p className="mt-3 text-sm leading-7 text-cream/55">Coaching und Selbsterfahrung, aufmerksam und ohne Heilversprechen.</p>
+                </div>
+              </aside>
+            )}
 
-            <div className="min-h-[560px] p-6 md:p-10">
+            <div className="relative min-h-[560px] p-6 md:p-10">
               <AnimatePresence mode="wait">
+                {phase === "portal" && (
+                  <motion.div
+                    key="portal"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0, scale: 1.08 }}
+                    transition={{ duration: 0.5 }}
+                    className="flex min-h-[520px] flex-col items-center justify-center text-center"
+                  >
+                    <div className="relative mb-10 h-52 w-52">
+                      <motion.div className="absolute inset-0 rounded-full border border-gold/40" animate={{ rotate: 360 }} transition={{ duration: 16, repeat: Infinity, ease: "linear" }} />
+                      <motion.div className="absolute inset-3 rounded-full border border-dashed border-gold/25" animate={{ rotate: -360 }} transition={{ duration: 24, repeat: Infinity, ease: "linear" }} />
+                      <motion.div className="absolute inset-8 rounded-full bg-[radial-gradient(circle,rgba(232,211,174,.45),transparent_70%)] blur-md" animate={{ opacity: [0.45, 0.95, 0.45], scale: [0.9, 1.08, 0.9] }} transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }} />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Image src="/assets/sibylle/brand/monogram-cream.png" alt="" width={618} height={799} className="h-16 w-auto opacity-90" />
+                      </div>
+                    </div>
+                    <p className="text-xs font-bold uppercase tracking-[0.35em] text-gold/70">Betritt dein inneres Schloss</p>
+                    <h2 className="editorial mt-5 text-4xl leading-tight text-white md:text-5xl">Fünf Räume. Ein Weg zu dir.</h2>
+                    <p className="mx-auto mt-5 max-w-md text-sm leading-7 text-cream/60 md:text-base">
+                      Triff in jedem Raum eine ehrliche Entscheidung. Zwischen den Räumen reist du durch das Portal. Am Ende siehst du, wie viel Kraft bei dir bleibt.
+                    </p>
+                    <motion.button
+                      onClick={enterPortal}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4, duration: 0.6, ease }}
+                      whileHover={{ y: -2, scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="mt-9 rounded-full bg-gold px-10 py-4 text-sm font-bold uppercase tracking-widest text-[#100f0d] shadow-[0_10px_40px_rgba(232,211,174,.25)] transition hover:bg-cream"
+                    >
+                      Portal betreten
+                    </motion.button>
+                  </motion.div>
+                )}
+
                 {phase === "playing" && (
                   <motion.div
                     key={step}
-                    initial={{ opacity: 0, x: 80 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -80 }}
-                    transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
+                    initial={{ opacity: 0, scale: 0.72, filter: "blur(14px)" }}
+                    animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, scale: 1.22, filter: "blur(10px)" }}
+                    transition={{ duration: 0.55, ease }}
                     className="flex min-h-[500px] flex-col justify-center"
                   >
-                    <p className="text-xs font-bold uppercase tracking-[0.32em] text-gold/70">Level {step + 1} / {scenes.length} · {scene.room}</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.32em] text-gold/70">Raum {step + 1} / {scenes.length} · {scene.room}</p>
                     <h2 className="mt-5 text-3xl font-bold leading-tight text-white md:text-5xl">{scene.title}</h2>
                     <p className="mt-6 max-w-2xl text-base leading-8 text-cream/64 md:text-lg">{scene.text}</p>
 
@@ -235,8 +292,8 @@ export function InneresSchlossClient() {
                           key={choice.label}
                           type="button"
                           onClick={() => choose(choice, index)}
-                          whileHover={{ y: -2 }}
-                          className={`rounded-3xl border p-5 text-left transition-all ${
+                          whileHover={{ x: 5 }}
+                          className={`group rounded-3xl border p-5 text-left transition-all ${
                             selected === index
                               ? "border-gold/70 bg-gold/15 text-white shadow-soft"
                               : "border-gold/15 bg-white/[0.035] text-cream/75 hover:border-gold/40 hover:bg-white/[0.06]"
@@ -254,9 +311,10 @@ export function InneresSchlossClient() {
                   <motion.form
                     key="gate"
                     onSubmit={submitLead}
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, scale: 0.8, filter: "blur(12px)" }}
+                    animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                     exit={{ opacity: 0, y: -24 }}
+                    transition={{ duration: 0.55, ease }}
                     className="mx-auto flex min-h-[500px] max-w-2xl flex-col justify-center"
                   >
                     <p className="text-xs font-bold uppercase tracking-[0.32em] text-gold/70">Dein Ergebnis ist bereit</p>
@@ -279,7 +337,7 @@ export function InneresSchlossClient() {
                     {error && <p className="mt-4 rounded-2xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-red-100">{error}</p>}
 
                     <button type="submit" disabled={saving} className="mt-6 rounded-full bg-gold px-8 py-4 font-bold text-[#100f0d] shadow-soft transition hover:bg-cream disabled:opacity-50">
-                      {saving ? "Wird gespeichert..." : "Auswertung erhalten"}
+                      {saving ? "Wird gesendet…" : "Auswertung erhalten"}
                     </button>
                   </motion.form>
                 )}
@@ -287,8 +345,9 @@ export function InneresSchlossClient() {
                 {phase === "done" && (
                   <motion.div
                     key="done"
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6, ease }}
                     className="mx-auto flex min-h-[500px] max-w-2xl flex-col items-center justify-center text-center"
                   >
                     <div className="mb-7 flex h-20 w-20 items-center justify-center rounded-full border border-gold/30 bg-gold/10 text-3xl text-gold">✓</div>
@@ -302,17 +361,68 @@ export function InneresSchlossClient() {
                   </motion.div>
                 )}
               </AnimatePresence>
+
+              {/* Warp / teleporter transition */}
+              <AnimatePresence>
+                {phase === "warping" && <WarpTunnel target={warpTo} />}
+              </AnimatePresence>
             </div>
           </div>
         </section>
-
-        <div className="mt-8 text-center">
-          <Link href="/kompass" className="text-sm font-semibold text-gold/70 underline-offset-4 hover:text-gold hover:underline">
-            Zum Beziehungs-Kompass zurück
-          </Link>
-        </div>
       </div>
     </main>
+  );
+}
+
+function WarpTunnel({ target }: { target: string }) {
+  const streaks = Array.from({ length: 28 });
+  return (
+    <motion.div
+      key="warp"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="absolute inset-0 z-40 flex items-center justify-center overflow-hidden bg-[#050505]"
+    >
+      <motion.div
+        className="absolute inset-0"
+        initial={{ scale: 1 }}
+        animate={{ scale: 1.12 }}
+        transition={{ duration: 1.15, ease: "easeIn" }}
+      >
+        {streaks.map((_, i) => {
+          const angle = (i / streaks.length) * 360;
+          return (
+            <motion.span
+              key={i}
+              className="absolute left-1/2 top-1/2 h-[2px] w-[52%] origin-left"
+              style={{ rotate: `${angle}deg`, background: "linear-gradient(90deg, rgba(232,211,174,0) 0%, rgba(232,211,174,.15) 55%, rgba(255,255,255,.85) 100%)" }}
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: [0, 1.5], opacity: [0, 1, 0] }}
+              transition={{ duration: 1, repeat: Infinity, delay: (i % 7) * 0.09, ease: "easeIn" }}
+            />
+          );
+        })}
+      </motion.div>
+
+      <motion.div
+        className="relative h-24 w-24 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,.95),rgba(232,211,174,.55),transparent_72%)]"
+        initial={{ scale: 0.5, opacity: 0.6 }}
+        animate={{ scale: [0.5, 1.4, 22], opacity: [0.6, 1, 0] }}
+        transition={{ duration: 1.15, times: [0, 0.55, 1], ease: "easeIn" }}
+      />
+
+      <motion.p
+        className="absolute bottom-12 text-center text-xs font-bold uppercase tracking-[0.4em] text-gold/80"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: [0, 1, 1, 0], y: 0 }}
+        transition={{ duration: 1.15, times: [0, 0.25, 0.7, 1] }}
+      >
+        Du erreichst<br />
+        <span className="mt-2 block text-base tracking-[0.2em] text-white">{target}</span>
+      </motion.p>
+    </motion.div>
   );
 }
 

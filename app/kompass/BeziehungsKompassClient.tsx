@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import { supabase } from "@/lib/sibylle/supabase";
 import { notifyLead } from "@/lib/sibylle/notify";
+import { SelbsttestSwitch } from "@/components/sibylle/SelbsttestSwitch";
 
 type CompassType = "A" | "B" | "C" | "D";
 
@@ -195,6 +196,8 @@ export function BeziehungsKompassClient() {
             Sieben ruhige Fragen zeigen dir, welches Beziehungsmuster gerade besonders sichtbar ist. Die Auswertung ist Coaching und Selbsterfahrung, ohne Heilversprechen.
           </p>
         </div>
+
+        <SelbsttestSwitch active="kompass" />
 
         {/* Book */}
         <div className="relative mx-auto w-full max-w-5xl [perspective:2400px]">
@@ -388,17 +391,6 @@ export function BeziehungsKompassClient() {
           </AnimatePresence>
         </div>
 
-        {/* Cross-promo */}
-        <div className="mx-auto mt-10 max-w-3xl rounded-[2rem] border border-gold/15 bg-white/70 p-6 text-center shadow-soft">
-          <p className="text-xs font-bold uppercase tracking-widest text-softGold">Weiterer Selbsttest</p>
-          <h2 className="mt-3 text-2xl font-bold text-warmBlack">Inneres Schloss</h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-deepGold/70">
-            Ein textbasiertes Mini-Spiel zu Energie, Authentizität und inneren Rollen.
-          </p>
-          <motion.a whileHover={{ y: -2 }} href="/schloss-spiel" className="mt-5 inline-flex rounded-full border border-gold/20 px-6 py-3 text-sm font-bold text-deepGold transition hover:bg-gold/5">
-            Inneres Schloss spielen
-          </motion.a>
-        </div>
       </div>
     </main>
   );
