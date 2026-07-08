@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import { supabase } from "@/lib/sibylle/supabase";
 import { notifyLead } from "@/lib/sibylle/notify";
 
@@ -17,6 +18,8 @@ type Question = {
   question: string;
   answers: Answer[];
 };
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const resultLabels: Record<CompassType, string> = {
   A: "Der harmonisierende Fels",
@@ -118,23 +121,26 @@ function getResult(answers: CompassType[]) {
 
 function progressText(index: number) {
   const percent = Math.round((index / questions.length) * 100);
-  if (percent < 30) return "Dein Muster wird sichtbar...";
-  if (percent < 60) return "Schon 50% analysiert...";
-  if (percent < 90) return "Die Dynamik wird klarer...";
-  return "Fast geschafft...";
+  if (percent < 30) return "Dein Muster wird sichtbar";
+  if (percent < 60) return "Schon über die Hälfte";
+  if (percent < 90) return "Die Dynamik wird klarer";
+  return "Fast geschafft";
 }
 
+type Phase = "cover" | "questions" | "loading" | "gate" | "done";
+
 export function BeziehungsKompassClient() {
+  const [phase, setPhase] = useState<Phase>("cover");
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<CompassType[]>([]);
   const [selected, setSelected] = useState<CompassType | null>(null);
-  const [phase, setPhase] = useState<"questions" | "loading" | "gate" | "done">("questions");
   const [lead, setLead] = useState({ vorname: "", telefonnummer: "", consent: false });
   const [saving, setSaving] = useState(false);
 
   const resultType = useMemo(() => getResult(answers), [answers]);
   const question = questions[step];
-  const progress = phase === "questions" ? ((step + 1) / questions.length) * 100 : 100;
+  const inQuestions = phase === "cover" || phase === "questions";
+  const progress = inQuestions ? ((step + 1) / questions.length) * 100 : 100;
 
   function chooseAnswer(type: CompassType) {
     if (selected) return;
@@ -149,7 +155,7 @@ export function BeziehungsKompassClient() {
       } else {
         setStep((current) => current + 1);
       }
-    }, 300);
+    }, 320);
   }
 
   async function submitLead(e: React.FormEvent) {
@@ -177,88 +183,213 @@ export function BeziehungsKompassClient() {
   }
 
   return (
-    <main className="grain min-h-screen bg-cream px-4 py-16 text-warmBlack md:py-24">
-      <div className="container max-w-5xl">
-        <div className="mx-auto mb-12 max-w-3xl text-center">
+    <main className="grain relative min-h-screen overflow-hidden bg-cream px-4 py-16 text-warmBlack md:py-24">
+      <div className="pointer-events-none absolute -left-40 top-20 h-[40rem] w-[40rem] rounded-full bg-sand/30 blur-[130px]" />
+      <div className="pointer-events-none absolute -right-32 bottom-0 h-[34rem] w-[34rem] rounded-full bg-softGold/10 blur-[120px]" />
+
+      <div className="container relative z-10 max-w-6xl">
+        <div className="mx-auto mb-10 max-w-3xl text-center md:mb-14">
           <p className="eyebrow mx-auto">Selbsttest Beziehungsmuster</p>
           <h1 className="editorial mt-6 text-[clamp(3rem,7vw,6.5rem)] leading-[.9]">Dein Beziehungs-Kompass</h1>
           <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-deepGold/75 md:text-lg">
-            Sieben ruhige Fragen zeigen dir, welches Beziehungsmuster im Moment besonders sichtbar ist. Die Auswertung ist Coaching und Selbsterfahrung, ohne Heilversprechen.
+            Sieben ruhige Fragen zeigen dir, welches Beziehungsmuster gerade besonders sichtbar ist. Die Auswertung ist Coaching und Selbsterfahrung, ohne Heilversprechen.
           </p>
         </div>
 
-        <section className="mx-auto overflow-hidden rounded-[2.5rem] border border-gold/15 bg-white shadow-soft">
-          <div className="h-2 bg-mist/30">
-            <motion.div className="h-full bg-deepGold" initial={false} animate={{ width: `${progress}%` }} transition={{ duration: .55, ease: [0.22, 1, 0.36, 1] }} />
-          </div>
-          <div className="p-6 md:p-10">
-            {phase === "questions" && (
-              <>
-                <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <span className="text-xs font-bold uppercase tracking-widest text-softGold">Frage {step + 1} von {questions.length}</span>
-                  <span className="text-sm font-semibold text-deepGold/65">{progressText(step + 1)}</span>
-                </div>
-                <AnimatePresence mode="wait">
-                  <motion.div key={step} initial={{ opacity: 0, x: 60 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -60 }} transition={{ duration: .42, ease: [0.22, 1, 0.36, 1] }}>
-                    <p className="eyebrow">{question.eyebrow}</p>
-                    <h2 className="mt-4 text-3xl font-bold leading-tight text-warmBlack md:text-4xl">{question.question}</h2>
-                    <div className="mt-8 grid gap-4">
-                      {question.answers.map((answer) => (
-                        <motion.button
-                          key={answer.type}
-                          type="button"
-                          onClick={() => chooseAnswer(answer.type)}
-                          whileHover={{ y: -2 }}
-                          className={`rounded-2xl border p-5 text-left text-base leading-7 transition-all ${selected === answer.type ? "border-gold/50 bg-sand/35 text-warmBlack shadow-soft" : "border-gold/15 bg-white text-deepGold/80 hover:border-gold/35 hover:bg-gold/5"}`}
-                        >
-                          <span className="mr-3 font-bold text-deepGold">{answer.type}</span>{answer.text}
-                        </motion.button>
-                      ))}
+        {/* Book */}
+        <div className="relative mx-auto w-full max-w-5xl [perspective:2400px]">
+          <div className="absolute inset-x-10 -bottom-2 h-12 rounded-[50%] bg-warmBlack/20 blur-2xl" />
+
+          {/* Two-page spread */}
+          <div className="relative grid min-h-[600px] overflow-hidden rounded-[2rem] border border-gold/20 bg-cream shadow-[0_45px_130px_rgba(35,42,26,.28)] md:grid-cols-2">
+            {/* top progress line */}
+            <div className="absolute inset-x-0 top-0 z-20 h-1.5 bg-mist/40 md:col-span-2">
+              <motion.div className="h-full bg-deepGold" initial={false} animate={{ width: `${progress}%` }} transition={{ duration: 0.55, ease }} />
+            </div>
+
+            {/* LEFT PAGE */}
+            <div className="relative hidden flex-col justify-between border-r border-gold/15 bg-gradient-to-br from-sand/25 to-cream p-10 md:flex lg:p-14">
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-warmBlack/10 to-transparent" />
+              {(phase === "cover" || phase === "questions" || phase === "loading") && (
+                <>
+                  <div>
+                    <p className="eyebrow">Beziehungs-Kompass</p>
+                    <p className="mt-12 text-xs font-bold uppercase tracking-[0.3em] text-softGold">{question.eyebrow}</p>
+                    <div className="editorial mt-2 text-[7.5rem] leading-none text-deepGold/15">0{step + 1}</div>
+                  </div>
+                  <div>
+                    <div className="flex items-center justify-between text-xs font-bold uppercase tracking-widest text-deepGold/50">
+                      <span>Frage {step + 1} von {questions.length}</span>
+                      <span>{Math.round(progress)}%</span>
                     </div>
-                  </motion.div>
-                </AnimatePresence>
-              </>
-            )}
-
-            {phase === "loading" && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex min-h-[420px] flex-col items-center justify-center text-center">
-                <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.4, repeat: Infinity, ease: "linear" }} className="mb-8 h-16 w-16 rounded-full border-2 border-gold/20 border-t-deepGold" />
-                <h2 className="text-3xl font-bold text-warmBlack">Deine Auswertung wird berechnet...</h2>
-                <p className="mt-4 max-w-md text-sm leading-7 text-deepGold/70">Dein Antwortmuster wird sortiert. Gleich öffnet sich der nächste Schritt.</p>
-              </motion.div>
-            )}
-
-            {phase === "gate" && (
-              <motion.form onSubmit={submitLead} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-2xl space-y-6">
-                <div className="rounded-[2rem] bg-sand/20 p-6">
-                  <p className="text-xs font-bold uppercase tracking-widest text-softGold">Dein vorläufiges Muster</p>
-                  <h2 className="mt-3 text-3xl font-bold text-warmBlack">{resultLabels[resultType]}</h2>
-                  <p className="mt-4 leading-8 text-deepGold/75">{resultDescriptions[resultType]}</p>
+                    <div className="mt-3 h-2 overflow-hidden rounded-full bg-mist/40">
+                      <motion.div className="h-full rounded-full bg-gradient-to-r from-softGold to-deepGold" initial={false} animate={{ width: `${progress}%` }} transition={{ duration: 0.55, ease }} />
+                    </div>
+                    <p className="mt-6 text-sm leading-7 text-deepGold/60">{progressText(step + 1)} · wähle spontan, dein erster Impuls zählt.</p>
+                  </div>
+                </>
+              )}
+              {phase === "gate" && (
+                <div className="flex h-full flex-col justify-center">
+                  <p className="eyebrow">Dein vorläufiges Muster</p>
+                  <h2 className="editorial mt-5 text-4xl leading-tight text-warmBlack lg:text-5xl">{resultLabels[resultType]}</h2>
+                  <p className="mt-6 leading-8 text-deepGold/75">{resultDescriptions[resultType]}</p>
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <Field label="Vorname" value={lead.vorname} required onChange={(value) => setLead({ ...lead, vorname: value })} />
-                  <Field label="WhatsApp-Telefonnummer" value={lead.telefonnummer} required onChange={(value) => setLead({ ...lead, telefonnummer: value })} />
+              )}
+              {phase === "done" && (
+                <div className="flex h-full flex-col justify-center">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-deepGold text-2xl text-cream">✓</div>
+                  <h2 className="editorial mt-8 text-4xl leading-tight text-warmBlack lg:text-5xl">Dein Kompass ist unterwegs.</h2>
+                  <p className="mt-6 leading-8 text-deepGold/75">Dein Muster: <span className="font-semibold text-deepGold">{resultLabels[resultType]}</span></p>
                 </div>
-                <label className="flex gap-3 rounded-2xl border border-gold/15 bg-mist/5 p-4 text-sm leading-7 text-deepGold/80">
-                  <input required type="checkbox" checked={lead.consent} onChange={(e) => setLead({ ...lead, consent: e.target.checked })} className="mt-1 h-4 w-4 accent-deepGold" />
-                  <span>Ich willige ein, dass Sibylle Bergold mir meine persönliche Auswertung sowie anschließende Impulse zu Coaching-Themen per WhatsApp zusendet. Diese Einwilligung kann ich jederzeit mit Wirkung für die Zukunft widerrufen. Es gelten die Bestimmungen der Datenschutzerklärung.</span>
-                </label>
-                <button type="submit" disabled={saving || !lead.consent} className="w-full rounded-full bg-deepGold px-8 py-4 font-bold text-white shadow-soft transition hover:bg-gold disabled:opacity-50">{saving ? "Wird gespeichert..." : "Auswertung via WhatsApp erhalten"}</button>
-              </motion.form>
-            )}
+              )}
+            </div>
 
-            {phase === "done" && (
-              <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-2xl py-10 text-center">
-                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-sand/40 text-2xl text-deepGold">✓</div>
-                <h2 className="text-3xl font-bold text-warmBlack">Vielen Dank!</h2>
-                <p className="mt-5 text-lg leading-8 text-deepGold/75">Sibylle wurde direkt benachrichtigt und schickt dir deine persönliche Auswertung zeitnah per WhatsApp an {lead.telefonnummer}.</p>
-                <motion.a whileHover={{ y: -3 }} href="/#termine" className="mt-9 inline-flex rounded-full bg-deepGold px-8 py-4 font-bold text-white shadow-soft transition hover:bg-gold">Jetzt kostenfreies Erstgespräch buchen</motion.a>
-              </motion.div>
-            )}
+            {/* RIGHT PAGE */}
+            <div className="relative flex flex-col bg-gradient-to-bl from-white to-cream p-8 [perspective:1600px] md:p-12 lg:p-14">
+              <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-16 bg-gradient-to-r from-warmBlack/10 to-transparent md:block" />
+
+              {/* mobile progress */}
+              {inQuestions && (
+                <div className="mb-6 flex items-center justify-between text-xs font-bold uppercase tracking-widest text-deepGold/50 md:hidden">
+                  <span>{question.eyebrow}</span>
+                  <span>Frage {step + 1} / {questions.length}</span>
+                </div>
+              )}
+
+              {(phase === "cover" || phase === "questions") && (
+                <div className="relative flex-1 [perspective:1600px]">
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.div
+                      key={step}
+                      initial={{ rotateY: 62, opacity: 0, x: 26 }}
+                      animate={{ rotateY: 0, opacity: 1, x: 0 }}
+                      exit={{ rotateY: -62, opacity: 0, x: -26 }}
+                      transition={{ duration: 0.5, ease }}
+                      style={{ transformOrigin: "left center" }}
+                      className="[backface-visibility:hidden] [transform-style:preserve-3d]"
+                    >
+                      <p className="eyebrow">{question.eyebrow}</p>
+                      <h2 className="editorial mt-4 text-3xl leading-tight text-warmBlack md:text-4xl">{question.question}</h2>
+                      <div className="mt-8 grid gap-3.5">
+                        {question.answers.map((answer) => {
+                          const active = selected === answer.type;
+                          return (
+                            <motion.button
+                              key={answer.type}
+                              type="button"
+                              onClick={() => chooseAnswer(answer.type)}
+                              whileHover={{ x: 5 }}
+                              className={`group flex items-center gap-4 rounded-2xl border p-4 text-left transition-colors ${active ? "border-gold/50 bg-sand/40 shadow-soft" : "border-gold/15 bg-white/70 hover:border-gold/35 hover:bg-white"}`}
+                            >
+                              <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border font-serif text-sm font-bold transition-colors ${active ? "border-deepGold bg-deepGold text-cream" : "border-gold/25 text-deepGold group-hover:bg-deepGold group-hover:text-cream"}`}>
+                                {answer.type}
+                              </span>
+                              <span className="text-[.98rem] leading-6 text-deepGold/85">{answer.text}</span>
+                            </motion.button>
+                          );
+                        })}
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              )}
+
+              {phase === "loading" && (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-1 flex-col items-center justify-center text-center">
+                  <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.4, repeat: Infinity, ease: "linear" }} className="mb-8 h-16 w-16 rounded-full border-2 border-gold/20 border-t-deepGold" />
+                  <h2 className="editorial text-3xl text-warmBlack">Deine Auswertung wird gelesen…</h2>
+                  <p className="mt-4 max-w-sm text-sm leading-7 text-deepGold/70">Dein Antwortmuster wird sortiert. Gleich schlägt sich die nächste Seite auf.</p>
+                </motion.div>
+              )}
+
+              {phase === "gate" && (
+                <motion.form
+                  onSubmit={submitLead}
+                  initial={{ rotateY: 62, opacity: 0 }}
+                  animate={{ rotateY: 0, opacity: 1 }}
+                  transition={{ duration: 0.55, ease }}
+                  style={{ transformOrigin: "left center" }}
+                  className="flex flex-1 flex-col justify-center"
+                >
+                  <p className="eyebrow">Deine Auswertung</p>
+                  <h2 className="editorial mt-4 text-3xl leading-tight text-warmBlack md:text-4xl">Wohin darf dein Kompass?</h2>
+                  <p className="mt-4 text-sm leading-7 text-deepGold/70">Sibylle schickt dir deine persönliche Auswertung samt Impulsen direkt per WhatsApp.</p>
+                  <div className="mt-7 space-y-4">
+                    <Field label="Vorname" value={lead.vorname} required onChange={(value) => setLead({ ...lead, vorname: value })} />
+                    <Field label="WhatsApp-Telefonnummer" value={lead.telefonnummer} required onChange={(value) => setLead({ ...lead, telefonnummer: value })} />
+                  </div>
+                  <label className="mt-4 flex gap-3 rounded-2xl border border-gold/15 bg-mist/5 p-4 text-xs leading-6 text-deepGold/80">
+                    <input required type="checkbox" checked={lead.consent} onChange={(e) => setLead({ ...lead, consent: e.target.checked })} className="mt-0.5 h-4 w-4 accent-deepGold" />
+                    <span>Ich willige ein, dass Sibylle Bergold mir meine Auswertung sowie Impulse zu Coaching-Themen per WhatsApp zusendet. Der Widerruf ist jederzeit möglich. Es gelten die Bestimmungen der Datenschutzerklärung.</span>
+                  </label>
+                  <button type="submit" disabled={saving || !lead.consent} className="mt-6 w-full rounded-full bg-deepGold px-8 py-4 font-bold text-white shadow-soft transition hover:bg-gold disabled:opacity-50">
+                    {saving ? "Wird gesendet…" : "Auswertung per WhatsApp erhalten"}
+                  </button>
+                </motion.form>
+              )}
+
+              {phase === "done" && (
+                <motion.div
+                  initial={{ rotateY: 62, opacity: 0 }}
+                  animate={{ rotateY: 0, opacity: 1 }}
+                  transition={{ duration: 0.55, ease }}
+                  style={{ transformOrigin: "left center" }}
+                  className="flex flex-1 flex-col justify-center"
+                >
+                  <p className="eyebrow">Vielen Dank</p>
+                  <h2 className="editorial mt-4 text-3xl leading-tight text-warmBlack md:text-4xl">Was jetzt möglich wird.</h2>
+                  <p className="mt-5 leading-8 text-deepGold/75">
+                    Sibylle wurde direkt benachrichtigt und schickt dir deine persönliche Auswertung zeitnah per WhatsApp an {lead.telefonnummer}.
+                  </p>
+                  <p className="mt-4 text-sm leading-7 text-deepGold/60">Wenn du magst, gehen wir deinem Muster in einem ruhigen Erstgespräch gemeinsam auf den Grund.</p>
+                  <a href="/#termine" className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-deepGold px-8 py-4 font-bold text-white shadow-soft transition hover:bg-gold">
+                    Kostenfreies Erstgespräch buchen <span aria-hidden="true">→</span>
+                  </a>
+                </motion.div>
+              )}
+            </div>
           </div>
-        </section>
 
-        <div className="mx-auto mt-8 max-w-3xl rounded-[2rem] border border-gold/15 bg-white/70 p-6 text-center shadow-soft">
+          {/* Cover */}
+          <AnimatePresence>
+            {phase === "cover" && (
+              <motion.div
+                key="cover"
+                className="absolute inset-0 z-30 [transform-style:preserve-3d]"
+                initial={{ rotateY: 0 }}
+                exit={{ rotateY: -172, opacity: 0 }}
+                transition={{ duration: 1.15, ease }}
+                style={{ transformOrigin: "left center" }}
+              >
+                <div className="relative flex h-full flex-col items-center justify-center gap-8 overflow-hidden rounded-[2rem] border border-softGold/30 bg-gradient-to-br from-deepGold via-[#7a5d2c] to-[#5f4a24] p-10 text-center text-cream shadow-[0_45px_130px_rgba(35,42,26,.4)] [backface-visibility:hidden]">
+                  <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-softGold/20 blur-3xl" />
+                  <div className="pointer-events-none absolute inset-y-4 right-3 w-2 rounded-full bg-cream/25" />
+                  <Image src="/assets/sibylle/brand/monogram-cream.png" alt="" width={618} height={799} className="relative h-24 w-auto opacity-90" />
+                  <div className="relative">
+                    <p className="text-xs font-bold uppercase tracking-[0.4em] text-cream/70">Selbsttest</p>
+                    <h2 className="editorial mt-4 text-4xl md:text-5xl">Beziehungs-Kompass</h2>
+                    <p className="mx-auto mt-5 max-w-md text-sm leading-7 text-cream/75">Sieben Fragen. Ein ehrlicher Impuls. Schlag das Buch auf und beginne.</p>
+                  </div>
+                  <motion.button
+                    onClick={() => setPhase("questions")}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.7, ease }}
+                    whileHover={{ y: -2, scale: 1.02 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="relative rounded-full bg-cream px-10 py-4 text-sm font-bold uppercase tracking-widest text-deepGold shadow-lg transition hover:bg-white"
+                  >
+                    Selbsttest jetzt starten
+                  </motion.button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Cross-promo */}
+        <div className="mx-auto mt-10 max-w-3xl rounded-[2rem] border border-gold/15 bg-white/70 p-6 text-center shadow-soft">
           <p className="text-xs font-bold uppercase tracking-widest text-softGold">Weiterer Selbsttest</p>
           <h2 className="mt-3 text-2xl font-bold text-warmBlack">Inneres Schloss</h2>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-deepGold/70">
