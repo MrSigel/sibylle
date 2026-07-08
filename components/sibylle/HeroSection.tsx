@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import { useRef } from 'react';
 import { CTAButton } from './CTAButton';
-import { ctaLinks, heroQuestions } from '@/lib/sibylle/siteData';
+import { ctaLinks, heroQuestions, testimonials, initialsFromName } from '@/lib/sibylle/siteData';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -48,15 +48,11 @@ export function HeroSection() {
 
             <motion.div variants={{ hidden:{opacity:0},show:{opacity:1,transition:{delay:1.2,duration:1}} }} className="mt-14 flex items-center gap-6 border-t border-gold/10 pt-10">
               <div className="flex -space-x-4">
-                <div className="relative h-14 w-14 overflow-hidden rounded-full border-4 border-white shadow-md">
-                  <Image src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150&h=150" alt="Klientin einer systemischen Aufstellung" fill className="object-cover" />
-                </div>
-                <div className="relative h-14 w-14 overflow-hidden rounded-full border-4 border-white shadow-md">
-                  <Image src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150&h=150" alt="Klient im systemischen Coaching" fill className="object-cover" />
-                </div>
-                <div className="relative h-14 w-14 overflow-hidden rounded-full border-4 border-white shadow-md">
-                  <Image src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=150&h=150" alt="Familienmuster und Beziehungssystem" fill className="object-cover" />
-                </div>
+                {testimonials.slice(0, 3).map((t) => (
+                  <div key={t.name} className="flex h-14 w-14 items-center justify-center rounded-full border-4 border-white bg-sand font-serif text-base font-bold text-deepGold shadow-md">
+                    {initialsFromName(t.name)}
+                  </div>
+                ))}
                 <div className="relative flex h-14 w-14 items-center justify-center rounded-full border-4 border-white bg-softGold text-sm font-bold text-white shadow-md">
                   34
                 </div>
