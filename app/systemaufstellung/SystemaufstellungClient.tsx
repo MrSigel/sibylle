@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { CTAButton } from '@/components/sibylle/CTAButton';
 import { ctaLinks, getWhatsAppLink, whatsappConfig } from '@/lib/sibylle/siteData';
 
@@ -12,20 +12,12 @@ type SystemType = {
   title: string;
   label: string;
   desc: string;
-  video: string;
+  streamId: string;
   poster: string;
 };
 
 function VideoCard({ system, idx }: { system: SystemType; idx: number }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
-
-  const handlePlay = () => {
-    const el = videoRef.current;
-    if (!el) return;
-    el.play();
-    setPlaying(true);
-  };
 
   return (
     <motion.div
@@ -45,28 +37,30 @@ function VideoCard({ system, idx }: { system: SystemType; idx: number }) {
       </div>
 
       <div className="relative overflow-hidden rounded-[2.8rem] bg-deepGold shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]">
-        <div className="relative aspect-[9/16] w-full bg-deepGold md:aspect-[4/5] lg:aspect-[3/4]">
-          <video
-            ref={videoRef}
-            controls={playing}
-            playsInline
-            preload="metadata"
-            poster={system.poster}
-            onPause={() => setPlaying(false)}
-            onPlay={() => setPlaying(true)}
-            className="h-full w-full object-cover"
-          >
-            <source src={system.video} type="video/mp4" />
-          </video>
-
-          {/* Play overlay - hidden once the video is playing */}
-          {!playing && (
+        <div className="relative aspect-video w-full bg-deepGold">
+          {playing ? (
+            <iframe
+              src={`https://streamable.com/e/${system.streamId}?autoplay=1`}
+              title={`${system.title} – Video`}
+              allow="autoplay; fullscreen"
+              allowFullScreen
+              className="absolute inset-0 h-full w-full border-0"
+            />
+          ) : (
             <button
               type="button"
-              onClick={handlePlay}
+              onClick={() => setPlaying(true)}
               aria-label={`${system.title} Video abspielen`}
-              className="absolute inset-0 z-10 flex items-center justify-center bg-gradient-to-br from-deepGold/70 via-gold/40 to-softGold/30 transition-opacity duration-500 hover:from-deepGold/60"
+              className="group/play absolute inset-0 flex items-center justify-center overflow-hidden"
             >
+              <Image
+                src={system.poster}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 33vw, 100vw"
+                className="object-cover transition-transform duration-700 group-hover/play:scale-105"
+              />
+              <span className="absolute inset-0 bg-gradient-to-br from-deepGold/70 via-gold/40 to-softGold/30 transition-opacity duration-500 group-hover/play:from-deepGold/60" />
               <motion.span
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
@@ -90,25 +84,25 @@ function VideoCard({ system, idx }: { system: SystemType; idx: number }) {
 export function SystemaufstellungClient() {
   const waLink = getWhatsAppLink(whatsappConfig.messages.erstgespraech);
   const systemTypes = [
-    { 
-      title: "Familiensystem", 
+    {
+      title: "Familiensystem",
       label: "Familienaufstellung",
       desc: "Lösung von Verstrickungen innerhalb der Herkunfts- oder Gegenwartsfamilie.",
-      video: "/assets/sibylle/videos/YTDown_YouTube_Familienaufstellungen_Media_0H-f0LiLrdQ_001_1080p.mp4",
+      streamId: "jvp4sb",
       poster: "/assets/sibylle/portraits/3.jpg"
     },
-    { 
-      title: "Organisationssystem", 
+    {
+      title: "Organisationssystem",
       label: "Organisationsaufstellung",
       desc: "Klärung von Dynamiken in Unternehmen, Teams oder beruflichen Kontexten.",
-      video: "/assets/sibylle/videos/YTDown_YouTube_Organisationsaufstellungen-V01_Media_uT3JVGZfe9s_001_1080p.mp4",
+      streamId: "1fspzu",
       poster: "/assets/sibylle/portraits/2.jpg"
     },
-    { 
-      title: "Abstrahiertes System", 
+    {
+      title: "Abstrahiertes System",
       label: "Strukturaufstellung",
       desc: "Arbeit mit abstrakten Elementen wie Zielen, Hindernissen oder inneren Anteilen.",
-      video: "/assets/sibylle/videos/YTDown_YouTube_Systemaufstellungen_Media_q_TYVp_PWk0_001_1080p (2).mp4",
+      streamId: "kg9coz",
       poster: "/assets/sibylle/portraits/1.jpg"
     }
   ];
