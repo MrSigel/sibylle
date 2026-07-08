@@ -14,15 +14,9 @@ export function HeroSection() {
     target: containerRef,
     offset: ["start start", "end start"],
   });
-  // Panels reveal off the raw page scroll in pixels, so the image behind them
-  // is uncovered right as the user begins scrolling - not only after the hero.
-  const { scrollY } = useScroll();
 
   const portraitY = useTransform(scrollYProgress, [0, 1], [0, 80]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.05]);
-  const leftPanelX = useTransform(scrollY, [0, 300], ["0%", "-100%"]);
-  const rightPanelX = useTransform(scrollY, [0, 300], ["0%", "100%"]);
-  const panelOpacity = useTransform(scrollY, [0, 260], [1, 0]);
 
   return (
     <section ref={containerRef} className="grain relative min-h-[calc(100svh-82px)] overflow-hidden px-4 pb-20 pt-8 md:pb-28 md:pt-14 lg:flex lg:items-center">
@@ -73,7 +67,7 @@ export function HeroSection() {
             className="relative mx-auto w-full max-w-[560px] lg:mx-0"
           >
             <motion.div
-              style={{ scale }}
+              style={{ scale, perspective: 1800 }}
               className="relative aspect-[3/4] overflow-hidden rounded-[4.5rem] border border-gold/15 bg-white shadow-[0_50px_130px_rgba(35,42,26,.18)]"
             >
               <motion.div style={{ y: portraitY }} className="relative h-full w-full">
@@ -87,8 +81,22 @@ export function HeroSection() {
                 />
               </motion.div>
 
-              <motion.div style={{ x: leftPanelX, opacity: panelOpacity }} className="pointer-events-none absolute inset-y-0 left-0 z-10 w-1/2 border-r border-white/20 bg-white/40 backdrop-blur-md" />
-              <motion.div style={{ x: rightPanelX, opacity: panelOpacity }} className="pointer-events-none absolute inset-y-0 right-0 z-10 w-1/2 border-l border-white/20 bg-white/40 backdrop-blur-md" />
+              {/* Two panels swing open on load (like double doors) so the
+                  portrait is revealed within ~1.5s without any scrolling. */}
+              <motion.div
+                initial={{ rotateY: 0 }}
+                animate={{ rotateY: -105 }}
+                transition={{ duration: 1.5, delay: 0.5, ease }}
+                style={{ transformOrigin: 'left center', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
+                className="pointer-events-none absolute inset-y-0 left-0 z-10 w-1/2 border-r border-white/40 bg-gradient-to-br from-cream via-sand to-cream shadow-[inset_-24px_0_50px_rgba(35,42,26,.10)]"
+              />
+              <motion.div
+                initial={{ rotateY: 0 }}
+                animate={{ rotateY: 105 }}
+                transition={{ duration: 1.5, delay: 0.5, ease }}
+                style={{ transformOrigin: 'right center', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
+                className="pointer-events-none absolute inset-y-0 right-0 z-10 w-1/2 border-l border-white/40 bg-gradient-to-bl from-cream via-sand to-cream shadow-[inset_24px_0_50px_rgba(35,42,26,.10)]"
+              />
             </motion.div>
 
             <div className="absolute -bottom-8 -left-8 z-20 flex h-32 w-32 items-center justify-center rounded-full bg-deepGold shadow-2xl sm:h-40 sm:w-40">

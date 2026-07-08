@@ -2,10 +2,90 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useRef, useState } from 'react';
 import { CTAButton } from '@/components/sibylle/CTAButton';
 import { ctaLinks, getWhatsAppLink, whatsappConfig } from '@/lib/sibylle/siteData';
 
 const ease = [0.22, 1, 0.36, 1] as const;
+
+type SystemType = {
+  title: string;
+  label: string;
+  desc: string;
+  video: string;
+  poster: string;
+};
+
+function VideoCard({ system, idx }: { system: SystemType; idx: number }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+
+  const handlePlay = () => {
+    const el = videoRef.current;
+    if (!el) return;
+    el.play();
+    setPlaying(true);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: idx * 0.2, duration: 1, ease }}
+      className="group flex flex-col"
+    >
+      <div className="mb-8 flex flex-col rounded-[2.8rem] border border-gold/10 bg-white p-10 shadow-[0_20px_60px_rgba(35,42,26,0.04)] transition-all duration-500 group-hover:border-softGold/40 group-hover:shadow-xl group-hover:-translate-y-2">
+        <div className="flex items-center gap-4 mb-6">
+          <span className="h-2 w-2 rounded-full bg-softGold" />
+          <span className="text-xs font-bold uppercase tracking-[.2em] text-softGold">{system.label}</span>
+        </div>
+        <h3 className="editorial text-4xl text-deepGold">{system.title}</h3>
+        <p className="mt-6 text-[1.05rem] leading-relaxed text-deepGold/70">{system.desc}</p>
+      </div>
+
+      <div className="relative overflow-hidden rounded-[2.8rem] bg-deepGold shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]">
+        <div className="relative aspect-[9/16] w-full bg-deepGold md:aspect-[4/5] lg:aspect-[3/4]">
+          <video
+            ref={videoRef}
+            controls={playing}
+            playsInline
+            preload="metadata"
+            poster={system.poster}
+            onPause={() => setPlaying(false)}
+            onPlay={() => setPlaying(true)}
+            className="h-full w-full object-cover"
+          >
+            <source src={system.video} type="video/mp4" />
+          </video>
+
+          {/* Play overlay - hidden once the video is playing */}
+          {!playing && (
+            <button
+              type="button"
+              onClick={handlePlay}
+              aria-label={`${system.title} Video abspielen`}
+              className="absolute inset-0 z-10 flex items-center justify-center bg-gradient-to-br from-deepGold/70 via-gold/40 to-softGold/30 transition-opacity duration-500 hover:from-deepGold/60"
+            >
+              <motion.span
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                className="relative flex h-24 w-24 items-center justify-center rounded-full border border-white/30 bg-white/20 shadow-2xl backdrop-blur-md"
+              >
+                <span className="ml-2 h-0 w-0 border-y-[15px] border-y-transparent border-l-[25px] border-l-white" />
+                <motion.span
+                  animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+                  className="absolute inset-0 rounded-full bg-white/40"
+                />
+              </motion.span>
+            </button>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 export function SystemaufstellungClient() {
   const waLink = getWhatsAppLink(whatsappConfig.messages.erstgespraech);
@@ -92,51 +172,7 @@ export function SystemaufstellungClient() {
           
           <div className="grid gap-10 lg:grid-cols-3">
             {systemTypes.map((system, idx) => (
-              <motion.div 
-                key={system.title}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.2, duration: 1, ease }}
-                className="group flex flex-col"
-              >
-                <div className="mb-8 flex flex-col rounded-[2.8rem] border border-gold/10 bg-white p-10 shadow-[0_20px_60px_rgba(35,42,26,0.04)] transition-all duration-500 group-hover:border-softGold/40 group-hover:shadow-xl group-hover:-translate-y-2">
-                  <div className="flex items-center gap-4 mb-6">
-                    <span className="h-2 w-2 rounded-full bg-softGold" />
-                    <span className="text-xs font-bold uppercase tracking-[.2em] text-softGold">{system.label}</span>
-                  </div>
-                  <h3 className="editorial text-4xl text-deepGold">{system.title}</h3>
-                  <p className="mt-6 text-[1.05rem] leading-relaxed text-deepGold/70">{system.desc}</p>
-                </div>
-
-                <div className="relative overflow-hidden rounded-[2.8rem] bg-deepGold shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]">
-                  <div className="aspect-[9/16] w-full bg-deepGold md:aspect-[4/5] lg:aspect-[3/4] relative group/video">
-                    {/* Animated Gold Play Button Thumbnail */}
-                    <div className="absolute inset-0 z-10 flex items-center justify-center bg-gradient-to-br from-deepGold via-gold to-softGold/80">
-                      <motion.div 
-                        animate={{ scale: [1, 1.1, 1] }}
-                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                        className="relative flex h-24 w-24 items-center justify-center rounded-full bg-white/20 backdrop-blur-md border border-white/30 shadow-2xl"
-                      >
-                        <div className="ml-2 h-0 w-0 border-y-[15px] border-y-transparent border-l-[25px] border-l-white" />
-                        {/* Pulse effect */}
-                        <motion.div 
-                          animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
-                          transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
-                          className="absolute inset-0 rounded-full bg-white/40"
-                        />
-                      </motion.div>
-                    </div>
-
-                    <video 
-                      controls 
-                      className="h-full w-full object-cover opacity-0 transition-opacity duration-700 group-hover/video:opacity-100 relative z-20"
-                    >
-                      <source src={system.video} type="video/mp4" />
-                    </video>
-                  </div>
-                </div>
-              </motion.div>
+              <VideoCard key={system.title} system={system} idx={idx} />
             ))}
           </div>
           
