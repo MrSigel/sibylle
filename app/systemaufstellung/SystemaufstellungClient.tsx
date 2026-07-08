@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { useState } from 'react';
 import { CTAButton } from '@/components/sibylle/CTAButton';
 import { ctaLinks, getWhatsAppLink, whatsappConfig } from '@/lib/sibylle/siteData';
@@ -13,7 +12,6 @@ type SystemType = {
   label: string;
   desc: string;
   streamId: string;
-  poster: string;
 };
 
 function VideoCard({ system, idx }: { system: SystemType; idx: number }) {
@@ -51,16 +49,10 @@ function VideoCard({ system, idx }: { system: SystemType; idx: number }) {
               type="button"
               onClick={() => setPlaying(true)}
               aria-label={`${system.title} Video abspielen`}
-              className="group/play absolute inset-0 flex items-center justify-center overflow-hidden"
+              className="group/play absolute inset-0 flex items-center justify-center overflow-hidden bg-gradient-to-br from-softGold/60 via-gold/45 to-deepGold/70 backdrop-blur-[2px] transition-all duration-500 hover:from-softGold/70 hover:to-deepGold/60"
             >
-              <Image
-                src={system.poster}
-                alt=""
-                fill
-                sizes="(min-width: 1024px) 33vw, 100vw"
-                className="object-cover transition-transform duration-700 group-hover/play:scale-105"
-              />
-              <span className="absolute inset-0 bg-gradient-to-br from-deepGold/70 via-gold/40 to-softGold/30 transition-opacity duration-500 group-hover/play:from-deepGold/60" />
+              {/* Soft golden sheen for a translucent, premium look */}
+              <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(255,255,255,0.28),transparent_60%)]" />
               <motion.span
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
@@ -88,22 +80,19 @@ export function SystemaufstellungClient() {
       title: "Familiensystem",
       label: "Familienaufstellung",
       desc: "Lösung von Verstrickungen innerhalb der Herkunfts- oder Gegenwartsfamilie.",
-      streamId: "jvp4sb",
-      poster: "/assets/sibylle/portraits/3.jpg"
+      streamId: "jvp4sb"
     },
     {
       title: "Organisationssystem",
       label: "Organisationsaufstellung",
       desc: "Klärung von Dynamiken in Unternehmen, Teams oder beruflichen Kontexten.",
-      streamId: "1fspzu",
-      poster: "/assets/sibylle/portraits/2.jpg"
+      streamId: "1fspzu"
     },
     {
       title: "Abstrahiertes System",
       label: "Strukturaufstellung",
       desc: "Arbeit mit abstrakten Elementen wie Zielen, Hindernissen oder inneren Anteilen.",
-      streamId: "kg9coz",
-      poster: "/assets/sibylle/portraits/1.jpg"
+      streamId: "kg9coz"
     }
   ];
 
