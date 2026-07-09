@@ -32,14 +32,6 @@ export function SiteFooter() {
               </svg>
               @sibyllebergold
             </a>
-            <div className="flex items-center gap-3">
-              <div className="flex gap-0.5 text-base text-softGold">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <span key={star}>★</span>
-                ))}
-              </div>
-              <p className="text-[.9rem] font-bold tracking-tight text-deepGold">34 Bewertungen auf Google</p>
-            </div>
           </div>
 
           <div className="space-y-6">
@@ -73,6 +65,14 @@ export function SiteFooter() {
             <a href="mailto:kontakt@sibylle-bergold.com" className="focus-ring inline-flex items-center gap-3 rounded-full border border-gold/20 px-6 py-3 font-semibold text-deepGold transition hover:bg-softGold hover:text-white">
               Sibylle persönlich schreiben <span aria-hidden="true">→</span>
             </a>
+            <div className="flex items-center gap-3 md:justify-end">
+              <div className="flex gap-0.5 text-base text-softGold">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span key={star}>★</span>
+                ))}
+              </div>
+              <p className="text-[.9rem] font-bold tracking-tight text-deepGold">34 Bewertungen auf Google</p>
+            </div>
           </div>
         </div>
         
