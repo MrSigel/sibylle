@@ -348,11 +348,6 @@ function PackageCard({ pkg, featured = false, index, comingSoon = false }: { pkg
           Für dich empfohlen
         </div>
       )}
-      {comingSoon && (
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-deepGold/80 px-5 py-1 text-[10px] font-bold uppercase tracking-widest text-cream shadow-md">
-          Bald verfügbar
-        </div>
-      )}
 
       <div className={featured ? 'mb-8' : 'mb-6'}>
         <h3 className={`font-serif ${featured ? 'text-3xl md:text-4xl' : 'flex items-start text-2xl leading-tight min-h-[2.5em]'}`}>{pkg.title}</h3>
@@ -378,15 +373,17 @@ function PackageCard({ pkg, featured = false, index, comingSoon = false }: { pkg
             type="button"
             disabled
             aria-disabled="true"
-            className="flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-full bg-gold/10 py-3.5 font-bold text-deepGold/40"
+            className="inline-flex h-14 w-full cursor-not-allowed items-center justify-center gap-2 rounded-full bg-gold/15 px-7 text-[.78rem] font-bold tracking-[.02em] text-deepGold/40"
           >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
               <path d="M7 11V7a5 5 0 0 1 10 0v4" />
             </svg>
             Kontakt
           </button>
-          <p className="text-center text-xs font-semibold uppercase tracking-widest text-softGold">Bald verfügbar</p>
+          <div className="flex h-10 w-full items-center justify-center text-[10px] font-bold uppercase tracking-[.2em] text-softGold">
+            Bald verfügbar
+          </div>
         </div>
       ) : (
         <div className="space-y-3">
