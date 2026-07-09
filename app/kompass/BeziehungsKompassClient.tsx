@@ -88,8 +88,8 @@ const questions: Question[] = [
     ],
   },
   {
-    eyebrow: "Schutz",
-    question: "Was schützt dich am meisten, wenn Beziehung unsicher wird?",
+    eyebrow: "Halt",
+    question: "Was brauchst du am meisten, wenn Beziehung unsicher wird?",
     answers: [
       { type: "A", text: "Verlässlichkeit, Geduld und Durchhalten." },
       { type: "B", text: "Abstand, Bewegung und Selbstbestimmung." },
@@ -128,15 +128,17 @@ function progressText(index: number) {
   return "Fast geschafft";
 }
 
-type Phase = "cover" | "questions" | "loading" | "gate" | "done";
+type Phase = "cover" | "questions" | "loading" | "result";
 
 export function BeziehungsKompassClient() {
   const [phase, setPhase] = useState<Phase>("cover");
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<CompassType[]>([]);
   const [selected, setSelected] = useState<CompassType | null>(null);
-  const [lead, setLead] = useState({ vorname: "", telefonnummer: "", consent: false });
+  const [lead, setLead] = useState({ vorname: "", email: "", telefonnummer: "", consent: false });
   const [saving, setSaving] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [formError, setFormError] = useState("");
 
   const resultType = useMemo(() => getResult(answers), [answers]);
   const question = questions[step];
@@ -152,35 +154,47 @@ export function BeziehungsKompassClient() {
       setSelected(null);
       if (step === questions.length - 1) {
         setPhase("loading");
-        setTimeout(() => setPhase("gate"), 2000);
+        setTimeout(() => setPhase("result"), 2000);
       } else {
         setStep((current) => current + 1);
       }
     }, 320);
   }
 
+  const hasContact = lead.email.trim() !== "" || lead.telefonnummer.trim() !== "";
+
   async function submitLead(e: React.FormEvent) {
     e.preventDefault();
-    if (!lead.consent) return;
+    setFormError("");
+    if (!hasContact) {
+      setFormError("Bitte gib deine E-Mail-Adresse oder Telefonnummer ein.");
+      return;
+    }
+    if (!lead.consent) {
+      setFormError("Bitte bestätige die Einwilligung, damit Sibylle sich melden darf.");
+      return;
+    }
     setSaving(true);
     const type = getResult(answers);
     const { error } = await supabase.from("selbsttests").insert([{
       vorname: lead.vorname.trim(),
-      telefonnummer: lead.telefonnummer.trim(),
+      email: lead.email.trim() || null,
+      telefonnummer: lead.telefonnummer.trim() || null,
       ergebnis_typ: resultLabels[type],
     }]);
     setSaving(false);
     if (error) {
-      alert("Deine Daten konnten gerade nicht gespeichert werden. Bitte versuche es erneut.");
+      setFormError("Deine Daten konnten gerade nicht gespeichert werden. Bitte versuche es erneut.");
       return;
     }
     notifyLead("selbsttest", [
       { label: "Selbsttest", value: "Beziehungs-Kompass" },
-      { label: "Vorname", value: lead.vorname.trim() },
-      { label: "WhatsApp", value: lead.telefonnummer.trim() },
+      { label: "Vorname", value: lead.vorname.trim() || "—" },
+      { label: "E-Mail", value: lead.email.trim() || "—" },
+      { label: "Telefon", value: lead.telefonnummer.trim() || "—" },
       { label: "Ergebnis", value: resultLabels[type] },
     ]);
-    setPhase("done");
+    setSubmitted(true);
   }
 
   return (
@@ -232,18 +246,11 @@ export function BeziehungsKompassClient() {
                   </div>
                 </>
               )}
-              {phase === "gate" && (
+              {phase === "result" && (
                 <div className="flex h-full flex-col justify-center">
-                  <p className="eyebrow">Dein vorläufiges Muster</p>
+                  <p className="eyebrow">Dein Ergebnis</p>
                   <h2 className="editorial mt-5 text-4xl leading-tight text-warmBlack lg:text-5xl">{resultLabels[resultType]}</h2>
                   <p className="mt-6 leading-8 text-deepGold/75">{resultDescriptions[resultType]}</p>
-                </div>
-              )}
-              {phase === "done" && (
-                <div className="flex h-full flex-col justify-center">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-deepGold text-2xl text-cream">✓</div>
-                  <h2 className="editorial mt-8 text-4xl leading-tight text-warmBlack lg:text-5xl">Dein Kompass ist unterwegs.</h2>
-                  <p className="mt-6 leading-8 text-deepGold/75">Dein Muster: <span className="font-semibold text-deepGold">{resultLabels[resultType]}</span></p>
                 </div>
               )}
             </div>
@@ -306,33 +313,7 @@ export function BeziehungsKompassClient() {
                 </motion.div>
               )}
 
-              {phase === "gate" && (
-                <motion.form
-                  onSubmit={submitLead}
-                  initial={{ rotateY: 62, opacity: 0 }}
-                  animate={{ rotateY: 0, opacity: 1 }}
-                  transition={{ duration: 0.55, ease }}
-                  style={{ transformOrigin: "left center" }}
-                  className="flex flex-1 flex-col justify-center"
-                >
-                  <p className="eyebrow">Deine Auswertung</p>
-                  <h2 className="editorial mt-4 text-3xl leading-tight text-warmBlack md:text-4xl">Wohin darf dein Kompass?</h2>
-                  <p className="mt-4 text-sm leading-7 text-deepGold/70">Sibylle schickt dir deine persönliche Auswertung samt Impulsen direkt per WhatsApp.</p>
-                  <div className="mt-7 space-y-4">
-                    <Field label="Vorname" value={lead.vorname} required onChange={(value) => setLead({ ...lead, vorname: value })} />
-                    <Field label="WhatsApp-Telefonnummer" value={lead.telefonnummer} required onChange={(value) => setLead({ ...lead, telefonnummer: value })} />
-                  </div>
-                  <label className="mt-4 flex gap-3 rounded-2xl border border-gold/15 bg-mist/5 p-4 text-xs leading-6 text-deepGold/80">
-                    <input required type="checkbox" checked={lead.consent} onChange={(e) => setLead({ ...lead, consent: e.target.checked })} className="mt-0.5 h-4 w-4 accent-deepGold" />
-                    <span>Ich willige ein, dass Sibylle Bergold mir meine Auswertung sowie Impulse zu Coaching-Themen per WhatsApp zusendet. Der Widerruf ist jederzeit möglich. Es gelten die Bestimmungen der Datenschutzerklärung.</span>
-                  </label>
-                  <button type="submit" disabled={saving || !lead.consent} className="mt-6 w-full rounded-full bg-deepGold px-8 py-4 font-bold text-white shadow-soft transition hover:bg-gold disabled:opacity-50">
-                    {saving ? "Wird gesendet…" : "Auswertung per WhatsApp erhalten"}
-                  </button>
-                </motion.form>
-              )}
-
-              {phase === "done" && (
+              {phase === "result" && (
                 <motion.div
                   initial={{ rotateY: 62, opacity: 0 }}
                   animate={{ rotateY: 0, opacity: 1 }}
@@ -340,15 +321,50 @@ export function BeziehungsKompassClient() {
                   style={{ transformOrigin: "left center" }}
                   className="flex flex-1 flex-col justify-center"
                 >
-                  <p className="eyebrow">Vielen Dank</p>
-                  <h2 className="editorial mt-4 text-3xl leading-tight text-warmBlack md:text-4xl">Was jetzt möglich wird.</h2>
-                  <p className="mt-5 leading-8 text-deepGold/75">
-                    Sibylle wurde direkt benachrichtigt und schickt dir deine persönliche Auswertung zeitnah per WhatsApp an {lead.telefonnummer}.
-                  </p>
-                  <p className="mt-4 text-sm leading-7 text-deepGold/60">Wenn du magst, gehen wir deinem Muster in einem ruhigen Erstgespräch gemeinsam auf den Grund.</p>
-                  <a href="/#termine" className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-deepGold px-8 py-4 font-bold text-white shadow-soft transition hover:bg-gold">
-                    Kostenfreies Erstgespräch buchen <span aria-hidden="true">→</span>
-                  </a>
+                  {!submitted ? (
+                    <>
+                      {/* Result is repeated here for mobile, where the left book page is hidden */}
+                      <div className="mb-6 md:hidden">
+                        <p className="eyebrow">Dein Ergebnis</p>
+                        <h2 className="editorial mt-4 text-3xl leading-tight text-warmBlack">{resultLabels[resultType]}</h2>
+                        <p className="mt-5 leading-8 text-deepGold/75">{resultDescriptions[resultType]}</p>
+                      </div>
+
+                      <div className="rounded-2xl border border-gold/15 bg-mist/5 p-5">
+                        <p className="text-sm font-bold text-deepGold">Persönliche Auswertung &amp; Impulse erhalten?</p>
+                        <p className="mt-1 text-xs leading-6 text-deepGold/60">Optional – trag einfach deine E-Mail oder Telefonnummer ein, dann meldet sich Sibylle bei dir.</p>
+                        <form onSubmit={submitLead} className="mt-5 space-y-3.5">
+                          <Field label="Vorname (optional)" value={lead.vorname} onChange={(value) => setLead({ ...lead, vorname: value })} />
+                          <Field label="E-Mail" type="email" value={lead.email} onChange={(value) => setLead({ ...lead, email: value })} />
+                          <Field label="Telefon / WhatsApp" value={lead.telefonnummer} onChange={(value) => setLead({ ...lead, telefonnummer: value })} />
+                          <label className="flex gap-3 rounded-2xl border border-gold/15 bg-white/60 p-4 text-xs leading-6 text-deepGold/80">
+                            <input type="checkbox" checked={lead.consent} onChange={(e) => setLead({ ...lead, consent: e.target.checked })} className="mt-0.5 h-4 w-4 accent-deepGold" />
+                            <span>Ich willige ein, dass Sibylle Bergold mir meine Auswertung sowie Impulse zu Coaching-Themen per E-Mail oder WhatsApp zusendet. Der Widerruf ist jederzeit möglich. Es gelten die Bestimmungen der Datenschutzerklärung.</span>
+                          </label>
+                          {formError && <p className="text-xs font-medium text-red-500">{formError}</p>}
+                          <button type="submit" disabled={saving} className="w-full rounded-full bg-deepGold px-8 py-4 font-bold text-white shadow-soft transition hover:bg-gold disabled:opacity-50">
+                            {saving ? "Wird gespeichert…" : "Auswertung anfordern"}
+                          </button>
+                        </form>
+                      </div>
+
+                      <a href="/#termine" className="mt-6 inline-flex w-fit items-center gap-2 text-sm font-bold text-deepGold underline decoration-softGold/50 underline-offset-4 transition hover:text-gold">
+                        Oder direkt ein kostenfreies Erstgespräch buchen <span aria-hidden="true">→</span>
+                      </a>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-deepGold text-2xl text-cream">✓</div>
+                      <h2 className="editorial mt-8 text-3xl leading-tight text-warmBlack md:text-4xl">Vielen Dank!</h2>
+                      <p className="mt-5 leading-8 text-deepGold/75">
+                        Deine Daten sind gespeichert und Sibylle wurde benachrichtigt. Sie meldet sich zeitnah mit deiner persönlichen Auswertung bei dir.
+                      </p>
+                      <p className="mt-4 text-sm leading-7 text-deepGold/60">Wenn du magst, gehen wir deinem Muster in einem ruhigen Erstgespräch gemeinsam auf den Grund.</p>
+                      <a href="/#termine" className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-deepGold px-8 py-4 font-bold text-white shadow-soft transition hover:bg-gold">
+                        Kostenfreies Erstgespräch buchen <span aria-hidden="true">→</span>
+                      </a>
+                    </>
+                  )}
                 </motion.div>
               )}
             </div>
@@ -396,11 +412,11 @@ export function BeziehungsKompassClient() {
   );
 }
 
-function Field({ label, value, onChange, required }: { label: string; value: string; onChange: (value: string) => void; required?: boolean }) {
+function Field({ label, value, onChange, required, type = "text" }: { label: string; value: string; onChange: (value: string) => void; required?: boolean; type?: string }) {
   return (
     <div className="space-y-2">
       <label className="text-xs font-bold uppercase tracking-widest text-deepGold/60">{label}</label>
-      <input required={required} value={value} onChange={(e) => onChange(e.target.value)} className="w-full rounded-2xl border border-gold/15 bg-mist/5 px-4 py-3 outline-none focus:border-gold/40 focus:bg-white" />
+      <input type={type} required={required} value={value} onChange={(e) => onChange(e.target.value)} className="w-full rounded-2xl border border-gold/15 bg-mist/5 px-4 py-3 outline-none focus:border-gold/40 focus:bg-white" />
     </div>
   );
 }
