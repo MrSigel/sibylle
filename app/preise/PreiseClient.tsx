@@ -351,7 +351,7 @@ function PackageCard({ pkg, featured = false, index, comingSoon = false }: { pkg
 
       <div className={featured ? 'mb-8' : 'mb-6'}>
         <h3 className={`font-serif ${featured ? 'text-3xl md:text-4xl' : 'flex items-start text-2xl leading-tight min-h-[2.5em]'}`}>{pkg.title}</h3>
-        <p className="mt-2 text-xs font-medium uppercase tracking-wide text-softGold sm:text-sm">{pkg.duration}</p>
+        <p className="mt-2 flex min-h-[2.9em] items-start text-xs font-medium uppercase leading-snug tracking-wide text-softGold sm:text-sm">{pkg.duration}</p>
       </div>
 
       <div className={featured ? 'mb-8' : 'mb-6'}>
