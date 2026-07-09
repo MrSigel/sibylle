@@ -99,14 +99,14 @@ export function InstagramSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.12, duration: 0.7, ease }}
-                className="relative overflow-hidden rounded-[2rem] border border-gold/10 bg-white shadow-[0_20px_50px_rgba(35,42,26,.08)]"
+                className="relative rounded-[2rem] border border-gold/10 bg-white shadow-[0_20px_50px_rgba(35,42,26,.08)]"
               >
                 {index === 0 && (
-                  <div className="absolute left-4 top-4 z-10 rounded-full bg-deepGold px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-cream shadow-md">
+                  <div className="absolute -top-3 left-6 z-10 rounded-full bg-deepGold px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-cream shadow-md">
                     Neu
                   </div>
                 )}
-                <div className="relative aspect-[4/5] w-full">
+                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem]">
                   <iframe
                     src={instagramEmbedUrl(post)}
                     title={`Instagram-Video ${index + 1}`}
