@@ -43,9 +43,10 @@ export default function ImpressumPage() {
             </div>
 
             <div>
-              <h2 className="text-sm font-bold uppercase tracking-widest text-softGold">Steuer-ID</h2>
+              <h2 className="text-sm font-bold uppercase tracking-widest text-softGold">Steuerangaben</h2>
               <div className="mt-6 space-y-2 text-lg leading-relaxed text-deepGold/90">
                 <p>Steuer Nr.: 204 281 10146</p>
+                <p>Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz: DE276213476</p>
               </div>
             </div>
 
