@@ -111,7 +111,7 @@ export function UeberMichClient() {
                 Du möchtest dich persönlich weiterentwickeln? Aufstellungsarbeit bietet Raum für:
               </p>
               <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {["Einzelpersonen", "Führungskräfte", "Familien", "Kinder", "Paare", "Geschwister", "Geschäftspartner"].map((item) => (
+                {["Einzelpersonen", "Führungskräfte", "Teams", "Familien", "Kinder", "Paare", "Geschwister", "Geschäftspartner"].map((item) => (
                   <li key={item} className="flex items-center gap-3 text-sm font-medium text-deepGold/90">
                     <span className="h-1.5 w-1.5 rounded-full bg-softGold" />
                     {item}

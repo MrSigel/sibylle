@@ -376,7 +376,7 @@ function PackageCard({ pkg, featured = false, index }: { pkg: PricingPackage; fe
       )}
 
       <div className={featured ? 'mb-8' : 'mb-6'}>
-        <h3 className={`font-serif ${featured ? 'text-3xl md:text-4xl' : 'text-2xl'}`}>{pkg.title}</h3>
+        <h3 className={`font-serif ${featured ? 'text-3xl md:text-4xl' : 'flex items-start text-2xl leading-tight min-h-[2.5em]'}`}>{pkg.title}</h3>
         <p className="mt-2 text-xs font-medium uppercase tracking-wide text-softGold sm:text-sm">{pkg.duration}</p>
       </div>
 

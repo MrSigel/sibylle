@@ -35,7 +35,7 @@ function VideoCard({ system, idx }: { system: SystemType; idx: number }) {
       </div>
 
       <div className="relative overflow-hidden rounded-[2.8rem] bg-deepGold shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]">
-        <div className="relative aspect-video w-full bg-deepGold">
+        <div className="relative mx-auto aspect-[9/16] w-full max-w-[360px] bg-deepGold">
           {playing ? (
             <iframe
               src={`https://streamable.com/e/${system.streamId}?autoplay=1`}
