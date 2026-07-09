@@ -80,19 +80,19 @@ export function SystemaufstellungClient() {
       title: "Familiensystem",
       label: "Familienaufstellung",
       desc: "Lösung von Verstrickungen innerhalb der Herkunfts- oder Gegenwartsfamilie.",
-      streamId: "jvp4sb"
+      streamId: "norujw"
     },
     {
       title: "Organisationssystem",
       label: "Organisationsaufstellung",
       desc: "Klärung von Dynamiken in Unternehmen, Teams oder beruflichen Kontexten.",
-      streamId: "1fspzu"
+      streamId: "hol4re"
     },
     {
       title: "Abstrahiertes System",
       label: "Strukturaufstellung",
       desc: "Arbeit mit abstrakten Elementen wie Zielen, Hindernissen oder inneren Anteilen.",
-      streamId: "kg9coz"
+      streamId: "0cbnxs"
     }
   ];
 
