@@ -112,7 +112,6 @@ export function InstagramSection() {
                     title={`Instagram-Video ${index + 1}`}
                     loading="lazy"
                     scrolling="no"
-                    allowTransparency
                     className="absolute inset-0 h-full w-full border-0"
                   />
                 </div>
