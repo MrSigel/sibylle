@@ -32,6 +32,14 @@ export function SiteFooter() {
               </svg>
               @sibyllebergold
             </a>
+            <div className="flex items-center gap-3">
+              <div className="flex gap-0.5 text-base text-softGold">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span key={star}>★</span>
+                ))}
+              </div>
+              <p className="text-[.9rem] font-bold tracking-tight text-deepGold">34 Bewertungen auf Google</p>
+            </div>
           </div>
 
           <div className="space-y-6">
