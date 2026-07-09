@@ -62,7 +62,7 @@ export function BeziehungsmusterClient() {
                   Manche Menschen erleben in Beziehungen immer wieder ähnliche Situationen: Sie ziehen sich zurück, sobald Nähe entsteht. Sie geben zu viel. Sie geraten an Menschen, die nicht wirklich verfügbar sind.
                 </p>
                 <p>
-                  Oder sie spüren nach einer Trennung, dass sich derselbe Schmerz schon viel früher angefühlt hat. Solche Muster entstehen oft nicht zufällig. Häufig tragen sie eine Geschichte in sich, die älter ist als die aktuelle Beziehung.
+                  Oder sie spüren nach einer Trennung, dass sich derselbe Schmerz schon von früher wiederholt. Solche Muster entstehen oft nicht zufällig. Häufig tragen sie eine Geschichte in sich, die älter ist als die aktuelle Beziehung.
                 </p>
               </div>
             </motion.div>

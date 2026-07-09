@@ -148,7 +148,7 @@ export const pricingPackages = [
   {
     title: "Klarheits-Session",
     price: "1.490 €",
-    duration: "2 × 90 Min.",
+    duration: "3 × 90 Min.",
     features: [
       "Systemische Aufstellung zu einem Kernthema",
       "Ruhige Vor- und Nachbereitung",
@@ -250,9 +250,9 @@ export const faqItems = [
       "Die Pakete beginnen bei 399 Euro für eine 90-minütige Einzelsession. Mehrmonatige Begleitungen werden auf der Preise-Seite transparent als Pakete dargestellt.",
   },
   {
-    question: "Findet die Begleitung in München oder online statt?",
+    question: "Findet die Begleitung in Aschaffenburg oder online statt?",
     answer:
-      "Die Begleitung ist online möglich und kann je nach Rahmen auch vor Ort im Raum München abgestimmt werden. Der passende Rahmen wird vorab persönlich geklärt.",
+      "Die Begleitung ist online möglich und kann je nach Rahmen auch vor Ort im Raum Aschaffenburg abgestimmt werden. Der passende Rahmen wird vorab persönlich geklärt.",
   },
   {
     question: "Welche Voraussetzungen brauche ich?",
