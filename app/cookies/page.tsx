@@ -10,19 +10,19 @@ export const metadata = pageMetadata({
 export default function CookiesPage() {
   const cookieGroups = [
     {
-      title: "Essenziell",
-      desc: "Diese Cookies sind für den technischen Betrieb der Website notwendig und können nicht deaktiviert werden.",
+      title: "Notwendig",
+      desc: "Diese Einträge sind für den technischen Betrieb der Website erforderlich und werden ohne gesonderte Einwilligung verwendet.",
       items: [
-        { name: "sibylle-cookie-consent", purpose: "Speichert den Status deiner Cookie-Einwilligung.", duration: "1 Jahr" },
-        { name: "next-auth.session-token", purpose: "Wird für die sichere Anmeldung und Sitzungsverwaltung benötigt (falls zutreffend).", duration: "Sitzung" }
+        { name: "sibylle-cookie-consent", purpose: "Speichert deine Cookie-Auswahl. Wird technisch im lokalen Speicher (localStorage) deines Browsers abgelegt – kein klassisches Cookie.", duration: "Bis zum Löschen im Browser" },
+        { name: "crm_session", purpose: "Sichere Anmelde-Sitzung für den internen Verwaltungsbereich. Wird ausschließlich nach einem Login gesetzt – nicht für normale Besucher.", duration: "Bis zur Abmeldung" }
       ]
     },
     {
-      title: "Funktional & Infrastruktur",
-      desc: "Cookies, die von unseren Infrastruktur-Partnern gesetzt werden, um die Performance und Sicherheit zu gewährleisten.",
+      title: "Statistik & Analyse (optional)",
+      desc: "Diese Cookies werden nur gesetzt, wenn du im Cookie-Hinweis „Alle akzeptieren“ wählst (Google Consent Mode). Sie helfen uns zu verstehen, wie die Website genutzt wird.",
       items: [
-        { name: "sb-api-auth", purpose: "Supabase Authentifizierung und API-Zugriff.", duration: "Sitzung" },
-        { name: "__vc_static", purpose: "Vercel Infrastruktur-Cookie zur Optimierung der Auslieferung.", duration: "Sitzung" }
+        { name: "_ga", purpose: "Google Analytics: unterscheidet Besucher voneinander.", duration: "2 Jahre" },
+        { name: "_ga_N2LYRE0S8V", purpose: "Google Analytics: speichert den Sitzungsstatus für die Auswertung.", duration: "2 Jahre" }
       ]
     }
   ];
@@ -62,6 +62,13 @@ export default function CookiesPage() {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="premium-panel mt-8 rounded-[2.5rem] p-8 md:p-12">
+          <h2 className="editorial text-3xl text-deepGold">Einwilligung &amp; Widerruf</h2>
+          <p className="mt-6 text-base leading-8 text-deepGold/80">
+            Statistik- und Analyse-Cookies werden ausschließlich nach deiner ausdrücklichen Einwilligung geladen. Solange du nur „Nur essenziell“ wählst, findet keine Analyse statt. Du kannst deine Auswahl jederzeit ändern, indem du die gespeicherte Einstellung in deinem Browser löschst und die Seite erneut aufrufst.
+          </p>
         </div>
       </div>
     </main>
