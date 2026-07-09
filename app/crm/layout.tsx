@@ -51,6 +51,11 @@ const navItems = [
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.5 6.5h.01" />
     </svg>
   )},
+  { label: "Newsletter", href: "/crm/newsletter", icon: (props: any) => (
+    <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 8.5V17a2 2 0 01-2 2H5a2 2 0 01-2-2V8.5m18 0A2 2 0 0019 7H5a2 2 0 00-2 1.5m18 0l-9 5.5-9-5.5" />
+    </svg>
+  )},
   { label: "Freigaben", href: "/crm/availability", icon: (props: any) => (
     <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />

@@ -184,7 +184,6 @@ export default function SocialMediaPage() {
                   title={`Instagram ${post.shortcode}`}
                   loading="lazy"
                   scrolling="no"
-                  allowTransparency
                   className="absolute inset-0 h-full w-full border-0"
                 />
               </div>
@@ -252,7 +251,6 @@ export default function SocialMediaPage() {
                       src={instagramEmbedUrl(preview)}
                       title="Vorschau"
                       scrolling="no"
-                      allowTransparency
                       className="absolute inset-0 h-full w-full border-0"
                     />
                   </div>

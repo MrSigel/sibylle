@@ -7,6 +7,7 @@ import { TestimonialMarquee } from "@/components/sibylle/TestimonialMarquee";
 import { AboutSibylle } from "@/components/sibylle/AboutSibylle";
 import { MethodStory } from "@/components/sibylle/MethodStory";
 import { InstagramSection } from "@/components/sibylle/InstagramSection";
+import { NewsletterSection } from "@/components/sibylle/NewsletterSection";
 import { PublicBookingCalendar } from "@/components/sibylle/PublicBookingCalendar";
 import { FAQAccordion } from "@/components/sibylle/FAQAccordion";
 import { ClosingCTA } from "@/components/sibylle/ClosingCTA";
@@ -34,6 +35,7 @@ export default function HomePage() {
       <MethodStory />
       <InstagramSection />
       <PublicBookingCalendar />
+      <NewsletterSection />
       <FAQAccordion />
       <ClosingCTA />
     </main>

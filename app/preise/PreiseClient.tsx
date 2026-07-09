@@ -125,6 +125,17 @@ export function PreiseClient() {
   const recommended = pricingPackages.find((p) => p.title === recommendedTitle) ?? pricingPackages[0];
   const others = pricingPackages.filter((p) => p.title !== recommended.title);
 
+  // Academy is shown alongside the packages but is not part of the quiz scoring
+  // and is not bookable yet ("Bald verfügbar").
+  const academyCard: PricingPackage = {
+    title: academyInfo.title,
+    price: "ab 47 €",
+    duration: "Mitgliedschaft / Monat",
+    features: academyInfo.features,
+    cta: "Kontakt",
+    highlight: false,
+  };
+
   return (
     <main className="overflow-hidden">
       {/* Hero Section */}
@@ -252,13 +263,14 @@ export function PreiseClient() {
                   <PackageCard pkg={recommended} featured index={0} />
                 </div>
 
-                {/* Other packages, smaller */}
+                {/* Other packages + Academy, smaller and in one row on desktop */}
                 <div className="mt-16">
                   <p className="mb-8 text-center text-xs font-bold uppercase tracking-widest text-deepGold/40">Weitere Pakete</p>
-                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
                     {others.map((pkg, idx) => (
                       <PackageCard key={pkg.title} pkg={pkg} index={idx} />
                     ))}
+                    <PackageCard key={academyCard.title} pkg={academyCard} index={others.length} comingSoon />
                   </div>
                 </div>
 
@@ -282,6 +294,7 @@ export function PreiseClient() {
                   {pricingPackages.map((pkg, idx) => (
                     <PackageCard key={pkg.title} pkg={pkg} featured={pkg.highlight} index={idx} />
                   ))}
+                  <PackageCard key={academyCard.title} pkg={academyCard} index={pricingPackages.length} comingSoon />
                 </div>
                 <div className="mt-14 text-center">
                   <button
@@ -297,45 +310,6 @@ export function PreiseClient() {
           </div>
         </section>
       )}
-
-      {/* Academy Section */}
-      <section className="section-shell bg-white/30">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="relative overflow-hidden rounded-[3rem] bg-white border border-gold/10 shadow-xl"
-          >
-            <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-softGold/10 blur-[80px]" />
-            <div className="grid items-center gap-12 p-10 lg:grid-cols-[1fr_.7fr] lg:p-20">
-              <div>
-                <p className="eyebrow">Selbststudium & Community</p>
-                <h2 className="editorial mt-6 text-4xl md:text-5xl lg:text-6xl">{academyInfo.title}</h2>
-                <p className="mt-8 text-lg leading-8 text-deepGold/80">
-                  Werde Teil der Academy und erhalte Zugang zu wertvollen Inhalten für deine eigene Prozessarbeit – flexibel und im eigenen Tempo.
-                </p>
-                <ul className="mt-10 grid gap-4 sm:grid-cols-2">
-                  {academyInfo.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-4 text-sm font-semibold text-deepGold">
-                      <span className="h-2 w-2 rounded-full bg-softGold" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="flex flex-col items-center justify-center rounded-3xl bg-white/50 p-10 text-center">
-                <span className="text-sm font-bold uppercase tracking-widest text-softGold">Ab</span>
-                <span className="mt-2 text-5xl font-bold text-deepGold">{academyInfo.price}</span>
-                <div className="mt-8 w-full">
-                  <CTAButton href={getWhatsAppLink(whatsappConfig.messages.paketAnfrage('Academy'))} className="w-full">Jetzt Platz anfragen</CTAButton>
-                </div>
-                <p className="mt-4 text-xs text-deepGold/50">Jederzeit monatlich kündbar</p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
       {/* Individual Inquiry */}
       <section className="section-shell text-center">
@@ -357,7 +331,7 @@ export function PreiseClient() {
 
 type PricingPackage = (typeof pricingPackages)[number];
 
-function PackageCard({ pkg, featured = false, index }: { pkg: PricingPackage; featured?: boolean; index: number }) {
+function PackageCard({ pkg, featured = false, index, comingSoon = false }: { pkg: PricingPackage; featured?: boolean; index: number; comingSoon?: boolean }) {
   return (
     <motion.article
       initial={{ opacity: 0, y: 30 }}
@@ -372,6 +346,11 @@ function PackageCard({ pkg, featured = false, index }: { pkg: PricingPackage; fe
       {featured && (
         <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-softGold px-5 py-1 text-[10px] font-bold uppercase tracking-widest text-deepGold shadow-md">
           Für dich empfohlen
+        </div>
+      )}
+      {comingSoon && (
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-deepGold/80 px-5 py-1 text-[10px] font-bold uppercase tracking-widest text-cream shadow-md">
+          Bald verfügbar
         </div>
       )}
 
@@ -393,23 +372,41 @@ function PackageCard({ pkg, featured = false, index }: { pkg: PricingPackage; fe
         ))}
       </ul>
 
-      <div className="space-y-3">
-        <CTAButton
-          href={`/success?paket=${encodeURIComponent(pkg.title)}`}
-          variant={featured ? 'secondary' : 'primary'}
-          className="w-full"
-          onClick={() => trackEvent('package_click', { package: pkg.title, action: 'request_steps', featured })}
-        >
-          Paket anfragen
-        </CTAButton>
-        <CTAButton
-          href={getWhatsAppLink(whatsappConfig.messages.paketAnfrage(pkg.title))}
-          variant="ghost"
-          className={`w-full !h-10 text-[10px] ${featured ? 'text-cream/90 hover:bg-white/10 hover:text-cream' : 'text-deepGold/80 hover:bg-gold/5'}`}
-        >
-          Vorher per WhatsApp klären
-        </CTAButton>
-      </div>
+      {comingSoon ? (
+        <div className="space-y-3">
+          <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            className="flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-full bg-gold/10 py-3.5 font-bold text-deepGold/40"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            Kontakt
+          </button>
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-softGold">Bald verfügbar</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          <CTAButton
+            href={`/success?paket=${encodeURIComponent(pkg.title)}`}
+            variant={featured ? 'secondary' : 'primary'}
+            className="w-full"
+            onClick={() => trackEvent('package_click', { package: pkg.title, action: 'request_steps', featured })}
+          >
+            Paket anfragen
+          </CTAButton>
+          <CTAButton
+            href={getWhatsAppLink(whatsappConfig.messages.paketAnfrage(pkg.title))}
+            variant="ghost"
+            className={`w-full !h-10 text-[10px] ${featured ? 'text-cream/90 hover:bg-white/10 hover:text-cream' : 'text-deepGold/80 hover:bg-gold/5'}`}
+          >
+            Vorher per WhatsApp klären
+          </CTAButton>
+        </div>
+      )}
     </motion.article>
   );
 }

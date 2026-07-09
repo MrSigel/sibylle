@@ -1,6 +1,7 @@
 import { ImapFlow } from "imapflow";
 import { simpleParser } from "mailparser";
 import nodemailer from "nodemailer";
+import { newsletterWelcomeEmail } from "@/lib/sibylle/emailTemplates";
 
 export type CrmMailbox = "inbox" | "sent";
 
@@ -23,6 +24,8 @@ export type SendMailInput = {
   bcc?: string;
   subject: string;
   text: string;
+  html?: string;
+  replyTo?: string;
 };
 
 function boolFromEnv(value: string | undefined, fallback: boolean) {
@@ -192,8 +195,10 @@ export async function sendCrmMail(input: SendMailInput) {
     to: input.to,
     cc: input.cc || undefined,
     bcc: input.bcc || undefined,
+    replyTo: input.replyTo || undefined,
     subject: input.subject,
     text: input.text,
+    html: input.html || undefined,
   };
 
   const transporter = nodemailer.createTransport({
@@ -209,6 +214,68 @@ export async function sendCrmMail(input: SendMailInput) {
   const sent = await transporter.sendMail(mail);
   await appendSentMessage(mail).catch(() => undefined);
   return { messageId: sent.messageId };
+}
+
+/**
+ * Transactional welcome email sent to a visitor right after they subscribe to
+ * the newsletter on the public site. Not appended to the Sent folder (these are
+ * automated). Best-effort: the subscriber is already persisted in Supabase.
+ */
+export async function sendNewsletterWelcome(to: string) {
+  const config = getMailConfig();
+  const smtp = getSmtpConfig();
+  const fromAddress = config.fromAddress || smtp.user;
+  const { subject, html, text } = newsletterWelcomeEmail();
+
+  const transporter = nodemailer.createTransport({
+    host: smtp.host,
+    port: smtp.port,
+    secure: smtp.secure,
+    auth: { user: smtp.user, pass: smtp.password },
+  });
+
+  await transporter.sendMail({
+    from: `"${config.fromName}" <${fromAddress}>`,
+    to,
+    subject,
+    text,
+    html,
+  });
+}
+
+/**
+ * Sends a newsletter campaign from the CRM to all recipients via BCC and keeps a
+ * copy in the Sent folder. Recipients are hidden from each other.
+ */
+export async function sendNewsletterCampaign(input: {
+  recipients: string[];
+  subject: string;
+  html: string;
+  text: string;
+}) {
+  const config = getMailConfig();
+  const smtp = getSmtpConfig();
+  const fromAddress = config.fromAddress || smtp.user;
+
+  const mail = {
+    from: `"${config.fromName}" <${fromAddress}>`,
+    to: fromAddress,
+    bcc: input.recipients.join(", "),
+    subject: input.subject,
+    text: input.text,
+    html: input.html,
+  };
+
+  const transporter = nodemailer.createTransport({
+    host: smtp.host,
+    port: smtp.port,
+    secure: smtp.secure,
+    auth: { user: smtp.user, pass: smtp.password },
+  });
+
+  const sent = await transporter.sendMail(mail);
+  await appendSentMessage(mail).catch(() => undefined);
+  return { messageId: sent.messageId, count: input.recipients.length };
 }
 
 export type LeadNotificationInput = {
