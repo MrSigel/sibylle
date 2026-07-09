@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { CTAButton } from '@/components/sibylle/CTAButton';
 import { ctaLinks, getWhatsAppLink, whatsappConfig } from '@/lib/sibylle/siteData';
 
@@ -11,11 +11,17 @@ type SystemType = {
   title: string;
   label: string;
   desc: string;
-  streamId: string;
+  video: string;
 };
 
 function VideoCard({ system, idx }: { system: SystemType; idx: number }) {
-  const [playing, setPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [started, setStarted] = useState(false);
+
+  function handlePlay() {
+    setStarted(true);
+    videoRef.current?.play();
+  }
 
   return (
     <motion.div
@@ -36,18 +42,20 @@ function VideoCard({ system, idx }: { system: SystemType; idx: number }) {
 
       <div className="relative overflow-hidden rounded-[2.8rem] bg-deepGold shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]">
         <div className="relative mx-auto aspect-[9/16] w-full max-w-[360px] bg-deepGold">
-          {playing ? (
-            <iframe
-              src={`https://streamable.com/e/${system.streamId}?autoplay=1`}
-              title={`${system.title} – Video`}
-              allow="autoplay; fullscreen"
-              allowFullScreen
-              className="absolute inset-0 h-full w-full border-0"
-            />
-          ) : (
+          <video
+            ref={videoRef}
+            src={system.video}
+            controls={started}
+            playsInline
+            preload="metadata"
+            onPlay={() => setStarted(true)}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+
+          {!started && (
             <button
               type="button"
-              onClick={() => setPlaying(true)}
+              onClick={handlePlay}
               aria-label={`${system.title} Video abspielen`}
               className="group/play absolute inset-0 flex items-center justify-center overflow-hidden bg-gradient-to-br from-softGold/60 via-gold/45 to-deepGold/70 backdrop-blur-[2px] transition-all duration-500 hover:from-softGold/70 hover:to-deepGold/60"
             >
@@ -80,19 +88,19 @@ export function SystemaufstellungClient() {
       title: "Familiensystem",
       label: "Familienaufstellung",
       desc: "Lösung von Verstrickungen innerhalb der Herkunfts- oder Gegenwartsfamilie.",
-      streamId: "norujw"
+      video: "/assets/sibylle/videos/Familiensystem.mp4"
     },
     {
       title: "Organisationssystem",
       label: "Organisationsaufstellung",
       desc: "Klärung von Dynamiken in Unternehmen, Teams oder beruflichen Kontexten.",
-      streamId: "hol4re"
+      video: "/assets/sibylle/videos/Organisation.mp4"
     },
     {
       title: "Abstrahiertes System",
       label: "Strukturaufstellung",
       desc: "Arbeit mit abstrakten Elementen wie Zielen, Hindernissen oder inneren Anteilen.",
-      streamId: "0cbnxs"
+      video: "/assets/sibylle/videos/Systemaufstellung.mp4"
     }
   ];
 

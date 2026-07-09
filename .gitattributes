@@ -1,1 +1,7 @@
 "*.mp4" filter=lfs diff=lfs merge=lfs -text
+
+# Small, self-hosted Systemaufstellung videos are committed as regular files
+# (NOT Git LFS) so Vercel serves the actual video, not an LFS pointer.
+public/assets/sibylle/videos/Familiensystem.mp4 !filter !diff !merge
+public/assets/sibylle/videos/Organisation.mp4 !filter !diff !merge
+public/assets/sibylle/videos/Systemaufstellung.mp4 !filter !diff !merge
