@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     template: "%s | Sibylle Bergold",
   },
   description:
-    "Systemische Aufstellung und Coaching mit Sibylle Bergold. Beziehungsmuster, Familienmuster und Selbsterfahrung online und in München.",
+    "Systemische Aufstellung und Coaching mit Sibylle Bergold. Beziehungsmuster, Familienmuster und Selbsterfahrung online und in Aschaffenburg.",
   keywords: [
     "Systemische Aufstellung",
     "Familienaufstellung",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     "Beziehungsmuster lösen",
     "Systemisches Coaching",
     "Selbsterfahrung",
-    "München",
+    "Aschaffenburg",
   ],
   applicationName: "Sibylle Bergold",
   manifest: "/assets/sibylle/favicon/site.webmanifest",
@@ -127,7 +127,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             availableLanguage: ["de"],
           },
         ],
-        areaServed: ["Aschaffenburg", "München", "Deutschland", "Online"],
+        areaServed: ["Aschaffenburg", "Deutschland", "Online"],
         knowsAbout: [
           "Systemische Aufstellung",
           "Familienaufstellung",
@@ -174,7 +174,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         description,
         url: `${baseUrl}${url}`,
         provider: { "@id": "https://sibylle-bergold.com/#organization" },
-        areaServed: ["Deutschland", "München", "Online"],
+        areaServed: ["Deutschland", "Aschaffenburg", "Online"],
         serviceType: "Systemische Aufstellung und Coaching",
       })),
       ...pricingPackages.map((pkg) => ({

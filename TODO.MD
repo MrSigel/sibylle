@@ -20,7 +20,7 @@
 10.4 `Review`/`AggregateRating` erst ergänzen, wenn echte verifizierbare Bewertungen vorliegen.
 10.5 `BreadcrumbList` für die Unterseiten ergänzen.
 11. AEO/GEO-Inhalte verbessern.
-11.1 FAQ-Fragen auf Leistungsseiten ausbauen: Ablauf, Dauer, Kosten, Online/München, Voraussetzungen, Grenzen, Ergebnis.
+11.1 FAQ-Fragen auf Leistungsseiten ausbauen: Ablauf, Dauer, Kosten, Online/Aschaffenburg, Voraussetzungen, Grenzen, Ergebnis.
 11.2 Kurze direkte Antwortblöcke auf wichtigen Seiten ergänzen, damit KI-Suchsysteme die Leistungen besser zusammenfassen können.
 11.3 `llms.txt` mit allen wichtigen Leistungsseiten, Kontaktwegen und Angeboten erweitern.
 12. SEO-Metadaten verbessern.

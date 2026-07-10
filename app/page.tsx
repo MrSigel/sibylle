@@ -16,10 +16,10 @@ import { pageMetadata } from "@/lib/sibylle/metadata";
 export const metadata = pageMetadata({
   // The root segment does NOT inherit the layout's title template, so the brand
   // is included explicitly here (unlike child pages).
-  title: "Systemische Aufstellung München & Online | Sibylle Bergold",
-  description: "Systemische Aufstellung, Coaching und freie Erstgespräche mit Sibylle Bergold. Beziehungsmuster und Familienmuster online oder in München klären.",
+  title: "Systemische Aufstellung Aschaffenburg & Online | Sibylle Bergold",
+  description: "Systemische Aufstellung, Coaching und freie Erstgespräche mit Sibylle Bergold. Beziehungsmuster und Familienmuster online oder in Aschaffenburg klären.",
   path: "/",
-  keywords: ["Systemische Aufstellung", "Familienaufstellung", "Systemisches Coaching", "München", "Beziehungsmuster lösen"],
+  keywords: ["Systemische Aufstellung", "Familienaufstellung", "Systemisches Coaching", "Aschaffenburg", "Beziehungsmuster lösen"],
 });
 
 export default function HomePage() {
