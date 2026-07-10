@@ -35,7 +35,7 @@ export function AboutSibylle() {
         </div>
         
         <motion.div initial={{opacity:0,x:35}} whileInView={{opacity:1,x:0}} viewport={{once:true}} transition={{duration:1,ease:[0.22, 1, 0.36, 1]}}>
-          <p className="eyebrow">Sibylle Bergold</p>
+          <p className="eyebrow">Sibylle Jutta Bergold</p>
           <h2 className="editorial mt-7 text-[clamp(3.4rem,5.5vw,6rem)] leading-[.92]">Wärme, Klarheit und systemische Tiefe.</h2>
           <blockquote className="editorial my-10 border-l-4 border-softGold pl-8 text-3xl italic leading-snug text-deepGold/90">
             „Muster lassen sich sehen, ohne sie zu bewerten.“

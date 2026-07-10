@@ -22,7 +22,7 @@ export function EditorialSection() {
               In einer <span className="font-semibold">systemischen Aufstellung</span> werden Beziehungen, Herkunftsdynamiken und innere Positionen wahrnehmbar. So kann sichtbar werden, welche Muster dich binden oder wiederholen.
             </p>
             <p className="text-base leading-8 text-deepGold/85">
-              Die Begleitung durch Sibylle Bergold ist <span className="font-semibold">Coaching und Selbsterfahrung</span>: aufmerksam, wertschätzend und ohne Heilversprechen.
+              Die Begleitung durch Sibylle Jutta Bergold ist <span className="font-semibold">Coaching und Selbsterfahrung</span>: aufmerksam, wertschätzend und ohne Heilversprechen.
             </p>
           </div>
         </motion.div>

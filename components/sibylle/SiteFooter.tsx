@@ -17,7 +17,7 @@ export function SiteFooter() {
         <div className="grid gap-12 border-b border-gold/15 pb-14 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr] md:items-start">
           <div className="space-y-6">
             <Image src="/assets/sibylle/brand/logo-primary.png" alt="Sibylle Bergold" width={1114} height={536} className="h-auto w-[220px]" />
-            <p className="max-w-sm text-base leading-7 text-deepGold/80">Klarheit, Wahrnehmung und systemische Tiefe – persönlich begleitet von Sibylle Bergold.</p>
+            <p className="max-w-sm text-base leading-7 text-deepGold/80">Klarheit, Wahrnehmung und systemische Tiefe – persönlich begleitet von Sibylle Jutta Bergold.</p>
             <a
               href="https://www.instagram.com/sibyllebergold/"
               target="_blank"
@@ -85,7 +85,7 @@ export function SiteFooter() {
             ))}
           </div>
           <div className="flex flex-col gap-2 md:items-end order-1 md:order-2">
-            <p>© {new Date().getFullYear()} Sibylle Bergold</p>
+            <p>© {new Date().getFullYear()} Sibylle Jutta Bergold</p>
             <p className="text-xs text-deepGold/40">Powered by <a href="https://limit-breakers.eu" target="_blank" rel="noreferrer noopener" className="text-deepGold/70 underline decoration-softGold/50 underline-offset-4 transition hover:text-softGold">Limit Breakers</a></p>
           </div>
         </div>

@@ -32,7 +32,7 @@ export function PartnerschaftClient() {
             </p>
             
             <div className="mt-10 rounded-[2rem] bg-white/40 backdrop-blur-sm border border-gold/10 p-8 text-base leading-8 text-deepGold/80">
-              In der systemischen Aufstellung mit Sibylle Bergold geht es nicht darum, Schuld zu suchen. Nicht bei dir. Nicht beim anderen. Sondern darum, sichtbar zu machen, welche Dynamik im Hintergrund wirkt – und was endlich gesehen werden möchte.
+              In der systemischen Aufstellung mit Sibylle Jutta Bergold geht es nicht darum, Schuld zu suchen. Nicht bei dir. Nicht beim anderen. Sondern darum, sichtbar zu machen, welche Dynamik im Hintergrund wirkt – und was endlich gesehen werden möchte.
             </div>
 
             <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row">

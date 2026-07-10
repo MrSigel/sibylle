@@ -190,7 +190,7 @@ export const pricingPackages = [
     features: [
       "Intensive 1:1-Begleitung",
       "Tiefgehende Aufstellungsarbeit",
-      "Persönlicher Zugang zu Sibylle Bergold",
+      "Persönlicher Zugang zu Sibylle Jutta Bergold",
       "Inkl. Academy-Zugang",
     ],
     cta: "Persönliche Anfrage",
@@ -217,7 +217,7 @@ export const faqItems = [
   {
     question: "Ist systemisches Coaching eine Heilbehandlung?",
     answer:
-      "Nein. Die Begleitung bei Sibylle Bergold ist Coaching und Selbsterfahrung. Sie ersetzt keine medizinische, psychotherapeutische oder heilpraktische Behandlung und enthält keine Heilversprechen.",
+      "Nein. Die Begleitung bei Sibylle Jutta Bergold ist Coaching und Selbsterfahrung. Sie ersetzt keine medizinische, psychotherapeutische oder heilpraktische Behandlung und enthält keine Heilversprechen.",
   },
   {
     question: "Wie läuft eine Sitzung ab?",
@@ -227,7 +227,7 @@ export const faqItems = [
   {
     question: "Muss ich Vorerfahrung mit Familienaufstellungen haben?",
     answer:
-      "Nein. Du brauchst keine Vorerfahrung. Sibylle Bergold begleitet dich ruhig durch den Prozess und achtet auf einen sicheren, geschützten Rahmen.",
+      "Nein. Du brauchst keine Vorerfahrung. Sibylle Jutta Bergold begleitet dich ruhig durch den Prozess und achtet auf einen sicheren, geschützten Rahmen.",
   },
   {
     question: "Kann ich eine systemische Aufstellung online machen?",
@@ -235,9 +235,9 @@ export const faqItems = [
       "Ja. Systemische Aufstellungen und systemisches Coaching sind online möglich, wenn der Rahmen klar gehalten wird und du dich ungestört einlassen kannst.",
   },
   {
-    question: "Wer ist Sibylle Bergold?",
+    question: "Wer ist Sibylle Jutta Bergold?",
     answer:
-      "Sibylle Bergold ist Gründerin der Deutschen Akademie für Systemaufstellungen und begleitet Menschen seit über 25 Jahren in systemischer Aufstellung, Coaching und Selbsterfahrung.",
+      "Sibylle Jutta Bergold ist Gründerin der Deutschen Akademie für Systemaufstellungen und begleitet Menschen seit über 25 Jahren in systemischer Aufstellung, Coaching und Selbsterfahrung.",
   },
   {
     question: "Wie lange dauert eine systemische Aufstellung?",
@@ -245,7 +245,7 @@ export const faqItems = [
       "Eine Einzelsession dauert in der Regel 90 Minuten. Intensivere Begleitungen können mehrere Termine über einige Wochen oder Monate umfassen.",
   },
   {
-    question: "Was kostet eine systemische Aufstellung bei Sibylle Bergold?",
+    question: "Was kostet eine systemische Aufstellung bei Sibylle Jutta Bergold?",
     answer:
       "Die Pakete beginnen bei 399 Euro für eine 90-minütige Einzelsession. Mehrmonatige Begleitungen werden auf der Preise-Seite transparent als Pakete dargestellt.",
   },

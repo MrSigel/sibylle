@@ -3,7 +3,7 @@ import { pageMetadata } from '@/lib/sibylle/metadata';
 
 export const metadata = pageMetadata({
   title: "Über mich – Systemische Aufstellerin",
-  description: "Lerne Sibylle Bergold kennen – Gründerin der Deutschen Akademie für Systemaufstellungen mit über 25 Jahren Erfahrung in systemischer Begleitung.",
+  description: "Lerne Sibylle Jutta Bergold kennen – Gründerin der Deutschen Akademie für Systemaufstellungen mit über 25 Jahren Erfahrung in systemischer Begleitung.",
   path: "/ueber-mich",
   keywords: ["Sibylle Bergold", "Systemische Aufstellerin", "Coaching Expertise", "Akademie für Systemaufstellungen", "Erfahrung systemische Arbeit"],
 });

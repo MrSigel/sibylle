@@ -2,7 +2,7 @@ import { pageMetadata } from "@/lib/sibylle/metadata";
 
 export const metadata = pageMetadata({
   title: "Datenschutzerklärung",
-  description: "Datenschutzhinweise zur Website von Sibylle Bergold, Hosting, Supabase, Kontaktwegen und Analyse nach Einwilligung.",
+  description: "Datenschutzhinweise zur Website von Sibylle Jutta Bergold, Hosting, Supabase, Kontaktwegen und Analyse nach Einwilligung.",
   path: "/datenschutz",
 });
 
@@ -28,7 +28,7 @@ export default function DatenschutzPage() {
           <section>
             <h2 className="editorial text-3xl text-deepGold">2. Verantwortliche Stelle</h2>
             <div className="mt-6 space-y-2 text-lg leading-relaxed text-deepGold/90">
-              <p className="font-bold">Sibylle Bergold</p>
+              <p className="font-bold">Sibylle Jutta Bergold</p>
               <p>Cranachstraße 52</p>
               <p>63739 Aschaffenburg</p>
               <p className="mt-4">Telefon: +49 (0) 178 / 55 11 230</p>

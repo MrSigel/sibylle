@@ -339,7 +339,7 @@ export function BeziehungsKompassClient() {
                           <Field label="Telefon / WhatsApp" value={lead.telefonnummer} onChange={(value) => setLead({ ...lead, telefonnummer: value })} />
                           <label className="flex gap-3 rounded-2xl border border-gold/15 bg-white/60 p-4 text-xs leading-6 text-deepGold/80">
                             <input type="checkbox" checked={lead.consent} onChange={(e) => setLead({ ...lead, consent: e.target.checked })} className="mt-0.5 h-4 w-4 accent-deepGold" />
-                            <span>Ich willige ein, dass Sibylle Bergold mir meine Auswertung sowie Impulse zu Coaching-Themen per E-Mail oder WhatsApp zusendet. Der Widerruf ist jederzeit möglich. Es gelten die Bestimmungen der Datenschutzerklärung.</span>
+                            <span>Ich willige ein, dass Sibylle Jutta Bergold mir meine Auswertung sowie Impulse zu Coaching-Themen per E-Mail oder WhatsApp zusendet. Der Widerruf ist jederzeit möglich. Es gelten die Bestimmungen der Datenschutzerklärung.</span>
                           </label>
                           {formError && <p className="text-xs font-medium text-red-500">{formError}</p>}
                           <button type="submit" disabled={saving} className="w-full rounded-full bg-deepGold px-8 py-4 font-bold text-white shadow-soft transition hover:bg-gold disabled:opacity-50">

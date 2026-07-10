@@ -33,7 +33,7 @@ export function HeroSection() {
               Systemische Aufstellung, wenn dein Leben <span className="italic text-deepGold">Muster wiederholt.</span>
             </motion.h1>
             <motion.p variants={{ hidden:{opacity:0,y:20},show:{opacity:1,y:0,transition:{duration:.8,ease}} }} className="mt-8 max-w-xl text-lg leading-8 text-deepGold/85 md:text-xl">
-              Sibylle Bergold begleitet dich mit <span className="font-semibold">über 25 Jahren Erfahrung</span> in systemischem Coaching und Selbsterfahrung - ruhig, klar und ohne Heilversprechen.
+              Sibylle Jutta Bergold begleitet dich mit <span className="font-semibold">über 25 Jahren Erfahrung</span> in systemischem Coaching und Selbsterfahrung - ruhig, klar und ohne Heilversprechen.
             </motion.p>
             <motion.div variants={{ hidden:{opacity:0,y:20},show:{opacity:1,y:0,transition:{duration:.8,ease}} }} className="mt-12 flex flex-col gap-4 sm:flex-row">
               <CTAButton href={ctaLinks.primary.href}>Persönlich Kontakt aufnehmen</CTAButton>

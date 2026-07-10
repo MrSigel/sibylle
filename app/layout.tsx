@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     template: "%s | Sibylle Bergold",
   },
   description:
-    "Systemische Aufstellung und Coaching mit Sibylle Bergold. Beziehungsmuster, Familienmuster und Selbsterfahrung online und in Aschaffenburg.",
+    "Systemische Aufstellung und Coaching mit Sibylle Jutta Bergold. Beziehungsmuster, Familienmuster und Selbsterfahrung online und in Aschaffenburg.",
   keywords: [
     "Systemische Aufstellung",
     "Familienaufstellung",
@@ -68,13 +68,13 @@ export const metadata: Metadata = {
     url: "/",
     siteName: "Sibylle Bergold",
     title: "Sibylle Bergold | Systemische Klarheit",
-    description: "Systemische Aufstellung, Coaching und Selbsterfahrung mit Sibylle Bergold.",
+    description: "Systemische Aufstellung, Coaching und Selbsterfahrung mit Sibylle Jutta Bergold.",
     images: [{ url: "/assets/sibylle/og/og-image-1200x630.png", width: 1200, height: 630, alt: "Sibylle Bergold" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Sibylle Bergold | Systemische Klarheit",
-    description: "Systemische Aufstellung, Coaching und Selbsterfahrung mit Sibylle Bergold.",
+    description: "Systemische Aufstellung, Coaching und Selbsterfahrung mit Sibylle Jutta Bergold.",
     images: ["/assets/sibylle/og/og-image-1200x630.png"],
   },
   other: {
@@ -114,7 +114,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         logo: "https://sibylle-bergold.com/assets/sibylle/brand/logo-primary.png",
         image: "https://sibylle-bergold.com/assets/sibylle/portraits/1.jpg",
         description:
-          "Systemische Aufstellung, Beziehungsmuster lösen und Coaching als Selbsterfahrung mit Sibylle Bergold.",
+          "Systemische Aufstellung, Beziehungsmuster lösen und Coaching als Selbsterfahrung mit Sibylle Jutta Bergold.",
         telephone: "+491785511230",
         email: "kontakt@sibylle-bergold.com",
         priceRange: "399 EUR - 9999 EUR",
@@ -150,7 +150,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       {
         "@type": "Person",
         "@id": "https://sibylle-bergold.com/#person",
-        name: "Sibylle Bergold",
+        name: "Sibylle Jutta Bergold",
         jobTitle: "Systemische Aufstellerin und Coach",
         description: "Gründerin der Deutschen Akademie für Systemaufstellungen mit über 25 Jahren Erfahrung.",
         url: "https://sibylle-bergold.com",

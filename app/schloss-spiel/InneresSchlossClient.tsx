@@ -331,7 +331,7 @@ export function InneresSchlossClient() {
 
                     <label className="mt-5 flex gap-3 rounded-3xl border border-gold/15 bg-white/[0.035] p-4 text-sm leading-7 text-cream/64">
                       <input required type="checkbox" checked={lead.consent} onChange={(event) => setLead({ ...lead, consent: event.target.checked })} className="mt-1 h-4 w-4 accent-gold" />
-                      <span>Ich willige ein, dass Sibylle Bergold mir meine persönliche Auswertung sowie anschließende Impulse zu Coaching-Themen per E-Mail oder WhatsApp zusendet. Diese Einwilligung kann ich jederzeit widerrufen.</span>
+                      <span>Ich willige ein, dass Sibylle Jutta Bergold mir meine persönliche Auswertung sowie anschließende Impulse zu Coaching-Themen per E-Mail oder WhatsApp zusendet. Diese Einwilligung kann ich jederzeit widerrufen.</span>
                     </label>
 
                     {error && <p className="mt-4 rounded-2xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-red-100">{error}</p>}

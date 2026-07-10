@@ -14,7 +14,7 @@ export function ClosingCTA() {
           Du musst dein Muster nicht allein <span className="italic text-gold">sortieren.</span>
         </h2>
         <p className="mx-auto mt-8 max-w-2xl text-base leading-8 text-deepGold/70">
-          Schreib Sibylle Bergold, was dich gerade bewegt. Im ersten Kontakt klärt ihr ruhig, ob <span className="font-semibold">systemische Aufstellung, Coaching und Selbsterfahrung</span> zu deinem Anliegen passen.
+          Schreib Sibylle Jutta Bergold, was dich gerade bewegt. Im ersten Kontakt klärt ihr ruhig, ob <span className="font-semibold">systemische Aufstellung, Coaching und Selbsterfahrung</span> zu deinem Anliegen passen.
         </p>
         <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
           <CTAButton href={ctaLinks.primary.href}>Sibylle schreiben</CTAButton>

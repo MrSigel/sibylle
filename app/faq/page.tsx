@@ -4,7 +4,7 @@ import { FaqClient } from './FaqClient';
 
 export const metadata = pageMetadata({
   title: "Häufige Fragen zu Systemaufstellungen",
-  description: "Erfahre alles über den Ablauf, die Wirkung und die Anwendungsgebiete von systemischen Aufstellungen in den FAQ von Sibylle Bergold.",
+  description: "Erfahre alles über den Ablauf, die Wirkung und die Anwendungsgebiete von systemischen Aufstellungen in den FAQ von Sibylle Jutta Bergold.",
   path: "/faq",
   keywords: ["Systemaufstellung FAQ", "Ablauf Aufstellung", "Coaching Fragen", "Voraussetzungen Aufstellung"],
 });

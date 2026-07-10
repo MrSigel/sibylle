@@ -14,7 +14,7 @@ export function FAQAccordion() {
           <p className="eyebrow">FAQ zu systemischer Aufstellung</p>
           <h2 className="editorial mt-6 text-5xl leading-none md:text-7xl">Klare Antworten für deine nächste Entscheidung.</h2>
           <p className="mt-6 max-w-sm text-sm leading-7 text-gold">
-            Kurze, direkte Antworten zu systemischem Coaching, Familienaufstellung und dem geschützten Rahmen bei Sibylle Bergold.
+            Kurze, direkte Antworten zu systemischem Coaching, Familienaufstellung und dem geschützten Rahmen bei Sibylle Jutta Bergold.
           </p>
         </div>
         <div className="divide-y divide-gold/15 border-y border-gold/15">

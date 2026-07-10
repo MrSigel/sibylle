@@ -44,7 +44,7 @@ export function UeberMichClient() {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease }}>
               <p className="eyebrow">Mentorin & Coach</p>
               <h1 className="editorial mt-7 text-[clamp(3.2rem,6vw,6.5rem)] leading-[.92] text-warmBlack">
-                Sibylle Bergold – <span className="italic text-deepGold">Erfahrung</span> und Intuition.
+                Sibylle Jutta Bergold – <span className="italic text-deepGold">Erfahrung</span> und Intuition.
               </h1>
               <p className="mt-8 max-w-xl text-base leading-8 text-deepGold/85 md:text-lg">
                 Als Inhaberin der Deutschen Akademie für Systemaufstellungen begleite ich Menschen dabei, versteckte Dynamiken sichtbar zu machen und Potenziale zu entfalten.

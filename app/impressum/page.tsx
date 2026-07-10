@@ -2,7 +2,7 @@ import { pageMetadata } from "@/lib/sibylle/metadata";
 
 export const metadata = pageMetadata({
   title: "Impressum",
-  description: "Impressum und Anbieterkennzeichnung von Sibylle Bergold.",
+  description: "Impressum und Anbieterkennzeichnung von Sibylle Jutta Bergold.",
   path: "/impressum",
 });
 
@@ -20,7 +20,7 @@ export default function ImpressumPage() {
             <div>
               <h2 className="text-sm font-bold uppercase tracking-widest text-softGold">Angaben gemäß § 5 DDG</h2>
               <div className="mt-6 space-y-2 text-lg leading-relaxed text-deepGold/90">
-                <p className="font-bold">Sibylle Bergold</p>
+                <p className="font-bold">Sibylle Jutta Bergold</p>
                 <p>Cranachstraße 52</p>
                 <p>63739 Aschaffenburg</p>
               </div>
@@ -38,7 +38,7 @@ export default function ImpressumPage() {
             <div>
               <h2 className="text-sm font-bold uppercase tracking-widest text-softGold">Verantwortlich</h2>
               <div className="mt-6 space-y-2 text-lg leading-relaxed text-deepGold/90">
-                <p>Inhaber: Sibylle Bergold</p>
+                <p>Inhaber: Sibylle Jutta Bergold</p>
               </div>
             </div>
 

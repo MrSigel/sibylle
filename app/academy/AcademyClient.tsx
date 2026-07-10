@@ -42,7 +42,7 @@ export function AcademyClient() {
               Systemische Tiefe, <span className="italic text-deepGold">kontinuierlich</span> begleitet.
             </h1>
             <p className="mx-auto mt-10 max-w-2xl text-lg leading-8 text-deepGold/85 md:text-xl">
-              Die Deutsche Akademie für Systemaufstellungen ist Sibylle Bergolds Raum für alle, die dranbleiben möchten – mit Aufzeichnungen, Übungen und monatlichen Live-Sessions. Coaching und Selbsterfahrung, ohne Heilversprechen.
+              Die Deutsche Akademie für Systemaufstellungen ist Sibylle Jutta Bergolds Raum für alle, die dranbleiben möchten – mit Aufzeichnungen, Übungen und monatlichen Live-Sessions. Coaching und Selbsterfahrung, ohne Heilversprechen.
             </p>
           </motion.div>
         </div>
@@ -59,7 +59,7 @@ export function AcademyClient() {
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: .7, delay: .1, ease }} className="space-y-6 text-lg leading-8 text-deepGold/80">
             <p>
-              Gegründet von Sibylle Bergold, die Menschen seit über 25 Jahren in systemischer Aufstellung, Coaching und Selbsterfahrung begleitet, ist die Academy für alle gedacht, die tiefer eintauchen wollen – über die einzelne Sitzung hinaus.
+              Gegründet von Sibylle Jutta Bergold, die Menschen seit über 25 Jahren in systemischer Aufstellung, Coaching und Selbsterfahrung begleitet, ist die Academy für alle gedacht, die tiefer eintauchen wollen – über die einzelne Sitzung hinaus.
             </p>
             <p>
               Statt einmaliger Impulse entsteht ein kontinuierlicher Raum: Du lernst aus echter Aufstellungsarbeit, übst eigenständig und kommst regelmäßig in einer vertrauten Gruppe zusammen.

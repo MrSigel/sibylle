@@ -3,7 +3,7 @@ import { pageMetadata } from "@/lib/sibylle/metadata";
 export const metadata = pageMetadata({
   title: "Widerrufsbelehrung",
   description:
-    "Widerrufsbelehrung und Muster-Widerrufsformular für Coaching-Begleitung und Vereinbarungen im Fernabsatz mit Sibylle Bergold.",
+    "Widerrufsbelehrung und Muster-Widerrufsformular für Coaching-Begleitung und Vereinbarungen im Fernabsatz mit Sibylle Jutta Bergold.",
   path: "/widerruf",
 });
 
@@ -30,7 +30,7 @@ export default function WiderrufPage() {
                 Um Ihr Widerrufsrecht auszuüben, müssen Sie uns
               </p>
               <p className="mt-3 rounded-2xl bg-mist/20 p-4 not-italic">
-                Sibylle Bergold<br />
+                Sibylle Jutta Bergold<br />
                 Cranachstraße 52<br />
                 63739 Aschaffenburg<br />
                 E-Mail: kontakt@sibylle-bergold.com<br />
@@ -88,7 +88,7 @@ export default function WiderrufPage() {
           <div className="mt-5 space-y-4 rounded-2xl bg-mist/20 p-6 text-base leading-8 text-deepGold">
             <p>
               An:<br />
-              Sibylle Bergold, Cranachstraße 52, 63739 Aschaffenburg, E-Mail: kontakt@sibylle-bergold.com
+              Sibylle Jutta Bergold, Cranachstraße 52, 63739 Aschaffenburg, E-Mail: kontakt@sibylle-bergold.com
             </p>
             <p>
               Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*) abgeschlossenen Vertrag über die

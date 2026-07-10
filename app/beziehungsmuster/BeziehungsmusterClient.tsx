@@ -32,7 +32,7 @@ export function BeziehungsmusterClient() {
               </p>
               
               <div className="mt-10 rounded-[2rem] bg-white/30 p-8 text-base leading-8 text-deepGold/80">
-                In einer Systemaufstellung mit Sibylle Bergold geht es nicht darum, Schuld bei dir oder deinem Partner zu suchen. Es geht darum, sichtbar zu machen, welche tieferen Muster im Hintergrund wirken – und warum sie sich in Beziehungen immer wieder zeigen.
+                In einer Systemaufstellung mit Sibylle Jutta Bergold geht es nicht darum, Schuld bei dir oder deinem Partner zu suchen. Es geht darum, sichtbar zu machen, welche tieferen Muster im Hintergrund wirken – und warum sie sich in Beziehungen immer wieder zeigen.
               </div>
 
               <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row">
