@@ -29,7 +29,7 @@ export function UeberMichClient() {
     "Ursachenlösung statt Symptombehandlung",
     "Auflösen von energetischen Blockaden",
     "Matrix Quantum - Quantenheilung",
-    "Potentialentfaltung"
+    "Potenzialentfaltung"
   ];
 
   return (

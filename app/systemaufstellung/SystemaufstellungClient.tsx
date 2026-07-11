@@ -208,7 +208,7 @@ export function SystemaufstellungClient() {
               <p className="eyebrow">Hintergrund</p>
               <h2 className="editorial mt-8 text-5xl md:text-7xl">Die digitale Cloud der <span className="italic text-deepGold">Seele</span>.</h2>
               <p className="mt-8 text-lg leading-[1.8] text-deepGold/85">
-                Das morphogenetische Feld funktioniert ähnlich wie eine Cloud: Es ist ein Informationsspeicher, der jedes Lebewesen umgibt. Hier sind alle Erfahrungen und Ereignisse einer Person und seiner Umgebung gespeichert.
+                Das morphogenetische Feld funktioniert ähnlich wie eine Cloud: Es ist ein Informationsspeicher, der jedes Lebewesen umgibt. Hier sind alle Erfahrungen und Ereignisse einer Person und ihrer Umgebung gespeichert.
               </p>
               <div className="mt-10 rounded-[2.5rem] border-l-4 border-softGold bg-white/40 p-10 italic text-deepGold/80 shadow-sm">
                 „Ähnlich wie wir in Suchmaschinen Worte eingeben, sind Stellvertretende in der Lage, alle Informationen zu bekommen, die zur Lösung dienlich sind.“
