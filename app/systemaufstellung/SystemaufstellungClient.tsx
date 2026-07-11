@@ -180,7 +180,7 @@ export function SystemaufstellungClient() {
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="editorial text-4xl md:text-5xl lg:text-6xl">Bedeutung der Aufstellungsarbeit</h2>
             <p className="mt-10 text-lg leading-9 text-deepGold/85 md:text-xl">
-              Aufstellungen sind eine art der Selbsterfahrung, um Einsichten und Lösungsmöglichkeiten zu gewinnen, die bisher unzugänglich waren. Es werden Zusammenhänge und Verstrickungen aufgezeigt, die oft über viele Generationen zurückliegen.
+              Aufstellungen sind eine Art Selbsterfahrung, um Einsichten und Lösungsmöglichkeiten zu gewinnen, die bisher unzugänglich waren. Es werden Zusammenhänge und Verstrickungen aufgezeigt, die oft über viele Generationen zurückliegen.
             </p>
           </div>
 
