@@ -7,7 +7,7 @@ import { appointmentTypes, formatDateTime, formatDateTimeLocal, formatTime, publ
 import { useCrmDeepLink } from "@/lib/sibylle/hooks";
 
 const emptySlot = {
-  title: "Kostenloses Erstgespräch",
+  title: "Erstgespräch",
   start_time: formatDateTimeLocal(new Date(Date.now() + 24 * 60 * 60 * 1000)),
   end_time: formatDateTimeLocal(new Date(Date.now() + 25 * 60 * 60 * 1000)),
   appointment_type: "Zoom",
@@ -50,7 +50,7 @@ export default function AvailabilityPage() {
   async function createSlot(e: React.FormEvent) {
     e.preventDefault();
     const { error } = await supabase.from("appointments").insert([{
-      title: formSlot.title.trim() || "Kostenloses Erstgespräch",
+      title: formSlot.title.trim() || "Erstgespräch",
       start_time: new Date(formSlot.start_time).toISOString(),
       end_time: formSlot.end_time ? new Date(formSlot.end_time).toISOString() : null,
       appointment_type: formSlot.appointment_type,

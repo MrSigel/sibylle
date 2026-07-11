@@ -37,7 +37,7 @@ export function HeroSection() {
             </motion.p>
             <motion.div variants={{ hidden:{opacity:0,y:20},show:{opacity:1,y:0,transition:{duration:.8,ease}} }} className="mt-12 flex flex-col gap-4 sm:flex-row">
               <CTAButton href={ctaLinks.primary.href}>Persönlich Kontakt aufnehmen</CTAButton>
-              <CTAButton href={ctaLinks.secondary.href} variant="secondary" external>Kostenloses Erstgespräch buchen</CTAButton>
+              <CTAButton href={ctaLinks.secondary.href} variant="secondary" external>Erstgespräch buchen</CTAButton>
             </motion.div>
 
             <motion.div variants={{ hidden:{opacity:0},show:{opacity:1,transition:{delay:1.2,duration:1}} }} className="mt-14 flex items-center gap-6 border-t border-gold/10 pt-10">

@@ -297,7 +297,7 @@ export function SystemaufstellungClient() {
           </p>
           <div className="mt-14 flex flex-col justify-center gap-5 sm:flex-row">
             <CTAButton href={waLink} className="!bg-deepGold !text-white hover:!bg-gold">Nachricht schreiben</CTAButton>
-            <CTAButton href={waLink} variant="secondary" external className="!border-gold/20 !text-deepGold hover:!bg-gold/10">Kostenloses Erstgespräch buchen</CTAButton>
+            <CTAButton href={waLink} variant="secondary" external className="!border-gold/20 !text-deepGold hover:!bg-gold/10">Erstgespräch buchen</CTAButton>
           </div>
         </div>
       </section>

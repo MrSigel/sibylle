@@ -37,7 +37,7 @@ export function BeziehungsmusterClient() {
 
               <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row">
                 <CTAButton href={waLink}>Jetzt persönlich bei Sibylle melden</CTAButton>
-                <CTAButton href={waLink} variant="secondary" external>Kostenloses Erstgespräch buchen</CTAButton>
+                <CTAButton href={waLink} variant="secondary" external>Erstgespräch buchen</CTAButton>
               </div>
             </motion.div>
           </div>

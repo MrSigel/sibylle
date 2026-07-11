@@ -134,7 +134,7 @@ export function WissenClient() {
           </p>
           <div className="mt-12 flex flex-col justify-center gap-5 sm:flex-row">
             <CTAButton href={ctaLinks.secondary.href} className="!bg-softGold !text-deepGold hover:!bg-white">
-              Kostenloses Erstgespräch
+              Erstgespräch
             </CTAButton>
             <CTAButton href="/systemaufstellung" variant="secondary" className="!border-white/25 !text-white hover:!bg-white/10">
               Systemaufstellung entdecken

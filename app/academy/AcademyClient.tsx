@@ -151,7 +151,7 @@ export function AcademyClient() {
             Ob Academy oder ein erstes Einzelgespräch – finde in Ruhe heraus, was für dich gerade stimmig ist.
           </p>
           <div className="mt-12 flex flex-col justify-center gap-5 sm:flex-row">
-            <CTAButton href={ctaLinks.secondary.href}>Kostenloses Erstgespräch</CTAButton>
+            <CTAButton href={ctaLinks.secondary.href}>Erstgespräch</CTAButton>
             <CTAButton href="/preise" variant="secondary">Einzel-Begleitung &amp; Preise</CTAButton>
           </div>
         </div>

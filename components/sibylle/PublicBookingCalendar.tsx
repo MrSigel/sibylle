@@ -85,7 +85,7 @@ export function PublicBookingCalendar() {
     notifyLead(
       "booking",
       [
-        { label: "Termin", value: `${formatDateTime(selectedSlot.start_time)} – ${selectedSlot.title || "Kostenloses Erstgespräch"}` },
+        { label: "Termin", value: `${formatDateTime(selectedSlot.start_time)} – ${selectedSlot.title || "Erstgespräch"}` },
         { label: "Name", value: form.name.trim() },
         { label: "E-Mail", value: form.email.trim() },
         { label: "Telefon", value: form.phone.trim() || "-" },
@@ -159,7 +159,7 @@ export function PublicBookingCalendar() {
                     {daySlots.map((slot) => (
                       <button key={slot.id} onClick={() => setSelectedSlot(slot)} className="rounded-2xl border border-gold/15 bg-white p-4 text-left transition-all hover:border-gold/40 hover:shadow-soft">
                         <div className="text-lg font-bold text-warmBlack">{formatTime(slot.start_time)} Uhr</div>
-                        <div className="mt-1 text-sm text-deepGold/65">{slot.title || "Kostenloses Erstgespräch"}</div>
+                        <div className="mt-1 text-sm text-deepGold/65">{slot.title || "Erstgespräch"}</div>
                         <div className="mt-3 inline-flex rounded-full bg-sand/40 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-deepGold">Frei</div>
                       </button>
                     ))}

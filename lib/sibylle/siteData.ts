@@ -15,7 +15,7 @@ export const whatsappConfig = {
     default:
       "Hallo Sibylle, ich habe deine Website gesehen und möchte mein Anliegen in Ruhe mit dir besprechen.",
     erstgespraech:
-      "Hallo Sibylle, ich möchte gern ein kostenloses Erstgespräch buchen und schauen, ob systemisches Coaching und Selbsterfahrung zu meinem Anliegen passen.",
+      "Hallo Sibylle, ich möchte gern ein Erstgespräch buchen und schauen, ob systemisches Coaching und Selbsterfahrung zu meinem Anliegen passen.",
     partnerschaft:
       "Hallo Sibylle, ich melde mich wegen eines Beziehungsthemas und möchte wissen, ob eine systemische Aufstellung für mich passend ist.",
     beziehungsmuster:
@@ -38,7 +38,7 @@ export const ctaLinks = {
   },
   secondary: {
     href: getWhatsAppLink(whatsappConfig.messages.erstgespraech),
-    label: "Kostenloses Erstgespräch buchen",
+    label: "Erstgespräch buchen",
   },
 };
 
