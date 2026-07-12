@@ -11,3 +11,6 @@ build
 
 # TypeScript incremental build info
 tsconfig.tsbuildinfo
+
+# Local handover document with credentials – never commit
+Sibylle-Bergold-Handbuch.pdf
