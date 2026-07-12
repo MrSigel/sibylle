@@ -15,7 +15,7 @@ export const whatsappConfig = {
     default:
       "Hallo Sibylle, ich habe deine Website gesehen und möchte mein Anliegen in Ruhe mit dir besprechen.",
     erstgespraech:
-      "Hallo Sibylle, ich möchte gern ein Erstgespräch buchen und schauen, ob systemisches Coaching und Selbsterfahrung zu meinem Anliegen passen.",
+      "Hallo Sibylle, ich möchte gern einen Termin für eine erste Session vereinbaren und schauen, ob systemisches Coaching und Selbsterfahrung zu meinem Anliegen passen.",
     partnerschaft:
       "Hallo Sibylle, ich melde mich wegen eines Beziehungsthemas und möchte wissen, ob eine systemische Aufstellung für mich passend ist.",
     beziehungsmuster:
@@ -38,7 +38,7 @@ export const ctaLinks = {
   },
   secondary: {
     href: getWhatsAppLink(whatsappConfig.messages.erstgespraech),
-    label: "Erstgespräch buchen",
+    label: "Termin für erste Session",
   },
 };
 
@@ -167,7 +167,7 @@ export const pricingPackages = [
       "Integrationsimpulse für den Alltag",
       "WhatsApp-Begleitung werktags",
     ],
-    cta: "Erstgespräch buchen",
+    cta: "Termin für erste Session",
     highlight: false,
   },
   {

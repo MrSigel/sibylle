@@ -34,7 +34,7 @@ export function BeruflicheAufstellungClient() {
             
             <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row">
               <CTAButton href={waLink}>Business-Check anfragen</CTAButton>
-              <CTAButton href={ctaLinks.secondary.href} variant="secondary" external>Erstgespräch buchen</CTAButton>
+              <CTAButton href={ctaLinks.secondary.href} variant="secondary" external>Termin für erste Session</CTAButton>
             </div>
           </motion.div>
         </div>
@@ -123,7 +123,7 @@ export function BeruflicheAufstellungClient() {
               Sibylle schreiben
             </CTAButton>
             <CTAButton href={ctaLinks.secondary.href} variant="secondary" external>
-              Erstgespräch buchen
+              Termin für erste Session
             </CTAButton>
           </div>
         </div>

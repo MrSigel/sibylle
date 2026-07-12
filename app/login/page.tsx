@@ -52,7 +52,7 @@ export default function LoginPage() {
               className="h-12 w-48 object-contain"
             />
           </div>
-          <h1 className="mb-2 text-2xl font-semibold text-warmBlack">CRM Login</h1>
+          <h1 className="mb-2 text-2xl font-semibold text-warmBlack">Login</h1>
           <p className="text-sm text-gold/80">Bitte melden Sie sich an, um fortzufahren.</p>
         </div>
 

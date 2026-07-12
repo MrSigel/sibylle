@@ -144,7 +144,7 @@ export function SystemaufstellungClient() {
             </p>
             <div className="mt-16 flex flex-col justify-center gap-6 sm:flex-row">
               <CTAButton href={waLink} className="px-10 py-5 text-lg">Termin anfragen</CTAButton>
-              <CTAButton href={waLink} variant="secondary" external className="px-10 py-5 text-lg">Erstgespräch buchen</CTAButton>
+              <CTAButton href={waLink} variant="secondary" external className="px-10 py-5 text-lg">Termin für erste Session</CTAButton>
             </div>
           </motion.div>
         </div>
@@ -169,7 +169,7 @@ export function SystemaufstellungClient() {
           
           <div className="mt-20 flex flex-col items-center gap-6 rounded-[3rem] bg-white/30 p-10 text-center">
             <p className="font-serif text-2xl text-deepGold italic">„Muster lassen sich sehen, ohne sie zu bewerten.“</p>
-            <CTAButton href={waLink} variant="secondary" external>Direkt Erstgespräch vereinbaren</CTAButton>
+            <CTAButton href={waLink} variant="secondary" external>Direkt einen Termin vereinbaren</CTAButton>
           </div>
         </div>
       </section>
@@ -297,7 +297,7 @@ export function SystemaufstellungClient() {
           </p>
           <div className="mt-14 flex flex-col justify-center gap-5 sm:flex-row">
             <CTAButton href={waLink} className="!bg-deepGold !text-white hover:!bg-gold">Nachricht schreiben</CTAButton>
-            <CTAButton href={waLink} variant="secondary" external className="!border-gold/20 !text-deepGold hover:!bg-gold/10">Erstgespräch buchen</CTAButton>
+            <CTAButton href={waLink} variant="secondary" external className="!border-gold/20 !text-deepGold hover:!bg-gold/10">Termin für erste Session</CTAButton>
           </div>
         </div>
       </section>

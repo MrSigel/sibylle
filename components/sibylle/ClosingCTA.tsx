@@ -9,7 +9,7 @@ export function ClosingCTA() {
     <section className="grain relative overflow-hidden border-t border-gold/10 bg-white px-4 py-24 text-warmBlack md:py-36">
       <div className="absolute left-1/2 top-1/2 h-[35rem] w-[35rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-softGold/10 blur-[120px]" />
       <motion.div initial={{opacity:0,y:35}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{duration:.9}} className="container relative z-10 text-center">
-        <p className="eyebrow mx-auto">Erstgespräch per WhatsApp</p>
+        <p className="eyebrow mx-auto">Termin per WhatsApp</p>
         <h2 className="editorial mx-auto mt-8 max-w-5xl text-[clamp(3.5rem,7vw,7.6rem)] leading-[.88]">
           Du musst dein Muster nicht allein <span className="italic text-gold">sortieren.</span>
         </h2>
@@ -18,7 +18,7 @@ export function ClosingCTA() {
         </p>
         <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
           <CTAButton href={ctaLinks.primary.href}>Sibylle schreiben</CTAButton>
-          <CTAButton href={ctaLinks.secondary.href} variant="secondary" external>Erstgespräch buchen</CTAButton>
+          <CTAButton href={ctaLinks.secondary.href} variant="secondary" external>Termin für erste Session</CTAButton>
         </div>
       </motion.div>
     </section>

@@ -7,7 +7,7 @@ import { appointmentTypes, formatDateTime, formatDateTimeLocal, formatTime, publ
 import { useCrmDeepLink } from "@/lib/sibylle/hooks";
 
 const emptySlot = {
-  title: "Erstgespräch",
+  title: "Erste Session",
   start_time: formatDateTimeLocal(new Date(Date.now() + 24 * 60 * 60 * 1000)),
   end_time: formatDateTimeLocal(new Date(Date.now() + 25 * 60 * 60 * 1000)),
   appointment_type: "Zoom",
@@ -50,7 +50,7 @@ export default function AvailabilityPage() {
   async function createSlot(e: React.FormEvent) {
     e.preventDefault();
     const { error } = await supabase.from("appointments").insert([{
-      title: formSlot.title.trim() || "Erstgespräch",
+      title: formSlot.title.trim() || "Erste Session",
       start_time: new Date(formSlot.start_time).toISOString(),
       end_time: formSlot.end_time ? new Date(formSlot.end_time).toISOString() : null,
       appointment_type: formSlot.appointment_type,
@@ -115,7 +115,7 @@ export default function AvailabilityPage() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold text-warmBlack">Öffentliche Kalenderfreigabe</h1>
-          <p className="text-deepGold/70">Freie Erstgespräch-Slots für die Landingpage veröffentlichen und Buchungsanfragen prüfen.</p>
+          <p className="text-deepGold/70">Freie Session-Termine für die Landingpage veröffentlichen und Buchungsanfragen prüfen.</p>
         </div>
         <button onClick={() => setIsModalOpen(true)} className="rounded-full bg-deepGold px-6 py-3 font-semibold text-white shadow-soft transition-all hover:bg-gold">Freien Slot anlegen</button>
       </div>

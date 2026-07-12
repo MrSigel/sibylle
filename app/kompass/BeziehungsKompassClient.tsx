@@ -349,7 +349,7 @@ export function BeziehungsKompassClient() {
                       </div>
 
                       <a href="/#termine" className="mt-6 inline-flex w-fit items-center gap-2 text-sm font-bold text-deepGold underline decoration-softGold/50 underline-offset-4 transition hover:text-gold">
-                        Oder direkt ein Erstgespräch buchen <span aria-hidden="true">→</span>
+                        Oder direkt einen Termin für eine erste Session <span aria-hidden="true">→</span>
                       </a>
                     </>
                   ) : (
@@ -359,9 +359,9 @@ export function BeziehungsKompassClient() {
                       <p className="mt-5 leading-8 text-deepGold/75">
                         Deine Daten sind gespeichert und Sibylle wurde benachrichtigt. Sie meldet sich zeitnah mit deiner persönlichen Auswertung bei dir.
                       </p>
-                      <p className="mt-4 text-sm leading-7 text-deepGold/60">Wenn du magst, gehen wir deinem Muster in einem ruhigen Erstgespräch gemeinsam auf den Grund.</p>
+                      <p className="mt-4 text-sm leading-7 text-deepGold/60">Wenn du magst, gehen wir deinem Muster in einem ruhigen ersten Gespräch gemeinsam auf den Grund.</p>
                       <a href="/#termine" className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-deepGold px-8 py-4 font-bold text-white shadow-soft transition hover:bg-gold">
-                        Erstgespräch buchen <span aria-hidden="true">→</span>
+                        Termin für erste Session <span aria-hidden="true">→</span>
                       </a>
                     </>
                   )}

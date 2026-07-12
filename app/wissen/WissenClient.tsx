@@ -130,11 +130,11 @@ export function WissenClient() {
             Bereit, dein Muster <span className="italic text-softGold">sichtbar</span> zu machen?
           </h2>
           <p className="mx-auto mt-8 max-w-xl text-lg leading-relaxed text-white/75">
-            Lass uns in einem ruhigen Erstgespräch schauen, welches Thema bei dir gerade Raum braucht.
+            Lass uns in einem ruhigen ersten Gespräch schauen, welches Thema bei dir gerade Raum braucht.
           </p>
           <div className="mt-12 flex flex-col justify-center gap-5 sm:flex-row">
             <CTAButton href={ctaLinks.secondary.href} className="!bg-softGold !text-deepGold hover:!bg-white">
-              Erstgespräch
+              Termin für erste Session
             </CTAButton>
             <CTAButton href="/systemaufstellung" variant="secondary" className="!border-white/25 !text-white hover:!bg-white/10">
               Systemaufstellung entdecken

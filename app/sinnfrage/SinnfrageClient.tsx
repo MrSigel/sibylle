@@ -34,7 +34,7 @@ export function SinnfrageClient() {
             
             <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row">
               <CTAButton href={waLink}>Sinnweg klären</CTAButton>
-              <CTAButton href={ctaLinks.secondary.href} variant="secondary" external>Erstgespräch buchen</CTAButton>
+              <CTAButton href={ctaLinks.secondary.href} variant="secondary" external>Termin für erste Session</CTAButton>
             </div>
           </motion.div>
         </div>
@@ -139,7 +139,7 @@ export function SinnfrageClient() {
               Sibylle schreiben
             </CTAButton>
             <CTAButton href={ctaLinks.secondary.href} variant="secondary" external className="border-white/20 text-white hover:bg-white/10">
-              Erstgespräch buchen
+              Termin für erste Session
             </CTAButton>
           </div>
         </div>

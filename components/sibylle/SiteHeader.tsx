@@ -56,7 +56,7 @@ export function SiteHeader() {
             external
             className="!h-12 !px-5"
           >
-            Erstgespräch
+            Termin
           </CTAButton>
           <CTAButton href={ctaLinks.primary.href} className="!h-12 !px-5">
             Kontakt
@@ -104,7 +104,7 @@ export function SiteHeader() {
                   variant="secondary"
                   external
                 >
-                  Erstgespräch
+                  Termin
                 </CTAButton>
                 <CTAButton href={ctaLinks.primary.href}>Kontakt</CTAButton>
               </div>

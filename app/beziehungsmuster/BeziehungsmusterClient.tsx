@@ -37,7 +37,7 @@ export function BeziehungsmusterClient() {
 
               <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row">
                 <CTAButton href={waLink}>Jetzt persönlich bei Sibylle melden</CTAButton>
-                <CTAButton href={waLink} variant="secondary" external>Erstgespräch buchen</CTAButton>
+                <CTAButton href={waLink} variant="secondary" external>Termin für erste Session</CTAButton>
               </div>
             </motion.div>
           </div>
@@ -147,7 +147,7 @@ export function BeziehungsmusterClient() {
                 Sibylle schafft dafür einen ruhigen, geschützten Raum. Nicht über Druck. Nicht über schnelle Versprechen. Sondern über einen klaren Blick auf das, was unter der Oberfläche wirkt.
               </p>
               <div className="mt-10">
-                <CTAButton href={waLink} variant="secondary" external className="w-full">Jetzt Erstgespräch buchen</CTAButton>
+                <CTAButton href={waLink} variant="secondary" external className="w-full">Jetzt Termin für erste Session</CTAButton>
               </div>
             </motion.div>
           </div>

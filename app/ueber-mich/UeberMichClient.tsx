@@ -191,7 +191,7 @@ export function UeberMichClient() {
               Nachricht schreiben
             </CTAButton>
             <CTAButton href={waLink} variant="secondary" external className="border-white/20 text-white hover:bg-white/10">
-              Erstgespräch buchen
+              Termin für erste Session
             </CTAButton>
           </div>
         </div>

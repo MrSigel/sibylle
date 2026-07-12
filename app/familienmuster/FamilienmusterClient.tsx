@@ -159,7 +159,7 @@ export function FamilienmusterClient() {
               Nachricht an Sibylle
             </CTAButton>
             <CTAButton href={ctaLinks.secondary.href} variant="secondary" external className="border-white/20 text-white hover:bg-white/10">
-              Erstgespräch vereinbaren
+              Termin für erste Session
             </CTAButton>
           </div>
         </div>

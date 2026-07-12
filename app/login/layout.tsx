@@ -1,8 +1,8 @@
 import { pageMetadata } from "@/lib/sibylle/metadata";
 
 export const metadata = pageMetadata({
-  title: "CRM Login",
-  description: "Geschützter CRM-Zugang für Sibylle Bergold.",
+  title: "Login",
+  description: "Geschützter Zugang für Sibylle Bergold.",
   path: "/login",
   noIndex: true,
 });

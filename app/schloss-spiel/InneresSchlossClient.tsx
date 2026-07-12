@@ -356,7 +356,7 @@ export function InneresSchlossClient() {
                       Sibylle wurde direkt benachrichtigt und meldet sich zeitnah persönlich bei dir mit deinem Zustands-Bericht.
                     </p>
                     <motion.a whileHover={{ y: -3 }} href="/#termine" className="mt-9 inline-flex rounded-full bg-gold px-8 py-4 font-bold text-[#100f0d] shadow-soft transition hover:bg-cream">
-                      Jetzt Erstgespräch buchen
+                      Jetzt Termin für erste Session
                     </motion.a>
                   </motion.div>
                 )}

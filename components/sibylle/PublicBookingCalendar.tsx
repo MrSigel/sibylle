@@ -85,7 +85,7 @@ export function PublicBookingCalendar() {
     notifyLead(
       "booking",
       [
-        { label: "Termin", value: `${formatDateTime(selectedSlot.start_time)} – ${selectedSlot.title || "Erstgespräch"}` },
+        { label: "Termin", value: `${formatDateTime(selectedSlot.start_time)} – ${selectedSlot.title || "Erste Session"}` },
         { label: "Name", value: form.name.trim() },
         { label: "E-Mail", value: form.email.trim() },
         { label: "Telefon", value: form.phone.trim() || "-" },
@@ -115,17 +115,17 @@ export function PublicBookingCalendar() {
       <div className="absolute left-[-8rem] top-28 h-80 w-80 rounded-full bg-sand/35 blur-[90px]" />
       <div className="container relative grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-16">
         <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: .8 }}>
-          <p className="eyebrow">Freie Erstgespräche</p>
+          <p className="eyebrow">Freie Termine</p>
           <h2 className="editorial mt-7 text-[clamp(2.8rem,5.4vw,5.8rem)] leading-[.95] text-warmBlack">
             Einen ruhigen Termin finden, wenn dein Anliegen <span className="italic text-deepGold">Raum braucht.</span>
           </h2>
           <p className="mt-8 max-w-xl text-base leading-8 text-deepGold/80 md:text-lg">
-            Wähle einen freigegebenen Termin für ein erstes Gespräch. Nach deiner Buchung wird der Slot für <span className="font-semibold">24 Stunden reserviert</span>, bis Sibylle ihn im CRM bestätigt oder wieder freigibt.
+            Wähle einen freigegebenen Termin für ein erstes Gespräch. Nach deiner Buchung wird der Slot für <span className="font-semibold">24 Stunden reserviert</span>, bis Sibylle ihn bestätigt oder wieder freigibt.
           </p>
           <div className="mt-8 grid gap-3 text-sm text-deepGold/70 sm:grid-cols-3">
             <div className="rounded-2xl border border-gold/15 bg-white/70 p-4"><span className="font-semibold text-warmBlack">Online möglich</span><br />ruhiger Rahmen</div>
             <div className="rounded-2xl border border-gold/15 bg-white/70 p-4"><span className="font-semibold text-warmBlack">24h reserviert</span><br />bis zur Prüfung</div>
-            <div className="rounded-2xl border border-gold/15 bg-white/70 p-4"><span className="font-semibold text-warmBlack">Ohne Druck</span><br />erstes Kennenlernen</div>
+            <div className="rounded-2xl border border-gold/15 bg-white/70 p-4"><span className="font-semibold text-warmBlack">Ohne Druck</span><br />erste Session</div>
           </div>
         </motion.div>
 
@@ -159,7 +159,7 @@ export function PublicBookingCalendar() {
                     {daySlots.map((slot) => (
                       <button key={slot.id} onClick={() => setSelectedSlot(slot)} className="rounded-2xl border border-gold/15 bg-white p-4 text-left transition-all hover:border-gold/40 hover:shadow-soft">
                         <div className="text-lg font-bold text-warmBlack">{formatTime(slot.start_time)} Uhr</div>
-                        <div className="mt-1 text-sm text-deepGold/65">{slot.title || "Erstgespräch"}</div>
+                        <div className="mt-1 text-sm text-deepGold/65">{slot.title || "Erste Session"}</div>
                         <div className="mt-3 inline-flex rounded-full bg-sand/40 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-deepGold">Frei</div>
                       </button>
                     ))}

@@ -37,7 +37,7 @@ export function PartnerschaftClient() {
 
             <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row">
               <CTAButton href={waLink}>Jetzt persönlich bei Sibylle melden</CTAButton>
-              <CTAButton href={waLink} variant="secondary" external>Erstgespräch buchen</CTAButton>
+              <CTAButton href={waLink} variant="secondary" external>Termin für erste Session</CTAButton>
             </div>
           </motion.div>
         </div>
@@ -164,7 +164,7 @@ export function PartnerschaftClient() {
               Anfrage senden
             </CTAButton>
             <CTAButton href={waLink} variant="secondary" external className="border-gold/20 text-deepGold hover:!bg-gold/10">
-              Erstgespräch
+              Termin für erste Session
             </CTAButton>
           </div>
         </div>
