@@ -29,7 +29,7 @@ export function FamilienmusterClient() {
               Welche <span className="italic text-deepGold">Geschichten</span> wiederholen sich?
             </h1>
             <p className="mx-auto mt-10 max-w-2xl text-lg leading-8 text-deepGold/85 md:text-xl md:leading-9">
-              Familienmuster wirken oft still im Hintergrund. Erst wenn wir sie sichtbar machen, gewinnen wir die Freiheit, unseren eigenen Weg zu gehen.
+              Familienmuster wirken oft still im Hintergrund. In einer Familienaufstellung werden sie sichtbar – erst dann gewinnen wir die Freiheit, unseren eigenen Weg zu gehen.
             </p>
             
             <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row">

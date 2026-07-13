@@ -2,10 +2,10 @@ import { FamilienmusterClient } from './FamilienmusterClient';
 import { pageMetadata } from '@/lib/sibylle/metadata';
 
 export const metadata = pageMetadata({
-  title: "Familienmuster erkennen & lösen",
-  description: "Entdecke, wie Familienmuster dein Leben beeinflussen. Systemische Aufstellungen helfen dir, Ahnenlinien zu verstehen und Freiheit in Verantwortung zu finden.",
+  title: "Familienaufstellung & Familienmuster erkennen und lösen",
+  description: "Familienaufstellung mit Sibylle Jutta Bergold: Erkenne, wie Familienmuster dein Leben beeinflussen, verstehe deine Ahnenlinie und finde Freiheit in Verantwortung – in Aschaffenburg oder online.",
   path: "/familienmuster",
-  keywords: ["Familienmuster", "Ahnenlinie", "Familiendynamik", "Systemische Familienaufstellung", "Muster lösen"],
+  keywords: ["Familienaufstellung", "Familienstellen", "Familienmuster", "Ahnenlinie", "Familiendynamik", "Systemische Familienaufstellung", "Muster lösen"],
 });
 
 export default function FamilienmusterPage() {

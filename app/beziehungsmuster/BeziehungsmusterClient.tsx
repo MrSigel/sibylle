@@ -55,7 +55,7 @@ export function BeziehungsmusterClient() {
               transition={{ duration: 0.8 }}
             >
               <p className="eyebrow">Abschnitt 1</p>
-              <h2 className="editorial mt-6 text-4xl md:text-5xl lg:text-6xl">Wiederkehrende Muster</h2>
+              <h2 className="editorial mt-6 text-4xl md:text-5xl lg:text-6xl">Wiederkehrende Beziehungsmuster erkennen</h2>
               <h3 className="mt-6 font-serif text-2xl italic text-deepGold/70">Wenn Liebe sich wiederholt – aber nicht erfüllt</h3>
               <div className="mt-8 space-y-6 text-base leading-8 text-deepGold/85">
                 <p>
