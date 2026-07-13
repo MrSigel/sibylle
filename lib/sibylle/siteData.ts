@@ -230,6 +230,11 @@ export const faqItems = [
       "Nein. Du brauchst keine Vorerfahrung. Sibylle Jutta Bergold begleitet dich ruhig durch den Prozess und achtet auf einen sicheren, geschützten Rahmen.",
   },
   {
+    question: "Was ist der Unterschied zwischen Familienaufstellung und Familienstellen?",
+    answer:
+      "Es ist dasselbe: „Familienstellen\" und „systemisches Familienstellen\" sind gängige andere Bezeichnungen für die Familienaufstellung. Gemeint ist die systemische Arbeit, die familiäre Dynamiken und Verstrickungen sichtbar und lösbar macht.",
+  },
+  {
     question: "Kann ich eine systemische Aufstellung online machen?",
     answer:
       "Ja. Systemische Aufstellungen und systemisches Coaching sind online möglich, wenn der Rahmen klar gehalten wird und du dich ungestört einlassen kannst.",

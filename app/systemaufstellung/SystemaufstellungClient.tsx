@@ -87,7 +87,7 @@ export function SystemaufstellungClient() {
     {
       title: "Familiensystem",
       label: "Familienaufstellung",
-      desc: "Lösung von Verstrickungen innerhalb der Herkunfts- oder Gegenwartsfamilie.",
+      desc: "Lösung von Verstrickungen innerhalb der Herkunfts- oder Gegenwartsfamilie – auch Familienstellen genannt.",
       video: "/assets/sibylle/videos/Familiensystem.mp4"
     },
     {
