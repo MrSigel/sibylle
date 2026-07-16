@@ -9,71 +9,84 @@ export function CookieBanner() {
 
   useEffect(() => {
     const consent = localStorage.getItem('sibylle-cookie-consent');
-    if (!consent) {
-      const timer = setTimeout(() => setShow(true), 2000);
-      return () => clearTimeout(timer);
-    }
+    if (!consent) setShow(true);
   }, []);
 
-  const handleAccept = () => {
-    localStorage.setItem('sibylle-cookie-consent', 'all');
-    window.dispatchEvent(new Event('sibylle-cookie-consent-change'));
-    setShow(false);
-  };
+  // Lock scrolling while a decision is pending, so the page behind cannot be used.
+  useEffect(() => {
+    if (!show) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [show]);
 
-  const handleDecline = () => {
-    localStorage.setItem('sibylle-cookie-consent', 'essential');
+  function decide(choice: 'all' | 'essential') {
+    localStorage.setItem('sibylle-cookie-consent', choice);
     window.dispatchEvent(new Event('sibylle-cookie-consent-change'));
     setShow(false);
-  };
+  }
 
   return (
     <AnimatePresence>
       {show && (
         <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-x-4 bottom-4 z-[100] md:bottom-8 md:left-auto md:right-8 md:w-[420px]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="cookie-banner-title"
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-warmBlack/60 p-4 backdrop-blur-sm"
         >
-          <div className="premium-panel overflow-hidden rounded-[2.5rem] p-8 shadow-[0_20px_60px_rgba(35,42,26,0.15)]">
-            <h3 className="editorial text-2xl text-warmBlack">Ein Moment für deine Privatsphäre</h3>
-            <p className="mt-4 text-sm leading-relaxed text-deepGold/70">
-              Wir nutzen Cookies, um die Seite sicher und zuverlässig zu betreiben und dein Erlebnis zu verbessern. Einige sind essenziell, andere helfen uns dabei.
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 24, scale: 0.98 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full max-w-lg overflow-hidden rounded-[2.5rem] border border-gold/15 bg-cream p-8 shadow-[0_30px_90px_rgba(35,42,26,0.35)] md:p-10"
+          >
+            <h2 id="cookie-banner-title" className="editorial text-2xl text-warmBlack md:text-3xl">
+              Ein Moment für deine Privatsphäre
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-deepGold/75 md:text-base md:leading-7">
+              Wir nutzen Cookies, um die Seite sicher und zuverlässig zu betreiben. Zusätzlich möchten wir mit
+              Google Analytics verstehen, wie die Seite genutzt wird – das ist freiwillig. Bitte triff eine Auswahl.
             </p>
-            
-            <div className="mt-8 flex flex-col gap-3">
+
+            {/* Both options are intentionally equal in size and weight: rejecting must be
+                as easy as accepting for the consent to be legally valid (DSGVO/TTDSG). */}
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">
               <button
-                onClick={handleAccept}
-                className="focus-ring flex h-12 items-center justify-center rounded-full bg-deepGold px-6 text-xs font-bold uppercase tracking-widest text-cream transition hover:bg-softGold"
+                type="button"
+                onClick={() => decide('all')}
+                className="focus-ring flex h-14 items-center justify-center rounded-full bg-deepGold px-6 text-xs font-bold uppercase tracking-widest text-cream transition hover:bg-gold"
               >
                 Alle akzeptieren
               </button>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  onClick={handleDecline}
-                  className="focus-ring flex h-12 items-center justify-center rounded-full border border-gold/20 bg-white/50 px-4 text-[10px] font-bold uppercase tracking-widest text-deepGold transition hover:bg-white"
-                >
-                  Nur essenziell
-                </button>
-                <Link
-                  href="/cookies"
-                  onClick={() => setShow(false)}
-                  className="focus-ring flex h-12 items-center justify-center rounded-full border border-gold/20 bg-white/50 px-4 text-[10px] font-bold uppercase tracking-widest text-deepGold transition hover:bg-white"
-                >
-                  Einstellungen
-                </Link>
-              </div>
+              <button
+                type="button"
+                onClick={() => decide('essential')}
+                className="focus-ring flex h-14 items-center justify-center rounded-full border border-gold/40 bg-white px-6 text-xs font-bold uppercase tracking-widest text-deepGold transition hover:bg-white/70"
+              >
+                Nur essenziell
+              </button>
             </div>
-            
-            <p className="mt-6 text-center text-[10px] text-deepGold/40">
-              Mehr Details findest du in unserer{' '}
+
+            <p className="mt-7 text-center text-xs leading-6 text-deepGold/50">
+              Mehr dazu in der{' '}
+              <Link href="/cookies" className="underline underline-offset-2 hover:text-softGold">
+                Cookie-Richtlinie
+              </Link>{' '}
+              und der{' '}
               <Link href="/datenschutz" className="underline underline-offset-2 hover:text-softGold">
                 Datenschutzerklärung
-              </Link>.
+              </Link>
+              .
             </p>
-          </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
