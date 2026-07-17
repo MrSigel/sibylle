@@ -14,3 +14,6 @@ tsconfig.tsbuildinfo
 
 # Local handover document with credentials – never commit
 Sibylle-Bergold-Handbuch.pdf
+
+# Local Google Ads report mockups – not part of the site
+Google-Ads-Auswertung_*.pdf
