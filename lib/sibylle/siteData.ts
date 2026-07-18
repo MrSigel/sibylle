@@ -230,6 +230,11 @@ export const faqItems = [
       "Nein. Du brauchst keine Vorerfahrung. Sibylle Jutta Bergold begleitet dich ruhig durch den Prozess und achtet auf einen sicheren, geschützten Rahmen.",
   },
   {
+    question: "Arbeitet Sibylle Jutta Bergold nach Bert Hellinger?",
+    answer:
+      "Ja. Die Aufstellungsarbeit folgt der von Bert Hellinger geprägten Tradition des Familienstellens – ergänzt um Methoden und Erfahrungen, die Sibylle Jutta Bergold über mehr als 25 Jahre eigenständig entwickelt hat.",
+  },
+  {
     question: "Was ist der Unterschied zwischen Familienaufstellung und Familienstellen?",
     answer:
       "Es ist dasselbe: „Familienstellen\" und „systemisches Familienstellen\" sind gängige andere Bezeichnungen für die Familienaufstellung. Gemeint ist die systemische Arbeit, die familiäre Dynamiken und Verstrickungen sichtbar und lösbar macht.",

@@ -2,10 +2,10 @@ import { FamilienmusterClient } from './FamilienmusterClient';
 import { pageMetadata } from '@/lib/sibylle/metadata';
 
 export const metadata = pageMetadata({
-  title: "Familienaufstellung & Familienmuster erkennen und lösen",
-  description: "Familienaufstellung mit Sibylle Jutta Bergold: Erkenne, wie Familienmuster dein Leben beeinflussen, verstehe deine Ahnenlinie und finde Freiheit in Verantwortung – in Aschaffenburg oder online.",
+  title: "Familienaufstellung nach Hellinger – Muster erkennen & lösen",
+  description: "Familienaufstellung nach Hellinger mit Sibylle Jutta Bergold – über 25 Jahre Erfahrung. Erkenne, welche Familienmuster in dir wirken, und löse sie. In Aschaffenburg oder online.",
   path: "/familienmuster",
-  keywords: ["Familienaufstellung", "Familienstellen", "Familienmuster", "Ahnenlinie", "Familiendynamik", "Systemische Familienaufstellung", "Muster lösen"],
+  keywords: ["Familienaufstellung", "Familienaufstellung nach Hellinger", "Familienstellen", "Familienmuster", "Ahnenlinie", "Familiendynamik", "Systemische Familienaufstellung", "Muster lösen"],
 });
 
 export default function FamilienmusterPage() {

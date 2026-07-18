@@ -109,6 +109,55 @@ export function BeziehungsmusterClient() {
         </div>
       </section>
 
+      {/* Beziehungsmuster erkennen & verstehen */}
+      <section className="section-shell overflow-hidden bg-white/30">
+        <div className="container">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="eyebrow mx-auto">Selbstreflexion</p>
+            <h2 className="editorial mt-6 text-4xl md:text-5xl lg:text-6xl">Beziehungsmuster erkennen</h2>
+            <h3 className="mt-6 font-serif text-2xl italic text-deepGold/70">Woran du sie im Alltag bemerkst</h3>
+            <p className="mx-auto mt-8 max-w-2xl text-lg leading-8 text-deepGold/85">
+              Ein Beziehungsmuster zeigt sich selten als einzelnes Ereignis, sondern als Wiederholung. Diese Anzeichen helfen dir, dein eigenes Muster zu erkennen und besser zu verstehen.
+            </p>
+          </div>
+
+          <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {[
+              { title: "Der immer gleiche Streit", desc: "Konflikte drehen sich – unabhängig vom Gegenüber – immer wieder um dasselbe Thema." },
+              { title: "Rückzug, sobald Nähe entsteht", desc: "Wird es verbindlich, meldet sich der Impuls, Abstand zu schaffen." },
+              { title: "Ähnliche Partnerwahl", desc: "Du landest wiederholt bei Menschen mit vergleichbarer Prägung oder Verfügbarkeit." },
+              { title: "Zu viel Verantwortung", desc: "Du fühlst dich für das Wohlbefinden des anderen zuständig – bis zur eigenen Erschöpfung." },
+              { title: "Angst vor Verlust", desc: "Schon kleine Distanz löst starke innere Unruhe oder Kontrollimpulse aus." },
+              { title: "Ein vertrautes Gefühl", desc: "Der Schmerz wirkt seltsam bekannt – als hättest du ihn schon viel früher erlebt." },
+            ].map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.07, duration: 0.7, ease }}
+                className="premium-panel rounded-[2rem] p-8"
+              >
+                <span className="editorial text-3xl text-softGold/40">0{index + 1}</span>
+                <h4 className="mt-5 font-serif text-xl text-deepGold">{item.title}</h4>
+                <p className="mt-4 text-[.95rem] leading-7 text-deepGold/75">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mx-auto mt-14 max-w-3xl rounded-[2.5rem] bg-white/50 p-10 text-center shadow-sm md:p-12"
+          >
+            <p className="text-lg leading-9 text-deepGold/85">
+              Wer sein Beziehungsmuster wirklich <span className="font-semibold">verstehen</span> möchte, kommt mit Nachdenken allein oft nicht weiter. In der systemischen Aufstellung wird sichtbar, <span className="font-semibold">woher</span> das Muster stammt – und genau dort kann es sich lösen.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Abschnitt 3: Wie Aufstellung helfen kann */}
       <section className="section-shell overflow-hidden">
         <div className="container">
