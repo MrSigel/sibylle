@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
 import { MobileStickyCTA } from "./MobileStickyCTA";
+import { WhatsAppFloat } from "./WhatsAppFloat";
 import { CookieBanner } from "./CookieBanner";
 import { ExitIntentBanner } from "./ExitIntentBanner";
 
@@ -21,6 +22,7 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
       {children}
       <SiteFooter />
       <MobileStickyCTA />
+      <WhatsAppFloat />
       <CookieBanner />
       <ExitIntentBanner />
     </>
