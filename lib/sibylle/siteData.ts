@@ -20,6 +20,8 @@ export const whatsappConfig = {
       "Hallo Sibylle, ich melde mich wegen eines Beziehungsthemas und möchte wissen, ob eine systemische Aufstellung für mich passend ist.",
     beziehungsmuster:
       "Hallo Sibylle, ich erkenne bei mir wiederkehrende Beziehungsmuster und möchte gern mit dir darüber sprechen.",
+    familienaufstellung:
+      "Hallo Sibylle, ich interessiere mich für eine Familienaufstellung nach Hellinger und möchte gern mit dir besprechen, ob es zu meinem Anliegen passt.",
     paketAnfrage: (paketName: string) =>
       `Hallo Sibylle, ich interessiere mich für das Paket "${paketName}" und möchte gern klären, ob es zu meinem Anliegen passt.`,
     success: (paketName: string) =>
