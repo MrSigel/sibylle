@@ -117,7 +117,7 @@ export function AcademyClient() {
             <div>
               <p className="text-xs font-bold uppercase tracking-widest text-softGold">Mitgliedschaft</p>
               <div className="mt-6 flex items-end gap-2">
-                <span className="editorial text-5xl leading-none md:text-6xl">{academyInfo.price}</span>
+                <span className="editorial text-3xl leading-tight md:text-4xl">Preis auf Anfrage</span>
               </div>
               <ul className="mt-10 space-y-3 text-sm leading-7 text-white/85">
                 {academyInfo.features.map((feature) => (

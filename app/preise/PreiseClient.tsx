@@ -355,7 +355,7 @@ function PackageCard({ pkg, featured = false, index, comingSoon = false }: { pkg
       </div>
 
       <div className={featured ? 'mb-8' : 'mb-6'}>
-        <span className={`font-bold ${featured ? 'text-5xl' : 'text-3xl'}`}>{pkg.price}</span>
+        <span className={`font-serif text-deepGold/80 ${featured ? 'text-3xl' : 'text-2xl'}`}>Preis auf Anfrage</span>
       </div>
 
       <ul className={`flex-grow border-t border-current/10 ${featured ? 'mb-10 space-y-5 pt-8' : 'mb-8 space-y-3 pt-6'}`}>

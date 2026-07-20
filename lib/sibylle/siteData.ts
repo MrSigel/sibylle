@@ -257,7 +257,7 @@ export const faqItems = [
   {
     question: "Was kostet eine systemische Aufstellung bei Sibylle Jutta Bergold?",
     answer:
-      "Die Pakete beginnen bei 399 Euro für eine 90-minütige Einzelsession. Mehrmonatige Begleitungen werden auf der Preise-Seite transparent als Pakete dargestellt.",
+      "Die Kosten richten sich nach Umfang und Anliegen – von der einzelnen Session bis zur mehrmonatigen Begleitung. Den passenden Rahmen und die Konditionen besprechen wir individuell in einem persönlichen Gespräch.",
   },
   {
     question: "Findet die Begleitung in Aschaffenburg oder online statt?",

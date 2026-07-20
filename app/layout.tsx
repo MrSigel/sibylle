@@ -117,7 +117,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           "Systemische Aufstellung, Beziehungsmuster lösen und Coaching als Selbsterfahrung mit Sibylle Jutta Bergold.",
         telephone: "+491785511230",
         email: "kontakt@sibylle-bergold.com",
-        priceRange: "399 EUR - 9999 EUR",
         contactPoint: [
           {
             "@type": "ContactPoint",
@@ -182,8 +181,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         "@id": `${baseUrl}/preise#${pkg.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
         name: pkg.title,
         description: `${pkg.duration}: ${pkg.features.join(", ")}`,
-        price: pkg.price.replace(/[^\d,.]/g, "").replace(",", "."),
-        priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
         url: `${baseUrl}/preise`,
         seller: { "@id": "https://sibylle-bergold.com/#organization" },
