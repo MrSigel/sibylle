@@ -12,16 +12,6 @@ export function CookieBanner() {
     if (!consent) setShow(true);
   }, []);
 
-  // Lock scrolling while a decision is pending, so the page behind cannot be used.
-  useEffect(() => {
-    if (!show) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = previous;
-    };
-  }, [show]);
-
   function decide(choice: 'all' | 'essential') {
     localStorage.setItem('sibylle-cookie-consent', choice);
     window.dispatchEvent(new Event('sibylle-cookie-consent-change'));
@@ -32,61 +22,49 @@ export function CookieBanner() {
     <AnimatePresence>
       {show && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="cookie-banner-title"
-          className="fixed inset-0 z-[200] flex items-center justify-center bg-warmBlack/60 p-4 backdrop-blur-sm"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 40 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          role="region"
+          aria-label="Cookie-Hinweis"
+          // Slim, NON-blocking bar: the page and its call-to-action stay fully
+          // usable. Consent is still requested (tracking only fires on "accept"),
+          // but we never block the content behind a wall — that costs conversions
+          // and a blocking wall is not required by DSGVO/TTDSG.
+          className="fixed inset-x-0 bottom-0 z-[210] border-t border-gold/20 bg-cream/95 px-4 py-4 shadow-[0_-14px_40px_rgba(35,42,26,.16)] backdrop-blur-xl"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 24, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 24, scale: 0.98 }}
-            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full max-w-lg overflow-hidden rounded-[2.5rem] border border-gold/15 bg-cream p-8 shadow-[0_30px_90px_rgba(35,42,26,0.35)] md:p-10"
-          >
-            <h2 id="cookie-banner-title" className="editorial text-2xl text-warmBlack md:text-3xl">
-              Ein Moment für deine Privatsphäre
-            </h2>
-            <p className="mt-4 text-sm leading-relaxed text-deepGold/75 md:text-base md:leading-7">
-              Wir nutzen Cookies, um die Seite sicher und zuverlässig zu betreiben. Zusätzlich möchten wir mit
-              Google Analytics verstehen, wie die Seite genutzt wird – das ist freiwillig. Bitte triff eine Auswahl.
-            </p>
-
-            {/* Both options are intentionally equal in size and weight: rejecting must be
-                as easy as accepting for the consent to be legally valid (DSGVO/TTDSG). */}
-            <div className="mt-8 grid gap-3 sm:grid-cols-2">
-              <button
-                type="button"
-                onClick={() => decide('all')}
-                className="focus-ring flex h-14 items-center justify-center rounded-full bg-deepGold px-6 text-xs font-bold uppercase tracking-widest text-cream transition hover:bg-gold"
-              >
-                Alle akzeptieren
-              </button>
-              <button
-                type="button"
-                onClick={() => decide('essential')}
-                className="focus-ring flex h-14 items-center justify-center rounded-full border border-gold/40 bg-white px-6 text-xs font-bold uppercase tracking-widest text-deepGold transition hover:bg-white/70"
-              >
-                Nur essenziell
-              </button>
-            </div>
-
-            <p className="mt-7 text-center text-xs leading-6 text-deepGold/50">
-              Mehr dazu in der{' '}
+          <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 md:flex-row md:justify-between md:gap-8">
+            <p className="text-center text-xs leading-relaxed text-deepGold/80 md:text-left md:text-sm">
+              Wir nutzen Cookies für einen sicheren Betrieb und – mit deiner Zustimmung – anonyme Statistik
+              (Google Analytics).{' '}
               <Link href="/cookies" className="underline underline-offset-2 hover:text-softGold">
                 Cookie-Richtlinie
               </Link>{' '}
-              und der{' '}
+              ·{' '}
               <Link href="/datenschutz" className="underline underline-offset-2 hover:text-softGold">
-                Datenschutzerklärung
+                Datenschutz
               </Link>
-              .
             </p>
-          </motion.div>
+
+            {/* Accept and reject are equal in size and weight (DSGVO/TTDSG). */}
+            <div className="flex w-full shrink-0 gap-3 md:w-auto">
+              <button
+                type="button"
+                onClick={() => decide('essential')}
+                className="focus-ring flex h-11 flex-1 items-center justify-center rounded-full border border-gold/40 bg-white px-6 text-xs font-bold uppercase tracking-widest text-deepGold transition hover:bg-white/70 md:flex-none"
+              >
+                Ablehnen
+              </button>
+              <button
+                type="button"
+                onClick={() => decide('all')}
+                className="focus-ring flex h-11 flex-1 items-center justify-center rounded-full bg-deepGold px-6 text-xs font-bold uppercase tracking-widest text-cream transition hover:bg-gold md:flex-none"
+              >
+                Akzeptieren
+              </button>
+            </div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
