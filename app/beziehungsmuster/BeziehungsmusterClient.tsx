@@ -7,7 +7,9 @@ import { getWhatsAppLink, whatsappConfig } from '@/lib/sibylle/siteData';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-export function BeziehungsmusterClient() {
+type FaqItem = { q: string; a: string };
+
+export function BeziehungsmusterClient({ faq = [] }: { faq?: FaqItem[] }) {
   const waLink = getWhatsAppLink(whatsappConfig.messages.beziehungsmuster);
   return (
     <main className="overflow-hidden">
@@ -24,8 +26,8 @@ export function BeziehungsmusterClient() {
               transition={{ duration: 0.8, ease }}
             >
               <p className="eyebrow mx-auto">Wenn Liebe sich wiederholt</p>
-              <h1 className="editorial mt-7 text-[clamp(3rem,7vw,7.5rem)] leading-[.88] text-warmBlack">
-                Warum passiert mir das <span className="italic text-deepGold">immer wieder?</span>
+              <h1 className="editorial mt-7 text-[clamp(2.6rem,6vw,6.4rem)] leading-[.9] text-warmBlack">
+                Beziehungsmuster erkennen – <span className="italic text-deepGold">warum passiert mir das immer wieder?</span>
               </h1>
               <p className="mx-auto mt-10 max-w-2xl text-lg leading-8 text-deepGold/85 md:text-xl md:leading-9">
                 Du gibst viel, hoffst auf echte Nähe – und landest doch immer wieder in ähnlichen Dynamiken. Vielleicht wiederholen sich Konflikte, Rückzug, Bindungsangst oder das Gefühl, nicht wirklich gesehen zu werden.
@@ -202,6 +204,35 @@ export function BeziehungsmusterClient() {
           </div>
         </div>
       </section>
+
+      {/* FAQ – targets "beziehungsmuster erkennen / verstehen" search queries */}
+      {faq.length > 0 && (
+        <section className="section-shell overflow-hidden bg-white/30">
+          <div className="container">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="eyebrow mx-auto">Häufige Fragen</p>
+              <h2 className="editorial mt-6 text-4xl md:text-5xl lg:text-6xl">Beziehungsmuster erkennen &amp; verstehen</h2>
+              <h3 className="mt-6 font-serif text-2xl italic text-deepGold/70">Antworten auf die häufigsten Fragen</h3>
+            </div>
+
+            <div className="mx-auto mt-14 max-w-3xl space-y-5">
+              {faq.map((item, index) => (
+                <motion.div
+                  key={item.q}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.06, duration: 0.6, ease }}
+                  className="premium-panel rounded-[2rem] p-8 md:p-10"
+                >
+                  <h4 className="font-serif text-xl text-deepGold md:text-2xl">{item.q}</h4>
+                  <p className="mt-4 text-[.98rem] leading-8 text-deepGold/80">{item.a}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Final CTA */}
       <section className="section-shell bg-white py-28 text-center text-warmBlack border-t border-gold/10">
